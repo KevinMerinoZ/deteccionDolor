@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block titulo %} Lista de usuarios  {% endblock %}
+
+{% block contenido %}
+    <div class="card">
+        <div class="card-header">
+            <a name="" id="" class="btn btn-primary" href="{% url 'crear' %}" role="button">Crear usuario</a>
+        </div>
+        <div class="card-body">
+            <h4 class="card-title">Usuarios</h4>
+            <div class="table-responsive">
+                <table class="table table-primary">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Matrícula</th>
+                            <th scope="col">Nombre de usuario</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="">
+                            <td scope="row">1</td>
+                            <td>MCKO221851</td>
+                            <td>Kevin Joel Merino</td>
+                            <td>mcko221851@gmail.com</td>
+                            <td>
+                                <a name="" id="" class="btn btn-info" href="{% url 'editar' %}" role="button">Editar</a>
+
+                                <a name="" id="" class="btn btn-danger" href="#" role="button">Eliminar</a>
+                                
+                                
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+        <div class="card-footer text-muted">Footer</div>
+    </div>
+    
+{% endblock %}
