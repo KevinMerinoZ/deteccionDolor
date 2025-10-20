@@ -17,18 +17,96 @@
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
             crossorigin="anonymous"
         />
+
+        <style>
+            /* Barra lateral */
+            .sidebar {
+            background-color: #00009e; /* Azul oscuro */
+            color: white;
+            border-radius: 0 0 50px 50px;
+            border: 2px solid #d29e3b;
+            padding: 20px;
+            text-align: center;
+            }
+            .sidebar img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            }
+
+            /* Navbar */
+            .topbar {
+            background-color: #00009e; /* Azul oscuro */
+            color: gold;
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            }
+
+            .topbar .logo-text {
+            font-weight: bold;
+            font-size: 1.2rem;
+            }
+
+            /* Degradado dorado debajo de la navbar */
+            .topbar-gradient {
+            background: linear-gradient(to bottom, #d29e3b, #ffffff);
+            }
+
+            /* Título principal */
+            .main-title {
+            text-align: center;
+            padding: 30px 0;
+            font-weight: bold;
+            color: #110077;
+            }
+        </style>
     </head>
 
     <body>
 
-        <nav class="navbar navbar-expand navbar-light bg-light">
-            <div class="nav navbar-nav">
-                <a class="nav-item nav-link active" href="#" aria-current="page">
-                    Principal <span class="visually-hidden">(current)</span>
-                </a>
-                <a class="nav-item nav-link" href="#">jaja</a>
+        <!-- <nav class="">
+            <div class="row nav-datosUsuario">
+                <div class="col-4">
+
+                </div>
+
+                <div class="nav navbar-nav">
+                    <a class="nav-item nav-link active" href="#" aria-current="page">
+                        Principal <span class="visually-hidden">(current)</span>
+                    </a>
+                    <a class="nav-item nav-link" href="#">jaja</a>
+                </div>
             </div>
-        </nav>
+        </nav> -->
+
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Sidebar izquierda -->
+                <div class="col-auto sidebar">
+                    <img src="{% static 'img/avatar.png' %}" alt="Avatar">
+                    <p><strong>Nombre:</strong><br>Nombre de ejemplo</p>
+                    <p><strong>Usuario:</strong><br>usuario@gmail.com</p>
+                </div>
+
+                <!-- Barra superior y contenido -->
+                <div class="col">
+                    <!-- Topbar -->
+                    <div class="topbar">
+                        <div><i class="bi bi-house-fill"></i> <!-- ícono de home --> </div>
+                        <div class="logo-text">UAEM</div>
+                        <div></div> <!-- Espacio a la derecha -->
+                    </div>
+                    <div class=""></div>
+
+                    <!-- Título principal -->
+                    <h1 class="main-title topbar-gradient">Gestión de protocolos experimentales</h1>
+                    
+                </div>
+            </div>
+        </div>
 
         <div class="container">
             <div class="row">
