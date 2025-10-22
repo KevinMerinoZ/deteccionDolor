@@ -1,0 +1,71 @@
+/* Barra lateral */
+body{
+    height: 20000px;
+}
+.barraSuperior{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+nav{
+    padding-left: 20%;
+    width: 100%;
+    background-color: #00009e; /* Azul oscuro */
+    color: #d29e3b;
+    padding: 15px 30px 15px 21%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.5rem;
+}
+
+nav i{
+    font-size: 1.8rem;
+
+}
+
+nav .logo-text {
+font-weight: bold;
+}
+
+header{
+    padding-left: 20%;
+    width: 100%;
+}
+
+.sidebar {
+    position: fixed;
+    z-index: 2000;
+    width: 20%;
+    background-color: #00009e; /* Azul oscuro */
+    color: white;
+    border-radius: 0 0 80px 80px;
+    border: 2px solid #d29e3b;
+    padding: 20px;
+    text-align: center;
+}
+.sidebar i {
+    border: 3px solid #d29e3b;
+    border-radius: 50%;
+    font-size: 40px;
+    margin-bottom: 10px;
+    padding: 0px 8px;
+}
+
+.nav-primeraBarra {
+    
+}
+
+/* Degradado dorado debajo de la navbar */
+.topbar-gradient {
+background: linear-gradient(to bottom, #d29e3b, #ffffff);
+}
+
+/* Título principal */
+.main-title {
+    text-align: center;
+    padding: 40px 0;
+    font-weight: bold;
+    color: #110077;
+}
