@@ -4,12 +4,12 @@
 {% block encabezado %} Usuarios {% endblock %}
 
 {% block contenido %}
-    <div class="card">
-        <div class="card-header">
+    <section class="card seccion">
+        <div class="card-header background-seccion">
             <a name="" id="" class="btn btn-primary" href="{% url 'crear' %}" role="button">Crear usuario</a>
         </div>
         <div class="card-body">
-            <h4 class="card-title">Usuarios</h4>
+            <h2 class="card-title">Usuarios</h2>
             <div class="table-responsive">
                 <table class="table table-primary">
                     <thead>
@@ -41,6 +41,6 @@
             
         </div>
         <div class="card-footer text-muted">Footer</div>
-    </div>
+    </section>
     
 {% endblock %}

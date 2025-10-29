@@ -1,7 +1,7 @@
-/* Barra lateral */
-body{
+/********** Barra superior **********/
+/* body{
     height: 20000px;
-}
+} */
 .barraSuperior{
     display: flex;
     flex-direction: column;
@@ -26,7 +26,7 @@ nav i{
 }
 
 nav .logo-text {
-font-weight: bold;
+    font-weight: bold;
 }
 
 header{
@@ -53,10 +53,6 @@ header{
     padding: 0px 8px;
 }
 
-.nav-primeraBarra {
-    
-}
-
 /* Degradado dorado debajo de la navbar */
 .topbar-gradient {
 background: linear-gradient(to bottom, #d29e3b, #ffffff);
@@ -68,4 +64,17 @@ background: linear-gradient(to bottom, #d29e3b, #ffffff);
     padding: 40px 0;
     font-weight: bold;
     color: #110077;
+}
+
+/********** Seccion **********/
+.seccion{
+    background-color: #ffffff;
+    border: 4px solid;
+    border-image: linear-gradient(to bottom, #d29e3b, #ffffff) 1;
+    border-radius: 10px;
+}
+
+.background-seccion{
+    background-color: #ffffff;
+    border: 0;
 }
