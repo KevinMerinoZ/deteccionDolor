@@ -1,7 +1,7 @@
 from django.urls import path
 from usuario import views
 
-app_name = 'usuario'
+# app_name = 'usuario'
 
 urlpatterns = [
     path('principal/', views.pgPrincipal, name='principal'),

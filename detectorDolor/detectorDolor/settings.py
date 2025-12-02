@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'usuario.middleware.RestringirAppMiddleware',
+    # 'usuario.middleware.RestringirAppMiddleware',
 ]
 
 ROOT_URLCONF = 'detectorDolor.urls'
