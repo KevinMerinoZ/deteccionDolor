@@ -49,6 +49,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'usuario.middleware.RestringirAppMiddleware',
 ]
 
 ROOT_URLCONF = 'detectorDolor.urls'
@@ -129,3 +131,12 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'novuskevinz@gmail.com'
+EMAIL_HOST_PASSWORD = 'xirvmgcajzruarte'
+EMAIL_USE_TLS = True
+
+LOGOUT_REDIRECT_URL = '/'  # Redirige a la página principal después del logout

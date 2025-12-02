@@ -1,36 +1,59 @@
-<form enctype="multipart/form-data" method="post">
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
     <div class="mb-3">
-        <label for="" class="form-label">Matricula</label>
-        <input
-            type="text"
-            class="form-control" name="" id="" aria-describedby="helpId" placeholder="Matricula"/>
+        <label for="matricula" class="form-label">Matrícula</label>
+        <input type="text" name="matricula" id="matricula" class="form-control"
+               placeholder="Matricula" value="{{ form.matricula.value|default:'' }}" required>
+        {{ form.matricula.errors }}
     </div>
 
     <div class="mb-3">
-        <label for="" class="form-label">Nombre</label>
-        <input
-            type="text"
-            class="form-control" name="" id="" aria-describedby="helpId" placeholder="Juan Perez Hernandez"/>
+        <label for="nombre" class="form-label">Nombre</label>
+        <input type="text" name="nombre" id="nombre" class="form-control"
+               placeholder="Juan" value="{{ form.nombre.value|default:'' }}" required>
+        {{ form.nombre.errors }}
     </div>
 
     <div class="mb-3">
-        <label for="" class="form-label">Tipo de usuario</label>
-        <select
-            class="form-select form-select-lg" name="" id="">
-            <option selected>Selecciona uno</option>
-            <option value="administrador">Administrador</option>
-            <option value="laboratorista">Laboratorista</option>
-            <option value="investigador">Investigador</option>
+        <label for="apellido_paterno" class="form-label">Apellido Paterno</label>
+        <input type="text" name="apellido_paterno" id="apellido_paterno" class="form-control"
+               placeholder="Pérez" value="{{ form.apellido_paterno.value|default:'' }}" required>
+        {{ form.apellido_paterno.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="apellido_materno" class="form-label">Apellido Materno</label>
+        <input type="text" name="apellido_materno" id="apellido_materno" class="form-control"
+               placeholder="Hernández" value="{{ form.apellido_materno.value|default:'' }}">
+        {{ form.apellido_materno.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="tipo_usuario" class="form-label">Tipo de usuario</label>
+        <select name="tipo_usuario" id="tipo_usuario" class="form-select" required>
+            <option value="">Selecciona uno</option>
+
+            {% for value, label in form.fields.tipo_usuario.choices %}
+                <option value="{{ value }}"
+                        {% if form.tipo_usuario.value == value %}selected{% endif %}>
+                    {{ label }}
+                </option>
+            {% endfor %}
         </select>
+        {{ form.tipo_usuario.errors }}
     </div>
 
     <div class="mb-3">
-        <label for="" class="form-label">Correo</label>
-        <input
-            type="email"
-            class="form-control" name="" id="" aria-describedby="helpId" placeholder="correo@gmail.com"/>
+        <label for="correo" class="form-label">Correo</label>
+        <input type="email" name="correo" id="correo" class="form-control"
+               placeholder="correo@gmail.com" value="{{ form.correo.value|default:'' }}" required>
+        {{ form.correo.errors }}
     </div>
 
-    
-    
+    <div class="div-footer">
+        <button type="submit" class="btnPrimario">Guardar</button>
+        <a class="btnSecundario" href="{% url 'index' %}" role="button">Cancelar</a>
+    </div>
+
 </form>

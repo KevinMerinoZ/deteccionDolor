@@ -1,0 +1,43 @@
+<table class="table tabla-primaria">
+                    <thead>
+                        <tr>
+                            <th scope="col">Acciones</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Matrícula</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido P</th>
+                            <th scope="col">Apellido M</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col">Tipo de usuario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if usuarios %}
+                            {% for usuario in usuarios %}
+                                <tr class="">
+                                    <td>
+                                        <a name="" id="" class="btnIcono" href="{% url 'editar' usuario.idUsuarios %}" role="button"><i class="bi bi-pencil-square"></i></a>
+
+                                        <button class="btnIcono" data-bs-toggle="modal" data-bs-target="#confirmarEliminarModal{{usuario.user.id}}">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                        
+                                        
+                                    </td>
+                                    <td scope="row">{{ usuario.idUsuarios }}</td>
+                                    <td>{{ usuario.matricula }}</td>
+                                    <td>{{ usuario.nombre }}</td>
+                                    <td>{{ usuario.apellido_paterno }}</td>
+                                    <td>{{ usuario.apellido_materno }}</td>
+                                    <td>{{ usuario.correo }}</td>
+                                    <td>{{ usuario.user.groups.first.name }}</td>
+                                </tr>
+                                {% include 'usuarios/modalEliminar.html' %}
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="8"> No existen registros </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>

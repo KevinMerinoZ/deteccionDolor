@@ -41,11 +41,23 @@
         </nav> -->
         <aside class="sidebar">
             <i class="bi bi-person-circle"></i>
+            {% if user.is_authenticated %}
+                <span>Hola {{ user.first_name }} ({{ user.username }})</span>
+                
+                <form action="{% url 'logout' %}" method="post" class="d-inline">
+                {% csrf_token %}
+                <button class="btn btn-outline-light btn-sm" type="submit">
+                    Cerrar sesión
+                </button>
+            </form>
+            {% else %}
+                <span>Invitado</span>
+            {% endif %}
             <p><strong>Nombre:</strong><br>Kevin Joel Merino Castillo Arriaga</p>
         </aside>
 
         <div class="barraSuperior">
-            <nav>
+            <nav class="nav-primario">
                 <div><i class="bi bi-house-fill"></i> <!-- ícono de home --> </div>
                 <div class="logo-text">UAEM</div>
                 <div></div> <!-- Espacio a la derecha -->
@@ -56,6 +68,16 @@
                 <h1 class="main-title">{% block encabezado %} {% endblock %}</h1>
             </header>
         </div>
+
+        {% if messages %}
+        <div class="alertas" style="position: fixed; top: 20px; right: 20px; z-index: 9999; font-size: 1.1rem;">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
 
         <main class="container">
             <div class="row">
@@ -77,5 +99,6 @@
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
             crossorigin="anonymous"
         ></script>
+        <script src="{% static 'usuario/js/usuarios.js' %}"></script>
     </body>
 </html>

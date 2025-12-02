@@ -4,43 +4,44 @@
 {% block encabezado %} Usuarios {% endblock %}
 
 {% block contenido %}
-    <section class="card seccion">
-        <div class="card-header background-seccion">
-            <a name="" id="" class="btn btn-primary" href="{% url 'crear' %}" role="button">Crear usuario</a>
-        </div>
-        <div class="card-body">
-            <h2 class="card-title">Usuarios</h2>
-            <div class="table-responsive">
-                <table class="table table-primary">
-                    <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Matrícula</th>
-                            <th scope="col">Nombre de usuario</th>
-                            <th scope="col">Correo</th>
-                            <th scope="col">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="">
-                            <td scope="row">1</td>
-                            <td>MCKO221851</td>
-                            <td>Kevin Joel Merino</td>
-                            <td>mcko221851@gmail.com</td>
-                            <td>
-                                <a name="" id="" class="btn btn-info" href="{% url 'editar' %}" role="button">Editar</a>
-
-                                <a name="" id="" class="btn btn-danger" href="#" role="button">Eliminar</a>
-                                
-                                
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+    <div class="fondo-borde-primario">
+        <section class="card seccion">
+            <div class="card-header seccion-header">
+                <form action="" method="post" class="">
+                    {% csrf_token %}
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label for="filtro" class="col-form-label label-seccion">Filtrar por: </label>
+                        </div>
+                        <div class="col-auto">
+                            <select name="filtro" id="filtro" class="form-select select-propio">
+                                <option value="">Seleccione una opcion</option>
+                                <option value="nombre">Nombre</option>
+                                <option value="apellidoP">Apellido P</option>
+                                <option value="matricula">Matrícula</option>
+                                <option value="correo">Correo</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" id="buscar" name="buscar" class="form-control" value="{{ buscar }}">
+                        </div>
+                    </div>
+                </form>
             </div>
-            
-        </div>
-        <div class="card-footer text-muted">Footer</div>
-    </section>
+            <div class="card-body">
+                <h2 class="card-title">Lista de usuarios</h2>
+                <div class="table-responsive" id="tabla-resultados">
+                    {% include 'usuarios/tabla_resultados.html' %}
+                </div>
+                
+            </div>
+            <div class="div-footer">
+                <a name="" id="" class="btnPrimario" href="{% url 'crear' %}" role="button">Crear usuario</a>
+                <div id="paginacion">
+                    {% include 'usuarios/paginacion.html' %}
+                </div>
+            </div>
+        </section>
+    </div>
     
 {% endblock %}

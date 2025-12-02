@@ -1,31 +1,136 @@
+/********** clases boostrap modificadas **********/
+.form-select{
+    color: #110077;
+    border: 2px solid #d29e3b;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 200ms;
+}
+
+.form-select:hover{
+    box-shadow: 0 0 0px 5px rgba(210, 158, 59, 0.2);
+}
+
+.form-select:focus{
+    box-shadow: 0 0 3px 5px rgba(210, 158, 59, 0.2);
+    border: 2px solid #d29e3b;
+    outline: none;
+}
+
+.col-form-label{
+    color: #110077;
+    font-size: 1.4rem;
+}
+.form-label{
+    color: #110077;
+    font-size: 1.2rem;
+}
+
+.form-control{
+    color: #110077;
+    border: 2px solid #d29e3b;
+    border-radius: 8px;
+    transition: 200ms;
+}
+
+.form-control:focus{
+    box-shadow: 0 0 0px 5px rgba(210, 158, 59, 0.2);
+    border: 2px solid #d29e3b;
+    outline: none;
+}
+
+.form-control:hover{
+    box-shadow: 0 0 0px 5px rgba(210, 158, 59, 0.2);
+}
+
+/********** Botones personalizados **********/
+.btnPrimario{
+    display: inline-block;
+    background-color: #110077;
+    color: #d29e3b;
+    border: 2px solid #d29e3b;
+    border-radius: 10px;
+    padding: 10px 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 200ms;
+    vertical-align: middle;
+}
+
+.btnPrimario:hover{
+    background-color: #ffffff;
+    color: #d29e3b;
+    text-decoration: none;
+    border: 2px solid #d29e3b;
+}
+
+.btnPrimario:active{
+    transform: scale(0.90);
+    transition-duration: 80ms;
+}
+
+.btnSecundario{
+    display: inline-block;
+    background-color: #d29e3b;
+    color: #110077;
+    border: 2px solid #110077;
+    border-radius: 10px;
+    padding: 10px 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 200ms !important;
+    vertical-align: middle;
+} 
+
+.btnSecundario:hover{
+    background-color: #ffffff;
+    color: #110077;
+    text-decoration: none;
+    border: 2px solid #110077;
+}
+
+.btnSecundario:active{
+    transform: scale(0.90) !important;
+    transition-duration: 80ms !important;
+}
+
+.btnIcono{
+    background-color: transparent;
+    border: none;
+    text-decoration: none;
+    transition: 200ms;
+    padding: 0;
+}
+
 /********** Barra superior **********/
-/* body{
-    height: 20000px;
-} */
 .barraSuperior{
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: auto auto;
     margin-bottom: 20px;
 }
 
-nav{
+.nav-primario{
     padding-left: 20%;
     width: 100%;
-    background-color: #00009e; /* Azul oscuro */
+    background-color: #110077;
     color: #d29e3b;
     padding: 15px 30px 15px 21%;
-    display: flex;
+    
+    /* GRID EN VEZ DE FLEX */
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* icono - logo - espacio */
     align-items: center;
-    justify-content: space-between;
+
     font-size: 1.5rem;
 }
 
-nav i{
+.nav-primario i{
     font-size: 1.8rem;
-
 }
 
-nav .logo-text {
+.nav-primario .logo-text {
     font-weight: bold;
 }
 
@@ -34,17 +139,19 @@ header{
     width: 100%;
 }
 
+/********** Sidebar **********/
 .sidebar {
-    position: fixed;
+    position: absolute;
     z-index: 2000;
     width: 20%;
-    background-color: #00009e; /* Azul oscuro */
+    background-color: #110077;
     color: white;
     border-radius: 0 0 80px 80px;
     border: 2px solid #d29e3b;
     padding: 20px;
     text-align: center;
 }
+
 .sidebar i {
     border: 3px solid #d29e3b;
     border-radius: 50%;
@@ -55,7 +162,7 @@ header{
 
 /* Degradado dorado debajo de la navbar */
 .topbar-gradient {
-background: linear-gradient(to bottom, #d29e3b, #ffffff);
+    background: linear-gradient(to bottom, #d29e3b, #ffffff);
 }
 
 /* Título principal */
@@ -65,16 +172,121 @@ background: linear-gradient(to bottom, #d29e3b, #ffffff);
     font-weight: bold;
     color: #110077;
 }
-
 /********** Seccion **********/
-.seccion{
-    background-color: #ffffff;
-    border: 4px solid;
-    border-image: linear-gradient(to bottom, #d29e3b, #ffffff) 1;
-    border-radius: 10px;
+.fondo-borde-primario{
+    background: linear-gradient(to bottom, #d29e3b, #ffffff);
+    padding: 6px;
+    border-radius: 15px;
+    margin-bottom: 50px;
 }
 
-.background-seccion{
+.fondo-borde-secundario{
+    background: linear-gradient(to bottom, #110077, #ffffff);
+    padding: 6px;
+    border-radius: 15px;
+    margin-bottom: 50px;
+}
+.seccion{
+    background-color: #ffffff;
+    border-radius: 14px;
+    margin-bottom: 50px;
+    padding: 40px;
+}
+
+.seccion h2{
+    color: #110077;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.seccion h4{
+    color: #110077;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.seccion-header{
+    color: #110077;
+    border-radius: 18px;
     background-color: #ffffff;
     border: 0;
+}
+
+/********** Tablas **********/
+.tabla-primaria{
+    background-color: #ffffff;
+    text-align: center;
+    vertical-align: middle;
+}
+.tabla-primaria th{
+    background-color: #110077;
+    color: white;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.tabla-primaria td {
+    background-color: #fbfbfb;
+}
+
+.tabla-primaria .btnIcono{
+    color: #d29e3b;
+    font-size: 1.8rem;
+    margin-left: 5px;
+    margin-right: 5px;
+    transition: 200ms;
+}
+
+.tabla-primaria .btnIcono:hover{
+    color: #110077;
+    text-decoration: none;
+}
+
+/********** footer e paginación de section **********/
+.div-footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0px 70px 20px 70px;
+}
+
+.nav-paginacion{
+    display: flex;
+    border: 2px solid #d29e3b;
+    border-radius: 10px;
+    padding: 0;
+}
+
+.paginacion{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 250px;
+    list-style: none;
+    margin: 0;
+    padding: 6px 8px;
+    font-size: 1.3rem;
+}
+
+.paginacion p{
+    margin: 0;
+    color: #110077;
+    font-weight: bold;
+}
+
+.link-pagina{ /*Cuidado con esta clase. Solo usarla para paginación*/
+    text-decoration: none;
+    color: #110077;
+    font-weight: bold;
+    transition: 200ms;
+}
+
+.link-pagina:hover{
+    color: #d29e3b;
+}
+
+/********** Alertas **********/
+.fade-out {
+    opacity: 0;
+    transition: opacity 1.0s ease-out;
 }
