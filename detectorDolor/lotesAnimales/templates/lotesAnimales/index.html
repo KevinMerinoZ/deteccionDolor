@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Lista de lotes de animales {% endblock %}
+{% block encabezado %} Lotes de Animales {% endblock %}
+
+{% block contenido %}
+    <div class="fondo-borde-primario">
+        <section class="card seccion">
+            <div class="card-header seccion-header">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label for="filtro" class="col-form-label label-seccion">Filtrar por: </label>
+                        </div>
+                        <div class="col-auto">
+                            <select name="filtro" id="filtroLotes" class="form-select select-propio">
+                                <option value="">Seleccione una opción</option>
+                                <option value="especie">Especie</option>
+                                <option value="genero">Género</option>
+                                <option value="cepa">Cepa</option>
+                                <option value="estado">Estado</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" id="buscarLote" name="buscar" class="form-control" value="{{ buscar }}">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-body">
+                <h2 class="card-title">Lista de Lotes de Animales</h2>
+                <div class="table-responsive" id="tabla-lotes">
+                    {% include 'lotesAnimales/tabla_resultados.html' %}
+                </div>
+            </div>
+
+            <div class="div-footer">
+                <a class="btnPrimario" href="{% url 'lotesAnimales:crearLote' %}" role="button">Crear lote</a>
+                <div id="paginacion-lotes">
+                    {% include 'lotesAnimales/paginacion.html' %}
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

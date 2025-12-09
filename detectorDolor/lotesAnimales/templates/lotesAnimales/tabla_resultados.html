@@ -1,0 +1,54 @@
+<table class="table tabla-primaria">
+    <thead>
+        <tr>
+            <th scope="col">Acciones</th>
+            <th scope="col">ID</th>
+            <th scope="col">Especie</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Género</th>
+            <th scope="col">Peso ingreso</th>
+            <th scope="col">Condición experimental</th>
+            <th scope="col">Fecha ingreso</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Cepa</th>
+            <th scope="col">Fecha baja</th>
+            <th scope="col">Responsable</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% if lotes %}
+            {% for lote in lotes %}
+                <tr>
+                    <td>
+                        <a class="btnIcono" href="{% url 'lotesAnimales:editarLote' lote.idlotesAnimales %}" role="button">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+
+                        <button class="btnIcono" data-bs-toggle="modal" data-bs-target="#confirmarEliminarModal{{ lote.idlotesAnimales }}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+
+                    <td>{{ lote.idlotesAnimales }}</td>
+                    <td>{{ lote.especie }}</td>
+                    <td>{{ lote.cantidad_animales }}</td>
+                    <td>{{ lote.genero }}</td>
+                    <td>{{ lote.peso_ingreso }}</td>
+                    <td>{{ lote.condicion_experimental }}</td>
+                    <td>{{ lote.fecha_ingreso }}</td>
+                    <td>{{ lote.estado }}</td>
+                    <td>{{ lote.cepa }}</td>
+                    <td>{{ lote.fecha_baja|default:"—" }}</td>
+                    <td>{{ lote.usuario.nombre }}</td>
+                </tr>
+
+                {% include 'lotesAnimales/modalEliminar.html' %}
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="12">No existen registros</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>

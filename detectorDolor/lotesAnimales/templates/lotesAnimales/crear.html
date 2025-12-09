@@ -1,0 +1,17 @@
+{% extends 'base.html'%}
+
+{% block titulo %} Crear lote {% endblock %}
+
+{% block contenido %}
+
+<div class="fondo-borde-secundario">
+    <div class="card seccion">
+        <div class="card-header seccion-header">Crear un lote</div>
+        <div class="card-body">
+            <h4 class="card-title">Datos del lote</h4>
+            {% include 'lotesAnimales/form.html' %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

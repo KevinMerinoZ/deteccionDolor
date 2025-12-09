@@ -13,6 +13,8 @@ class Usuario(models.Model):
     correo = models.EmailField(max_length=55)
     fecha_registro = models.DateField()
 
+    is_active = models.BooleanField(default=True) 
+
     def __str__(self):
         return f"{self.nombre} {self.apellido_paterno}"
 
@@ -27,6 +29,8 @@ class Proveedor(models.Model):
     tipo_insumo = models.CharField(max_length=15)
     observaciones = models.CharField(max_length=100, null=True, blank=True)
 
+    is_active = models.BooleanField(default=True)
+
     def __str__(self):
         return self.nombre_proveedor
 
@@ -40,6 +44,8 @@ class SustanciaExperimental(models.Model):
     unidad_medida = models.CharField(max_length=45)
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
 
+    is_active = models.BooleanField(default=True)
+
     def __str__(self):
         return self.nombre_sustancia
 
@@ -51,6 +57,8 @@ class ProtocoloExperimental(models.Model):
     sustancia_experimental = models.ForeignKey(SustanciaExperimental, on_delete=models.SET_NULL, null=True, blank=True)
     descripcion_protocolo = models.CharField(max_length=100)
     consideraciones_eticas = models.CharField(max_length=100)
+
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.nombre_protocolo
@@ -64,26 +72,10 @@ class Cita(models.Model):
     protocolo_experimental = models.ForeignKey(ProtocoloExperimental, on_delete=models.CASCADE)
     estado = models.CharField(max_length=45)
 
+    is_active = models.BooleanField(default=True)
+
     def __str__(self):
         return f"Cita {self.idcitas} - {self.usuario}"
-
-
-class LoteAnimales(models.Model):
-    idlotesAnimales = models.AutoField(primary_key=True)
-    especie = models.CharField(max_length=15)
-    cantidad_animales = models.IntegerField()
-    genero = models.CharField(max_length=10)
-    peso_ingreso = models.FloatField()
-    condicion_experimental = models.CharField(max_length=45, null=True, blank=True)
-    fecha_ingreso = models.DateField()
-    estado = models.CharField(max_length=10)
-    cepa = models.CharField(max_length=15)
-    fecha_baja = models.DateField(null=True, blank=True)
-    observaciones = models.CharField(max_length=45, null=True, blank=True)
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"Lote {self.idlotesAnimales} - {self.especie}"
 
 
 class Farmaco(models.Model):
@@ -93,6 +85,8 @@ class Farmaco(models.Model):
     tipo_farmaco = models.CharField(max_length=15)
     via_administracion = models.CharField(max_length=15)
     consentracion = models.CharField(max_length=15)
+
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.nombre
@@ -108,6 +102,8 @@ class SesionExperimental(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     protocolo_experimental = models.ForeignKey(ProtocoloExperimental, on_delete=models.CASCADE)
 
+    is_active = models.BooleanField(default=True)
+
     def __str__(self):
         return self.nombre_experimento
 
@@ -117,6 +113,8 @@ class ResultadoMedicion(models.Model):
     medicion_obtenida = models.CharField(max_length=20)
     numero_medicion = models.IntegerField()
     sesion_experimental = models.ForeignKey(SesionExperimental, on_delete=models.CASCADE)
+
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return f"Medición {self.numero_medicion} ({self.sesion_experimental})"
@@ -129,6 +127,8 @@ class Material(models.Model):
     piezas_disponibles = models.IntegerField()
     uso = models.CharField(max_length=45)
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
+
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.nombre

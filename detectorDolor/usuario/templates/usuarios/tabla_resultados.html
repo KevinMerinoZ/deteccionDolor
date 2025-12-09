@@ -16,7 +16,7 @@
                             {% for usuario in usuarios %}
                                 <tr class="">
                                     <td>
-                                        <a name="" id="" class="btnIcono" href="{% url 'editar' usuario.idUsuarios %}" role="button"><i class="bi bi-pencil-square"></i></a>
+                                        <a name="" id="" class="btnIcono" href="{% url 'usuario:editarUsuario' usuario.idUsuarios %}" role="button"><i class="bi bi-pencil-square"></i></a>
 
                                         <button class="btnIcono" data-bs-toggle="modal" data-bs-target="#confirmarEliminarModal{{usuario.user.id}}">
                                             <i class="bi bi-trash"></i>

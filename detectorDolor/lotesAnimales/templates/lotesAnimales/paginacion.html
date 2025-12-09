@@ -1,0 +1,25 @@
+<nav class="nav-paginacion">
+  <ul class="paginacion">
+    
+    <li class="item-pagina">
+      <a href="#" class="link-pagina-lotes" data-page="{% if page_obj.has_previous %}{{ page_obj.previous_page_number }}{% endif %}">
+        <i class="bi bi-caret-left-fill"></i>
+      </a>
+    </li>
+
+    <li class="item-pagina">
+      <p>
+        <a href="#" class="link-pagina-lotes" data-page="{{ page_obj.number }}">{{ page_obj.number }}</a>
+          de  
+        <a href="#" class="link-pagina-lotes" data-page="{{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+      </p>
+    </li>
+    
+    <li class="item-pagina">
+      <a href="#" class="link-pagina-lotes" data-page="{% if page_obj.has_next %}{{ page_obj.next_page_number }}{% endif %}">
+        <i class="bi bi-caret-right-fill"></i>
+      </a>
+    </li>
+
+  </ul>
+</nav>

@@ -37,8 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'usuario',
     'inicioSesion',
+    'lotesAnimales',
 ]
 
 MIDDLEWARE = [
@@ -50,7 +52,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    # 'usuario.middleware.RestringirAppMiddleware',
+    'usuario.middleware.RestringirAppMiddleware',
 ]
 
 ROOT_URLCONF = 'detectorDolor.urls'

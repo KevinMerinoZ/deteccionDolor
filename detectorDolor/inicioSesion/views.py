@@ -13,10 +13,9 @@ def login_vista(request):
 
         if user is None:
             return render(request, 'login.html', {'error': 'Invalid username or password'})
-            print("Usuario no valido")
         else:
             login(request, user)
-            return redirect('index')
+            return redirect('usuario:indexUsuario')
         
     return render(request, 'login.html')
 

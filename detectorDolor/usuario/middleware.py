@@ -1,19 +1,42 @@
-# from django.shortcuts import redirect
-# from django.urls import resolve
+from django.shortcuts import redirect
+from django.urls import resolve, Resolver404
 
-# class RestringirAppMiddleware:
-#     def __init__(self, get_response):
-#         self.get_response = get_response
-#         self.app_restringida = 'usuario'
+class RestringirAppMiddleware:
+    """
+    Middleware para restringir el acceso a ciertas aplicaciones
+    solo a usuarios autenticados y con roles específicos.
+    """
 
-#     def __call__(self, request):
-#         app_actual = resolve(request.path).app_name
+    def __init__(self, get_response):
+        self.get_response = get_response
 
-#         if app_actual == self.app_restringida:
-#             if not request.user.is_authenticated:
-#                 return redirect('login')
+        #Puedes agregar más apps o más roles en estas listas
+        self.apps_restringidas = {
+            'usuario': ['administrador'],       # solo admin
+            'lotesAnimales': ['administrador', 'laboratorista'],  # ejemplo
+        }
 
-#             if not request.user.groups.filter(name='administrador').exists():
-#                 return redirect('login')
+    def __call__(self, request):
 
-#         return self.get_response(request)
+        try:
+            app_actual = resolve(request.path).app_name
+        except Resolver404:
+            return self.get_response(request)
+
+        # Si la app no está restringida → dejar pasar
+        if app_actual not in self.apps_restringidas:
+            return self.get_response(request)
+
+        # Si requiere autenticación y el usuario no ha iniciado sesión
+        if not request.user.is_authenticated:
+            return redirect('login')
+
+        # Roles permitidos para esta app
+        roles_permitidos = self.apps_restringidas[app_actual]
+
+        # Validar roles del usuario
+        if not request.user.groups.filter(name__in=roles_permitidos).exists():
+            return redirect('login')
+
+        return self.get_response(request)
+

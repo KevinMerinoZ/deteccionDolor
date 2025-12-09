@@ -14,7 +14,7 @@
                             <label for="filtro" class="col-form-label label-seccion">Filtrar por: </label>
                         </div>
                         <div class="col-auto">
-                            <select name="filtro" id="filtro" class="form-select select-propio">
+                            <select name="filtro" id="filtroUsuario" class="form-select select-propio">
                                 <option value="">Seleccione una opcion</option>
                                 <option value="nombre">Nombre</option>
                                 <option value="apellidoP">Apellido P</option>
@@ -23,7 +23,7 @@
                             </select>
                         </div>
                         <div class="col-auto">
-                            <input type="text" id="buscar" name="buscar" class="form-control" value="{{ buscar }}">
+                            <input type="text" id="buscarUsuario" name="buscar" class="form-control" value="{{ buscar }}">
                         </div>
                     </div>
                 </form>
@@ -36,7 +36,7 @@
                 
             </div>
             <div class="div-footer">
-                <a name="" id="" class="btnPrimario" href="{% url 'crear' %}" role="button">Crear usuario</a>
+                <a name="" id="" class="btnPrimario" href="{% url 'usuario:crearUsuario' %}" role="button">Crear usuario</a>
                 <div id="paginacion">
                     {% include 'usuarios/paginacion.html' %}
                 </div>

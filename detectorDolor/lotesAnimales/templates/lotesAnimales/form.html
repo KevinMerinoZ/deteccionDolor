@@ -1,0 +1,88 @@
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <!-- ESPECIE -->
+    <div class="mb-3">
+        <label for="especie" class="form-label">Especie</label>
+        <input type="text" name="especie" id="especie" class="form-control"
+               placeholder="Rata, Ratón..." value="{{ form.especie.value|default:'' }}" required>
+        {{ form.especie.errors }}
+    </div>
+
+    <!-- CANTIDAD -->
+    <div class="mb-3">
+        <label for="cantidad_animales" class="form-label">Cantidad</label>
+        <input type="number" name="cantidad_animales" id="cantidad_animales" class="form-control"
+               placeholder="Número de animales" value="{{ form.cantidad_animales.value|default:'' }}" required>
+        {{ form.cantidad_animales.errors }}
+    </div>
+
+    <!-- GENERO -->
+    <div class="mb-3">
+        <label for="genero" class="form-label">Género</label>
+        <select name="genero" id="genero" class="form-select" required>
+            <option value="">Selecciona uno</option>
+
+            <option value="macho" {% if form.genero.value == "macho" %}selected{% endif %}>Macho</option>
+            <option value="hembra" {% if form.genero.value == "hembra" %}selected{% endif %}>Hembra</option>
+        </select>
+        {{ form.genero.errors }}
+    </div>
+
+    <!-- PESO INGRESO -->
+    <div class="mb-3">
+        <label for="peso_ingreso" class="form-label">Peso de ingreso (g)</label>
+        <input type="number" name="peso_ingreso" id="peso_ingreso" class="form-control"
+               placeholder="Ej. 320" value="{{ form.peso_ingreso.value|default:'' }}" required>
+        {{ form.peso_ingreso.errors }}
+    </div>
+
+    <!-- CONDICION EXPERIMENTAL -->
+    <div class="mb-3">
+        <label for="condicion_experimental" class="form-label">Condición experimental</label>
+        <input type="text" name="condicion_experimental" id="condicion_experimental" class="form-control"
+               placeholder="Control, estrés crónico, dolor inflamatorio..." 
+               value="{{ form.condicion_experimental.value|default:'' }}" required>
+        {{ form.condicion_experimental.errors }}
+    </div>
+
+    <!-- ESTADO -->
+    <div class="mb-3">
+        <label for="estado" class="form-label">Estado del animal</label>
+        <input type="text" name="estado" id="estado" class="form-control"
+               placeholder="Activo, en recuperación, estable..." 
+               value="{{ form.estado.value|default:'' }}" required>
+        {{ form.estado.errors }}
+    </div>
+
+    <!-- CEPA -->
+    <div class="mb-3">
+        <label for="cepa" class="form-label">Cepa</label>
+        <input type="text" name="cepa" id="cepa" class="form-control"
+               placeholder="Wistar, CD-1, Sprague Dawley..." value="{{ form.cepa.value|default:'' }}" required>
+        {{ form.cepa.errors }}
+    </div>
+
+    <!-- USUARIO -->
+    <div class="mb-3">
+        <label for="usuario" class="form-label">Usuario responsable</label>
+        <select name="usuario" id="usuario" class="form-select" required>
+            <option value="">Selecciona uno</option>
+
+            {% for u in form.fields.usuario.queryset %}
+                <option value="{{ u.idUsuarios }}"
+                    {% if form.usuario.value == u.idUsuarios %}selected{% endif %}>
+                    {{ u.nombre }} {{ u.apellido_paterno }}
+                </option>
+            {% endfor %}
+        </select>
+        {{ form.usuario.errors }}
+    </div>
+
+    <!-- BOTONES -->
+    <div class="div-footer">
+        <button type="submit" class="btnPrimario">Guardar</button>
+        <a class="btnSecundario" href="{% url 'lotesAnimales:indexLotes' %}" role="button">Cancelar</a>
+    </div>
+
+</form>
