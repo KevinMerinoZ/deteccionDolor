@@ -242,7 +242,7 @@ header{
     text-decoration: none;
 }
 
-/********** footer e paginación de section **********/
+/********** footer y paginación de section **********/
 .div-footer{
     display: flex;
     flex-direction: row;

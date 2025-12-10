@@ -1,0 +1,45 @@
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre del fármaco</label>
+        <input type="text" name="nombre" id="nombre" class="form-control"
+               placeholder="Ej. Ketamina" value="{{ form.nombre.value|default:'' }}" required>
+        {{ form.nombre.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="presentacion" class="form-label">Presentación</label>
+        <input type="text" name="presentacion" id="presentacion" class="form-control"
+               placeholder="Ej. Ampolla 10ml" value="{{ form.presentacion.value|default:'' }}" required>
+        {{ form.presentacion.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="tipo_farmaco" class="form-label">Tipo de fármaco</label>
+        <input type="text" name="tipo_farmaco" id="tipo_farmaco" class="form-control"
+               placeholder="Ej. Anestésico" value="{{ form.tipo_farmaco.value|default:'' }}" required>
+        {{ form.tipo_farmaco.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="via_administracion" class="form-label">Vía administración</label>
+        <input type="text" name="via_administracion" id="via_administracion"
+               class="form-control" placeholder="Ej. Intramuscular"
+               value="{{ form.via_administracion.value|default:'' }}" required>
+        {{ form.via_administracion.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="consentracion" class="form-label">Concentración</label>
+        <input type="text" name="consentracion" id="consentracion" class="form-control"
+               placeholder="10mg/ml" value="{{ form.consentracion.value|default:'' }}" required>
+        {{ form.consentracion.errors }}
+    </div>
+
+    <div class="div-footer">
+        <button type="submit" class="btnPrimario">Guardar</button>
+        <a class="btnSecundario" href="{% url 'farmaco:indexFarmaco' %}" role="button">Cancelar</a>
+    </div>
+
+</form>

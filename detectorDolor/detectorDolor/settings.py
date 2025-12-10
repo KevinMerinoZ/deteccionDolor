@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'usuario',
     'inicioSesion',
     'lotesAnimales',
+    'provedor',
+    'farmaco',
 ]
 
 MIDDLEWARE = [
@@ -88,6 +90,9 @@ DATABASES = {
         'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '3307',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
     }
 }
 

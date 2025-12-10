@@ -19,22 +19,6 @@ class Usuario(models.Model):
         return f"{self.nombre} {self.apellido_paterno}"
 
 
-class Proveedor(models.Model):
-    idProveedor = models.AutoField(primary_key=True)
-    nombre_proveedor = models.CharField(max_length=45)
-    contacto = models.CharField(max_length=45)
-    telefono = models.CharField(max_length=15)
-    correo_electronico = models.EmailField(max_length=25)
-    direccion = models.CharField(max_length=45)
-    tipo_insumo = models.CharField(max_length=15)
-    observaciones = models.CharField(max_length=100, null=True, blank=True)
-
-    is_active = models.BooleanField(default=True)
-
-    def __str__(self):
-        return self.nombre_proveedor
-
-
 class SustanciaExperimental(models.Model):
     idsustanciaExperimental = models.AutoField(primary_key=True)
     nombre_sustancia = models.CharField(max_length=45)
@@ -42,7 +26,7 @@ class SustanciaExperimental(models.Model):
     consentracion = models.CharField(max_length=15)
     presentacion = models.CharField(max_length=45)
     unidad_medida = models.CharField(max_length=45)
-    proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
+    proveedor = models.ForeignKey("provedor.Proveedor", on_delete=models.CASCADE)
 
     is_active = models.BooleanField(default=True)
 
@@ -77,28 +61,13 @@ class Cita(models.Model):
     def __str__(self):
         return f"Cita {self.idcitas} - {self.usuario}"
 
-
-class Farmaco(models.Model):
-    idfarmacos = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=45)
-    presentacion = models.CharField(max_length=15)
-    tipo_farmaco = models.CharField(max_length=15)
-    via_administracion = models.CharField(max_length=15)
-    consentracion = models.CharField(max_length=15)
-
-    is_active = models.BooleanField(default=True)
-
-    def __str__(self):
-        return self.nombre
-
-
 class SesionExperimental(models.Model):
     idsesionExperimental = models.AutoField(primary_key=True)
     fecha = models.DateField()
     nombre_experimento = models.CharField(max_length=45)
     observaciones = models.CharField(max_length=45)
     numero_mediciones = models.IntegerField()
-    farmaco = models.ForeignKey(Farmaco, on_delete=models.CASCADE)
+    farmaco = models.ForeignKey("farmaco.Farmaco", on_delete=models.CASCADE)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     protocolo_experimental = models.ForeignKey(ProtocoloExperimental, on_delete=models.CASCADE)
 
@@ -126,7 +95,7 @@ class Material(models.Model):
     material_fabricacion = models.CharField(max_length=45)
     piezas_disponibles = models.IntegerField()
     uso = models.CharField(max_length=45)
-    proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
+    proveedor = models.ForeignKey("provedor.Proveedor", on_delete=models.CASCADE)
 
     is_active = models.BooleanField(default=True)
 

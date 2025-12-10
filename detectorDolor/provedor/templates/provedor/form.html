@@ -1,0 +1,62 @@
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label for="nombre_proveedor" class="form-label">Nombre del proveedor</label>
+        <input type="text" name="nombre_proveedor" id="nombre_proveedor" class="form-control"
+               placeholder="Ej. FarmaLab" value="{{ form.nombre_proveedor.value|default:'' }}" required>
+        {{ form.nombre_proveedor.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="contacto" class="form-label">Nombre del contacto</label>
+        <input type="text" name="contacto" id="contacto" class="form-control"
+               placeholder="Juan Pérez" value="{{ form.contacto.value|default:'' }}" required>
+        {{ form.contacto.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="telefono" class="form-label">Teléfono</label>
+        <input type="text" name="telefono" id="telefono" class="form-control"
+               placeholder="7771234567" value="{{ form.telefono.value|default:'' }}" required>
+        {{ form.telefono.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="correo_electronico" class="form-label">Correo electrónico</label>
+        <input type="email" name="correo_electronico" id="correo_electronico" class="form-control"
+               placeholder="correo@empresa.com" value="{{ form.correo_electronico.value|default:'' }}" required>
+        {{ form.correo_electronico.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="direccion" class="form-label">Dirección</label>
+        <input type="text" name="direccion" id="direccion" class="form-control"
+               placeholder="Calle #123, Colonia" value="{{ form.direccion.value|default:'' }}" required>
+        {{ form.direccion.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="tipo_insumo" class="form-label">Tipo de insumo</label>
+        <select name="tipo_insumo" id="tipo_insumo" class="form-select" required>
+            <option value="">Selecciona uno</option>
+            <option value="Farmacos" {% if form.tipo_insumo.value == "Farmacos" %}selected{% endif %}>Fármacos</option>
+            <option value="Materiales" {% if form.tipo_insumo.value == "Materiales" %}selected{% endif %}>Materiales</option>
+            <option value="Sustancias" {% if form.tipo_insumo.value == "Sustancias" %}selected{% endif %}>Sustancias Experimentales</option>
+        </select>
+        {{ form.tipo_insumo.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="observaciones" class="form-label">Observaciones</label>
+        <textarea name="observaciones" id="observaciones" class="form-control" rows="3"
+                  placeholder="Opcional">{{ form.observaciones.value|default:'' }}</textarea>
+        {{ form.observaciones.errors }}
+    </div>
+
+    <div class="div-footer">
+        <button type="submit" class="btnPrimario">Guardar</button>
+        <a class="btnSecundario" href="{% url 'provedor:indexProveedor' %}" role="button">Cancelar</a>
+    </div>
+
+</form>

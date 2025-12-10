@@ -4,7 +4,7 @@ from . import views
 app_name = 'lotesAnimales'
 
 urlpatterns = [
-    path('index/', views.pgLotesIndex, name='indexLotes'),
+    path('', views.pgLotesIndex, name='indexLotes'),
     path('crear/', views.pgLotesCrear, name='crearLote'),
     path('editar/<int:id>', views.pgLotesEditar, name="editarLote"),
     path('eliminar/<int:id>', views.pgLotesEliminar, name="eliminarLote"),

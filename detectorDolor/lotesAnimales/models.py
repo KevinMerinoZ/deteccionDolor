@@ -9,7 +9,7 @@ class LoteAnimales(models.Model):
     peso_ingreso = models.FloatField()
     condicion_experimental = models.CharField(max_length=45, null=True, blank=True)
     fecha_ingreso = models.DateField()
-    estado = models.CharField(max_length=10)
+    estado = models.CharField(max_length=50)
     cepa = models.CharField(max_length=15)
     fecha_baja = models.DateField(null=True, blank=True)
     observaciones = models.CharField(max_length=45, null=True, blank=True)

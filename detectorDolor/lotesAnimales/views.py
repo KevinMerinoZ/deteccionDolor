@@ -158,11 +158,11 @@ def buscar_lotes(request):
     tipoDato = request.GET.get('tipoDato', '')
 
     if tipoDato == 'especie':
-        lotes = LoteAnimales.objects.filter(especie__icontains=dato, is_active=True)
+        lotes = LoteAnimales.objects.filter(especie__icontains=dato, is_active=True).order_by('especie')
     elif tipoDato == 'estado':
-        lotes = LoteAnimales.objects.filter(estado__icontains=dato, is_active=True)
-    elif tipoDato == 'lote':
-        lotes = LoteAnimales.objects.filter(idlotesAnimales__icontains=dato, is_active=True)
+        lotes = LoteAnimales.objects.filter(estado__icontains=dato, is_active=True).order_by('estado')  
+    elif tipoDato == 'responsable':
+        lotes = LoteAnimales.objects.select_related('usuario').filter(usuario__nombre__icontains=dato, is_active=True).order_by('usuario__nombre') 
     else:
         lotes = LoteAnimales.objects.filter(is_active=True)
 

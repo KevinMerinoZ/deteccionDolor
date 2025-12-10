@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Lista de proveedores {% endblock %}
+{% block encabezado %} Proveedores {% endblock %}
+
+{% block contenido %}
+<div class="fondo-borde-primario">
+    <section class="card seccion">
+        <div class="card-header seccion-header">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                        <label for="filtroProveedor" class="col-form-label label-seccion">Filtrar por:</label>
+                    </div>
+
+                    <div class="col-auto">
+                        <select name="filtro" id="filtroProveedor" class="form-select select-propio">
+                            <option value="">Seleccione una opción</option>
+                            <option value="nombre">Nombre</option>
+                            <option value="correo">Correo electrónico</option>
+                            <option value="tipo">Tipo de insumo</option>
+                        </select>
+                    </div>
+
+                    <div class="col-auto">
+                        <input type="text" id="buscarProveedor" name="buscar" class="form-control" value="{{ buscar }}">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="card-body">
+            <h2 class="card-title">Lista de proveedores</h2>
+
+            <div class="table-responsive" id="tabla-proveedores">
+                {% include 'provedor/tabla_resultados.html' %}
+            </div>
+        </div>
+
+        <div class="div-footer">
+            <a class="btnPrimario" href="{% url 'provedor:crearProveedor' %}" role="button">
+                Registrar proveedor
+            </a>
+
+            <div id="paginacion-proveedores">
+                {% include 'provedor/paginacion.html' %}
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

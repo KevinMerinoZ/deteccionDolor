@@ -25,7 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('inicioSesion.urls')),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    # path('usuarios/', include('usuario.urls', namespace='usuario')), #activar despues
-    path('usuarios/', include('usuario.urls')), # borrar despues
-    path('lotesAnimales/', include('lotesAnimales.urls')),
+    path('usuarios/', include('usuario.urls', namespace='usuario')), #activar despues
+    path('lotesAnimales/', include('lotesAnimales.urls', namespace='lotesAnimales')),
+    path('provedor/', include('provedor.urls', namespace='provedor')),
+    path('farmaco/', include('farmaco.urls', namespace='farmaco')),
 ]

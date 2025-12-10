@@ -1,0 +1,18 @@
+{% extends 'base.html'%}
+
+{% block titulo %} Crear fármacos {% endblock %}
+
+{% block contenido %}
+
+<div class="fondo-borde-secundario">
+    <div class="card seccion">
+        <div class="card-header seccion-header">Crear un Fármaco</div>
+        <div class="card-body">
+            <h4 class="card-title">Datos del Fármaco</h4>
+            {% include 'farmaco/form.html' %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

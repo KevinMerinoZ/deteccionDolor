@@ -1,0 +1,46 @@
+<table class="table tabla-primaria">
+    <thead>
+        <tr>
+            <th scope="col">Acciones</th>
+            <th scope="col">ID</th>
+            <th scope="col">Proveedor</th>
+            <th scope="col">Contacto</th>
+            <th scope="col">Teléfono</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Dirección</th>
+            <th scope="col">Tipo de insumo</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% if proveedores %}
+            {% for proveedor in proveedores %}
+                <tr>
+                    <td>
+                        <a class="btnIcono" href="{% url 'provedor:editarProveedor' proveedor.idProveedor %}">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+
+                        <button class="btnIcono" data-bs-toggle="modal" data-bs-target="#modalEliminarProveedor{{ proveedor.idProveedor }}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+
+                    <td>{{ proveedor.idProveedor }}</td>
+                    <td>{{ proveedor.nombre_proveedor }}</td>
+                    <td>{{ proveedor.contacto }}</td>
+                    <td>{{ proveedor.telefono }}</td>
+                    <td>{{ proveedor.correo_electronico }}</td>
+                    <td>{{ proveedor.direccion }}</td>
+                    <td>{{ proveedor.tipo_insumo }}</td>
+                </tr>
+
+                {% include 'provedor/modalEliminar.html' %}
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="8">No existen registros</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>

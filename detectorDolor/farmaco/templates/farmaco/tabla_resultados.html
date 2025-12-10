@@ -1,0 +1,46 @@
+<table class="table tabla-primaria">
+    <thead>
+        <tr>
+            <th>Acciones</th>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Presentación</th>
+            <th>Tipo</th>
+            <th>Vía administración</th>
+            <th>Concentración</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% if farmacos %}
+            {% for farmaco in farmacos %}
+                <tr>
+                    <td>
+                        <a class="btnIcono" href="{% url 'farmaco:editarFarmaco' farmaco.idfarmacos %}">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+
+                        <button class="btnIcono" data-bs-toggle="modal"
+                                data-bs-target="#modalEliminarFarmaco{{ farmaco.idfarmacos }}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+
+                    <td>{{ farmaco.idfarmacos }}</td>
+                    <td>{{ farmaco.nombre }}</td>
+                    <td>{{ farmaco.presentacion }}</td>
+                    <td>{{ farmaco.tipo_farmaco }}</td>
+                    <td>{{ farmaco.via_administracion }}</td>
+                    <td>{{ farmaco.consentracion }}</td>
+                </tr>
+
+                {% include 'farmaco/modalEliminar.html' %}
+
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="7">No existen registros</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>

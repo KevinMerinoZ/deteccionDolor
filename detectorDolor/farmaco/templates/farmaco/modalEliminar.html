@@ -1,0 +1,32 @@
+<div class="modal fade" id="modalEliminarFarmaco{{ farmaco.idfarmacos }}" tabindex="-1"
+     aria-labelledby="modalEliminarLabel{{ farmaco.idfarmacos }}" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-primario">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEliminarLabel{{ farmaco.idfarmacos }}">
+                    Confirmar eliminación
+                </h5>
+                <button type="button" class="btn-close btnCerrar" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                ¿Deseas eliminar el fármaco
+                <strong>{{ farmaco.nombre }}</strong>?
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btnSecundario" data-bs-dismiss="modal">Cancelar</button>
+
+                <a href="{% url 'farmaco:eliminarFarmaco' farmaco.idfarmacos %}"
+                   class="btn btn-danger">
+                    Sí, eliminar
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</div>
