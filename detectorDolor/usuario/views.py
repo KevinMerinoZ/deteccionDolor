@@ -95,12 +95,12 @@ def pgUsuariosCrear(request):
 
                     enviarCorreo(usuario.nombre, usuario.matricula, usuario.correo, contr, 'Registro de Usuario', 'Tu cuenta ha sido creada exitosamente.')
 
-                    return redirect('indexUsuario')
+                    return redirect('usuario:indexUsuario')
 
             except Exception as e:
                 print(e)
                 messages.error(request, "No se pudo crear el usuario.")
-                return redirect('crearUsuario')
+                return redirect('usuario:crearUsuario')
 
         else:
             messages.error(request, "Formulario inválido. Por favor, corrige los errores.")
@@ -204,7 +204,7 @@ def pgUsuariosEditar(request, id):
                     usuario.save()
 
                     messages.success(request, "Usuario actualizado correctamente.")
-                    return redirect('indexUsuario')
+                    return redirect('usuario:indexUsuario')
 
             except Exception as e:
                 print(e)
@@ -245,7 +245,7 @@ def pgUsuariosEliminar(request, id):
     except Exception as e:
         messages.error(request, "No se pudo eliminar el usuario.")
 
-    return redirect('indexUsuario')
+    return redirect('usuario:indexUsuario')
 
 
 # ----------------------------------------------------------------------

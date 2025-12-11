@@ -1,0 +1,56 @@
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre del material</label>
+        <input type="text" name="nombre" id="nombre" class="form-control"
+               placeholder="Ej. Guantes de látex"
+               value="{{ form.nombre.value|default:'' }}" required>
+        {{ form.nombre.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="material_fabricacion" class="form-label">Material de fabricación</label>
+        <input type="text" name="material_fabricacion" id="material_fabricacion" 
+               class="form-control" placeholder="Ej. Latex, plástico, vidrio"
+               value="{{ form.material_fabricacion.value|default:'' }}" required>
+        {{ form.material_fabricacion.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="piezas_disponibles" class="form-label">Piezas disponibles</label>
+        <input type="number" name="piezas_disponibles" id="piezas_disponibles" class="form-control"
+               placeholder="Ej. 50"
+               value="{{ form.piezas_disponibles.value|default:'' }}" required>
+        {{ form.piezas_disponibles.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="uso" class="form-label">Uso</label>
+        <input type="text" name="uso" id="uso" class="form-control"
+               placeholder="Ej. Bioseguridad"
+               value="{{ form.uso.value|default:'' }}" required>
+        {{ form.uso.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="proveedor" class="form-label">Proveedor</label>
+        <select name="proveedor" id="proveedor" class="form-select" required>
+            <option value="">Seleccione un proveedor</option>
+
+            {% for prov in proveedores %}
+                <option value="{{ prov.idProveedor }}"
+                    {% if form.proveedor.value == prov.idProveedor %}selected{% endif %}>
+                    {{ prov.nombre_proveedor }}
+                </option>
+            {% endfor %}
+        </select>
+        {{ form.proveedor.errors }}
+    </div>
+
+    <div class="div-footer">
+        <button type="submit" class="btnPrimario">Guardar</button>
+        <a class="btnSecundario" href="{% url 'material:indexMaterial' %}">Cancelar</a>
+    </div>
+
+</form>

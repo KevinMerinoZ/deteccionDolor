@@ -401,3 +401,113 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 3000);
     });
 });
+
+/* ================================
+   material.js
+   Gestión dinámica de Materiales
+   ================================ */
+
+// -------------------------
+// Función debounce
+// -------------------------
+function debounce(func, delay) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(func, delay);
+}
+
+// -------------------------
+// Cargar datos AJAX
+// -------------------------
+function cargarMateriales(dato = "", page = 1, tipoDato = "") {
+
+    const url = `/material/buscar-material/?dato=${encodeURIComponent(dato)}&page=${page}&tipoDato=${encodeURIComponent(tipoDato)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tabla = document.getElementById('tabla-materiales');
+            const paginacion = document.getElementById('paginacion-materiales');
+
+            if (tabla) tabla.innerHTML = data.tabla;
+            if (paginacion) paginacion.innerHTML = data.paginacion;
+        })
+        .catch(error => console.error("Error en fetch materiales:", error));
+}
+
+// ================================
+// Filtro: seleccionar tipo de dato
+// ================================
+const filtroMaterial = document.getElementById('filtroMaterial');
+
+if (filtroMaterial) {
+    filtroMaterial.addEventListener('change', function () {
+        const filtro = this.value;
+
+        const inputBuscar = document.getElementById('buscarMaterial');
+        if (inputBuscar) {
+            inputBuscar.focus();
+            const dato = inputBuscar.value.trim();
+            cargarMateriales(dato, 1, filtro);
+        }
+    });
+}
+
+// ================================
+// Búsqueda con debounce
+// ================================
+const inputBuscarMaterial = document.getElementById('buscarMaterial');
+
+if (inputBuscarMaterial) {
+    inputBuscarMaterial.addEventListener('keyup', function () {
+        const dato = this.value.trim();
+        const filtro = filtroMaterial ? filtroMaterial.value : "";
+
+        debounce(() => {
+            cargarMateriales(dato, 1, filtro);
+        }, 300);
+    });
+}
+
+// ================================
+// Delegación para paginación
+// ================================
+document.addEventListener('click', function (e) {
+
+    const filtro = filtroMaterial ? filtroMaterial.value : null;
+    if (filtro === null) return;
+
+    const enlace = e.target.closest('.link-pagina');
+    if (!enlace) return;
+
+    e.preventDefault();
+
+    const page = enlace.dataset.page;
+    const dato = inputBuscarMaterial ? inputBuscarMaterial.value.trim() : "";
+
+    if (!page) return;
+
+    cargarMateriales(dato, page, filtro);
+});
+
+// ================================
+// Evento general al cargar la página
+// ================================
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("material.js cargado correctamente.");
+
+    // Cargar datos iniciales
+    if (filtroMaterial) {
+        const filtro = filtroMaterial.value;
+        cargarMateriales("", 1, filtro);
+    }
+
+    // Manejo de alertas desaparecidas
+    const alerts = document.querySelectorAll('.alert');
+
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.classList.add('fade-out');
+            setTimeout(() => alert.remove(), 1000);
+        }, 3000);
+    });
+});

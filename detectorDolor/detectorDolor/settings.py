@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'lotesAnimales',
     'provedor',
     'farmaco',
+    'material',
 ]
 
 MIDDLEWARE = [

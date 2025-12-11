@@ -1,0 +1,19 @@
+{% extends 'base.html'%}
+
+{% block titulo %} Crear materiales {% endblock %}
+{% block encabezado %} Materiales {% endblock %}
+
+{% block contenido %}
+
+<div class="fondo-borde-secundario">
+    <div class="card seccion">
+        <div class="card-header seccion-header">Crear un material</div>
+        <div class="card-body">
+            <h4 class="card-title">Datos del material</h4>
+            {% include 'material/form.html' %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

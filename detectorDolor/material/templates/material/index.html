@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Lista de materiales {% endblock %}
+{% block encabezado %} Materiales {% endblock %}
+
+{% block contenido %}
+<div class="fondo-borde-primario">
+    <section class="card seccion">
+        <div class="card-header seccion-header">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="row g-3 align-items-center">
+
+                    <div class="col-auto">
+                        <label for="filtroMaterial" class="col-form-label label-seccion">Filtrar por:</label>
+                    </div>
+
+                    <div class="col-auto">
+                        <select name="filtro" id="filtroMaterial" class="form-select select-propio">
+                            <option value="">Seleccione una opción</option>
+                            <option value="nombre">Nombre</option>
+                            <option value="proveedor">Proveedor</option>
+                        </select>
+                    </div>
+
+                    <div class="col-auto">
+                        <input type="text" id="buscarMaterial" name="buscar" 
+                               class="form-control" value="{{ buscar }}">
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <div class="card-body">
+            <h2 class="card-title">Lista de materiales</h2>
+
+            <div class="table-responsive" id="tabla-materiales">
+                {% include 'material/tabla_resultados.html' %}
+            </div>
+        </div>
+
+        <div class="div-footer">
+            <a class="btnPrimario" href="{% url 'material:crearMaterial' %}" role="button">
+                Registrar material
+            </a>
+
+            <div id="paginacion-materiales">
+                {% include 'material/paginacion.html' %}
+            </div>
+        </div>
+
+    </section>
+</div>
+{% endblock %}

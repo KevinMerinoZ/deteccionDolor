@@ -1,0 +1,46 @@
+<table class="table tabla-primaria">
+    <thead>
+        <tr>
+            <th scope="col">Acciones</th>
+            <th scope="col">ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Fabricación</th>
+            <th scope="col">Piezas disponibles</th>
+            <th scope="col">Uso</th>
+            <th scope="col">Proveedor</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% if materiales %}
+            {% for material in materiales %}
+                <tr>
+                    <td>
+                        <a class="btnIcono" href="{% url 'material:editarMaterial' material.idmateriales %}">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+
+                        <button class="btnIcono" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#modalEliminarMaterial{{ material.idmateriales }}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+
+                    <td>{{ material.idmateriales }}</td>
+                    <td>{{ material.nombre }}</td>
+                    <td>{{ material.material_fabricacion }}</td>
+                    <td>{{ material.piezas_disponibles }}</td>
+                    <td>{{ material.uso }}</td>
+                    <td>{{ material.proveedor.nombre_proveedor }}</td>
+                </tr>
+
+                {% include 'material/modalEliminar.html' %}
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="7">No existen registros</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
