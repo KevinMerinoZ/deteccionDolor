@@ -511,3 +511,112 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 3000);
     });
 });
+
+/* ==========================================
+   sustanciaExperimental.js
+   Gestión dinámica de Sustancias Experimentales
+   ========================================== */
+
+// -------------------------
+// Función debounce
+// -------------------------
+function debounce(func, delay) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(func, delay);
+}
+
+// -------------------------
+// Cargar datos AJAX
+// -------------------------
+function cargarSustancias(dato = "", page = 1, tipoDato = "") {
+
+    const url = `/sustanciasExperimentales/buscar-sustancia/?dato=${encodeURIComponent(dato)}&page=${page}&tipoDato=${encodeURIComponent(tipoDato)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tabla = document.getElementById('tabla-sustancias');
+            const paginacion = document.getElementById('paginacion-sustancias');
+
+            if (tabla) tabla.innerHTML = data.tabla;
+            if (paginacion) paginacion.innerHTML = data.paginacion;
+        })
+        .catch(error => console.error("Error en fetch sustancias:", error));
+}
+
+// ================================
+// Filtro: seleccionar tipo de dato
+// ================================
+const filtroSustancias = document.getElementById('filtroSustancia');
+
+if (filtroSustancias) {
+    filtroSustancias.addEventListener('change', function () {
+        const filtro = this.value;
+
+        const inputBuscar = document.getElementById('buscarSustancia');
+        if (inputBuscar) {
+            inputBuscar.focus();
+            const dato = inputBuscar.value.trim();
+            cargarSustancias(dato, 1, filtro);
+        }
+    });
+}
+
+// ================================
+// Búsqueda con debounce
+// ================================
+const inputBuscarSustancia = document.getElementById('buscarSustancia');
+
+if (inputBuscarSustancia) {
+    inputBuscarSustancia.addEventListener('keyup', function () {
+        const dato = this.value.trim();
+        const filtro = filtroSustancias ? filtroSustancias.value : "";
+
+        debounce(() => {
+            cargarSustancias(dato, 1, filtro);
+        }, 300);
+    });
+}
+
+// ================================
+// Delegación para paginación
+// ================================
+document.addEventListener('click', function (e) {
+    const filtro = filtroSustancias ? filtroSustancias.value : null;
+    if (filtro === null) return;
+
+    const enlace = e.target.closest('.link-pagina');
+    if (!enlace) return;
+
+    e.preventDefault();
+
+    const page = enlace.dataset.page;
+    const dato = inputBuscarSustancia ? inputBuscarSustancia.value.trim() : "";
+
+    if (!page) return;
+
+    cargarSustancias(dato, page, filtro);
+});
+
+// ================================
+// Evento general al cargar la página
+// ================================
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("sustanciaExperimental.js cargado correctamente.");
+
+    // Cargar datos iniciales
+    if (filtroSustancias) {
+        const filtro = filtroSustancias.value;
+        cargarSustancias("", 1, filtro);
+    }
+
+    // Manejo de alertas desaparecidas
+    const alerts = document.querySelectorAll('.alert');
+
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.classList.add('fade-out');
+            setTimeout(() => alert.remove(), 1000);
+        }, 3000);
+    });
+});

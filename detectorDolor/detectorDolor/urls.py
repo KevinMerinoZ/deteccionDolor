@@ -30,4 +30,5 @@ urlpatterns = [
     path('provedor/', include('provedor.urls', namespace='provedor')),
     path('farmaco/', include('farmaco.urls', namespace='farmaco')),
     path('material/', include('material.urls', namespace='material')),
+    path('sustanciasExperimentales/', include('sustanciaExperimental.urls', namespace='sustanciaExperimental')),
 ]

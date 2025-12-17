@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Lista de sustancias experimentales {% endblock %}
+{% block encabezado %} Sustancias experimentales {% endblock %}
+
+{% block contenido %}
+<div class="fondo-borde-primario">
+    <section class="card seccion">
+
+        <div class="card-header seccion-header">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="row g-3 align-items-center">
+
+                    <div class="col-auto">
+                        <label for="filtroSustancia" class="col-form-label label-seccion">
+                            Filtrar por:
+                        </label>
+                    </div>
+
+                    <div class="col-auto">
+                        <select name="filtro" id="filtroSustancia"
+                                class="form-select select-propio">
+                            <option value="">Seleccione una opción</option>
+                            <option value="nombre">Nombre de la sustancia</option>
+                            <option value="proveedor">Proveedor</option>
+                        </select>
+                    </div>
+
+                    <div class="col-auto">
+                        <input type="text" id="buscarSustancia" name="buscar"
+                               class="form-control" value="{{ buscar }}">
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <div class="card-body">
+            <h2 class="card-title">Lista de sustancias experimentales</h2>
+
+            <div class="table-responsive" id="tabla-sustancias">
+                {% include 'sustancia/tabla_resultados.html' %}
+            </div>
+        </div>
+
+        <div class="div-footer">
+            <a class="btnPrimario"
+               href="{% url 'sustanciaExperimental:crearSustancia' %}">
+                Registrar sustancia
+            </a>
+
+            <div id="paginacion-sustancias">
+                {% include 'sustancia/paginacion.html' %}
+            </div>
+        </div>
+
+    </section>
+</div>
+{% endblock %}

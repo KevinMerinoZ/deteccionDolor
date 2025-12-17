@@ -15,6 +15,9 @@ class RestringirAppMiddleware:
             'usuario': ['administrador'],       # solo admin
             'lotesAnimales': ['administrador', 'laboratorista'],  
             'provedor': ['administrador'],  
+            'material': ['administrador'],
+            'farmaco': ['administrador'],
+            'sustancia': ['administrador'],
         }
 
     def __call__(self, request):

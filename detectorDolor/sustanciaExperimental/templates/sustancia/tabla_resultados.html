@@ -1,0 +1,49 @@
+<table class="table tabla-primaria">
+    <thead>
+        <tr>
+            <th>Acciones</th>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Concentración</th>
+            <th>Presentación</th>
+            <th>Unidad de medida</th>
+            <th>Proveedor</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% if sustancias %}
+            {% for sustancia in sustancias %}
+                <tr>
+                    <td>
+                        <a class="btnIcono"
+                           href="{% url 'sustanciaExperimental:editarSustancia' sustancia.idsustanciaExperimental %}">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+
+                        <button class="btnIcono"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalEliminarSustancia{{ sustancia.idsustanciaExperimental }}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+
+                    <td>{{ sustancia.idsustanciaExperimental }}</td>
+                    <td>{{ sustancia.nombre_sustancia }}</td>
+                    <td>{{ sustancia.tipo }}</td>
+                    <td>{{ sustancia.consentracion }}</td>
+                    <td>{{ sustancia.presentacion }}</td>
+                    <td>{{ sustancia.unidad_medida }}</td>
+                    <td>{{ sustancia.proveedor.nombre_proveedor }}</td>
+                </tr>
+
+                {% include 'sustancia/modalEliminar.html' %}
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="8">No existen registros</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'provedor',
     'farmaco',
     'material',
+    'sustanciaExperimental',
 ]
 
 MIDDLEWARE = [

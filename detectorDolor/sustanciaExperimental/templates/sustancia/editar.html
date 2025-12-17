@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Editar Sustancia{% endblock %}
+{% block encabezado %}Editar: {{ sustancia.nombre_sustancia }}{% endblock %}
+
+{% block contenido %}
+<div class="fondo-borde-secundario">
+    <div class="card seccion">
+        <div class="card-header seccion-header">Editar una sustancia</div>
+        <div class="card-body">
+            <h4 class="card-title">Datos de la sustancia</h4>
+            {% include 'sustancia/form.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}
