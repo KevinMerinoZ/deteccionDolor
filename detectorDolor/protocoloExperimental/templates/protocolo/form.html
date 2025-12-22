@@ -1,0 +1,41 @@
+<form method="post">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label class="form-label">Nombre del protocolo</label>
+        {{ form.nombre_protocolo }}
+        {{ form.nombre_protocolo.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Objetivo del protocolo</label>
+        {{ form.objetivo_protocolo }}
+        {{ form.objetivo_protocolo.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Sustancia experimental</label>
+        {{ form.sustancia_experimental }}
+        {{ form.sustancia_experimental.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Descripción del protocolo</label>
+        {{ form.descripcion_protocolo }}
+        {{ form.descripcion_protocolo.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Consideraciones éticas</label>
+        {{ form.consideraciones_eticas }}
+        {{ form.consideraciones_eticas.errors }}
+    </div>
+
+    <div class="div-footer">
+        <button type="submit" class="btnPrimario">Guardar</button>
+        <a class="btnSecundario"
+           href="{% url 'protocoloExperimental:indexProtocolo' %}">
+            Cancelar
+        </a>
+    </div>
+</form>

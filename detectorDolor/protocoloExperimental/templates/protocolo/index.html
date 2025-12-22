@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Lista de protocolos experimentales {% endblock %}
+{% block encabezado %} Protocolos experimentales {% endblock %}
+
+{% block contenido %}
+<div class="fondo-borde-primario">
+    <section class="card seccion">
+        <div class="card-header seccion-header">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                        <label for="filtroProtocolo" class="col-form-label label-seccion">
+                            Filtrar por:
+                        </label>
+                    </div>
+
+                    <div class="col-auto">
+                        <select id="filtroProtocolo" class="form-select select-propio">
+                            <option value="">Seleccione una opción</option>
+                            <option value="nombre">Nombre del protocolo</option>
+                            <option value="sustanciaExperimental">Sustancia experimental</option>
+                        </select>
+                    </div>
+
+                    <div class="col-auto">
+                        <input type="text"
+                               id="buscarProtocolo"
+                               class="form-control">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="card-body">
+            <h2 class="card-title">Lista de protocolos experimentales</h2>
+
+            <div class="table-responsive" id="tabla-protocolos">
+                {% include 'protocolo/tabla_resultados.html' %}
+            </div>
+        </div>
+
+        <div class="div-footer">
+            <a class="btnPrimario"
+               href="{% url 'protocoloExperimental:crearProtocolo' %}">
+                Registrar protocolo
+            </a>
+
+            <div id="paginacion-protocolos">
+                {% include 'protocolo/paginacion.html' %}
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

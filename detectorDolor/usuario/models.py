@@ -18,26 +18,12 @@ class Usuario(models.Model):
     def __str__(self):
         return f"{self.nombre} {self.apellido_paterno}"
 
-class ProtocoloExperimental(models.Model):
-    idprotocolosExperimentales = models.AutoField(primary_key=True)
-    nombre_protocolo = models.CharField(max_length=45)
-    objetivo_protocolo = models.CharField(max_length=45)
-    sustancia_experimental = models.ForeignKey('sustanciaExperimental.SustanciaExperimental', on_delete=models.SET_NULL, null=True, blank=True)
-    descripcion_protocolo = models.CharField(max_length=100)
-    consideraciones_eticas = models.CharField(max_length=100)
-
-    is_active = models.BooleanField(default=True)
-
-    def __str__(self):
-        return self.nombre_protocolo
-
-
 class Cita(models.Model):
     idcitas = models.AutoField(primary_key=True)
     fecha = models.DateField()
     hora = models.TimeField()
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    protocolo_experimental = models.ForeignKey(ProtocoloExperimental, on_delete=models.CASCADE)
+    protocolo_experimental = models.ForeignKey('protocoloExperimental.ProtocoloExperimental', on_delete=models.CASCADE)
     estado = models.CharField(max_length=45)
 
     is_active = models.BooleanField(default=True)
@@ -53,7 +39,7 @@ class SesionExperimental(models.Model):
     numero_mediciones = models.IntegerField()
     farmaco = models.ForeignKey("farmaco.Farmaco", on_delete=models.CASCADE)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    protocolo_experimental = models.ForeignKey(ProtocoloExperimental, on_delete=models.CASCADE)
+    protocolo_experimental = models.ForeignKey('protocoloExperimental.ProtocoloExperimental', on_delete=models.CASCADE)
 
     is_active = models.BooleanField(default=True)
 

@@ -1,0 +1,49 @@
+<table class="table tabla-primaria">
+    <thead>
+        <tr>
+            <th>Acciones</th>
+            <th>ID</th>
+            <th>Nombre del protocolo</th>
+            <th>Objetivo</th>
+            <th>Sustancia experimental</th>
+            <th>Descripción</th>
+            <th>Consideraciones éticas</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% if protocolos %}
+            {% for protocolo in protocolos %}
+                <tr>
+                    <td>
+                        <a class="btnIcono"
+                           href="{% url 'protocoloExperimental:editarProtocolo' protocolo.idprotocolosExperimentales %}">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+
+                        <button class="btnIcono"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalEliminarProtocolo{{ protocolo.idprotocolosExperimentales }}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+
+                    <td>{{ protocolo.idprotocolosExperimentales }}</td>
+                    <td>{{ protocolo.nombre_protocolo }}</td>
+                    <td>{{ protocolo.objetivo_protocolo }}</td>
+                    <td>
+                        {{ protocolo.sustancia_experimental|default:"—" }}
+                    </td>
+                    <td>{{ protocolo.descripcion_protocolo }}</td>
+                    <td>{{ protocolo.consideraciones_eticas }}</td>
+                </tr>
+
+                {% include 'protocolo/modalEliminar.html' %}
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="7">No existen registros</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>

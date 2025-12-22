@@ -620,3 +620,113 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 3000);
     });
 });
+
+/* ==========================================
+   protocoloExperimental.js
+   Gestión dinámica de Protocolos Experimentales
+   ========================================== */
+
+// -------------------------
+// Función debounce
+// -------------------------
+function debounce(func, delay) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(func, delay);
+}
+
+// -------------------------
+// Cargar datos AJAX
+// -------------------------
+function cargarProtocolos(dato = "", page = 1, tipoDato = "") {
+
+    const url = `/protocolosExperimentales/buscar-protocolo/?dato=${encodeURIComponent(dato)}&page=${page}&tipoDato=${encodeURIComponent(tipoDato)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tabla = document.getElementById('tabla-protocolos');
+            const paginacion = document.getElementById('paginacion-protocolos');
+
+            if (tabla) tabla.innerHTML = data.tabla;
+            if (paginacion) paginacion.innerHTML = data.paginacion;
+        })
+        .catch(error => console.error("Error en fetch protocolos:", error));
+}
+
+// ================================
+// Filtro: seleccionar tipo de dato
+// ================================
+const filtroProtocolos = document.getElementById('filtroProtocolo');
+
+if (filtroProtocolos) {
+    filtroProtocolos.addEventListener('change', function () {
+        const filtro = this.value;
+
+        const inputBuscar = document.getElementById('buscarProtocolo');
+        if (inputBuscar) {
+            inputBuscar.focus();
+            const dato = inputBuscar.value.trim();
+            cargarProtocolos(dato, 1, filtro);
+        }
+    });
+}
+
+// ================================
+// Búsqueda con debounce
+// ================================
+const inputBuscarProtocolo = document.getElementById('buscarProtocolo');
+
+if (inputBuscarProtocolo) {
+    inputBuscarProtocolo.addEventListener('keyup', function () {
+        const dato = this.value.trim();
+        const filtro = filtroProtocolos ? filtroProtocolos.value : "";
+
+        debounce(() => {
+            cargarProtocolos(dato, 1, filtro);
+        }, 300);
+    });
+}
+
+// ================================
+// Delegación para paginación
+// ================================
+document.addEventListener('click', function (e) {
+    const filtro = filtroProtocolos ? filtroProtocolos.value : null;
+    if (filtro === null) return;
+
+    const enlace = e.target.closest('.link-pagina');
+    if (!enlace) return;
+
+    e.preventDefault();
+
+    const page = enlace.dataset.page;
+    const dato = inputBuscarProtocolo ? inputBuscarProtocolo.value.trim() : "";
+
+    if (!page) return;
+
+    cargarProtocolos(dato, page, filtro);
+});
+
+// ================================
+// Evento general al cargar la página
+// ================================
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("protocoloExperimental.js cargado correctamente.");
+
+    // Carga inicial
+    if (filtroProtocolos) {
+        const filtro = filtroProtocolos.value;
+        cargarProtocolos("", 1, filtro);
+    }
+
+    // Manejo de alertas
+    const alerts = document.querySelectorAll('.alert');
+
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.classList.add('fade-out');
+            setTimeout(() => alert.remove(), 1000);
+        }, 3000);
+    });
+});
+
