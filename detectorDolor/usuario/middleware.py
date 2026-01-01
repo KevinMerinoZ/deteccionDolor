@@ -18,6 +18,8 @@ class RestringirAppMiddleware:
             'material': ['administrador'],
             'farmaco': ['administrador'],
             'sustancia': ['administrador'],
+            'protocoloExperimental': ['administrador'],
+            'cita': ['administrador', 'investigador', 'laboratorista'],
         }
 
     def __call__(self, request):

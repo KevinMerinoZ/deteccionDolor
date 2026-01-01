@@ -1,0 +1,49 @@
+<form method="post">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label for="fecha" class="form-label">Fecha</label>
+        <input type="date" name="fecha" id="fecha"
+               class="form-control"
+               value="{{ form.fecha.value|default:'' }}" required>
+        {{ form.fecha.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="hora" class="form-label">Hora</label>
+        <input type="time" name="hora" id="hora"
+               class="form-control"
+               value="{{ form.hora.value|default:'' }}" required>
+        {{ form.hora.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="usuario" class="form-label">Usuario</label>
+        {{ form.usuario }}
+        {{ form.usuario.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="protocolo_experimental" class="form-label">
+            Protocolo experimental
+        </label>
+        {{ form.protocolo_experimental }}
+        {{ form.protocolo_experimental.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="estado" class="form-label">Estado</label>
+        <input type="text" name="estado" id="estado"
+               class="form-control"
+               placeholder="Ej. Programada, Cancelada"
+               value="{{ form.estado.value|default:'' }}" required>
+        {{ form.estado.errors }}
+    </div>
+
+    <div class="div-footer">
+        <button type="submit" class="btnPrimario">Guardar</button>
+        <a class="btnSecundario" href="{% url 'cita:indexCita' %}">
+            Cancelar
+        </a>
+    </div>
+</form>

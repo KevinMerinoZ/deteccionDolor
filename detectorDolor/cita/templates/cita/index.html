@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Lista de citas {% endblock %}
+{% block encabezado %} Citas {% endblock %}
+
+{% block contenido %}
+<div class="fondo-borde-primario">
+    <section class="card seccion">
+
+        <div class="card-header seccion-header">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="row g-3 align-items-center">
+
+                    <div class="col-auto">
+                        <label for="filtroCita" class="col-form-label label-seccion">
+                            Filtrar por:
+                        </label>
+                    </div>
+
+                    <div class="col-auto">
+                        <select name="filtro" id="filtroCita" class="form-select select-propio">
+                            <option value="">Seleccione una opción</option>
+                            <option value="usuario">Usuario</option>
+                            <option value="protocolo">Protocolo experimental</option>
+                            <option value="fecha">Fecha</option>
+                        </select>
+                    </div>
+
+                    <div class="col-auto">
+                        <input type="text" id="buscarCita" name="buscar"
+                               class="form-control" placeholder="Buscar...">
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <div class="card-body">
+            <h2 class="card-title">Lista de citas</h2>
+
+            <div class="table-responsive" id="tabla-citas">
+                {% include 'cita/tabla_resultados.html' %}
+            </div>
+        </div>
+
+        <div class="div-footer">
+            <a class="btnPrimario" href="{% url 'cita:crearCita' %}">
+                Registrar cita
+            </a>
+
+            <div id="paginacion-citas">
+                {% include 'cita/paginacion.html' %}
+            </div>
+        </div>
+
+    </section>
+</div>
+{% endblock %}

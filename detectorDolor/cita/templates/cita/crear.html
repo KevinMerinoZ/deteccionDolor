@@ -1,0 +1,18 @@
+{% extends 'base.html'%}
+
+{% block titulo %} Crear citas {% endblock %}
+{% block encabezado %} Citas {% endblock %}
+
+{% block contenido %}
+
+<div class="fondo-borde-secundario">
+    <div class="card seccion">
+        <div class="card-header seccion-header">Crear una cita</div>
+        <div class="card-body">
+            <h4 class="card-title">Datos de la cita</h4>
+            {% include 'cita/form.html' %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+<table class="table tabla-primaria">
+    <thead>
+        <tr>
+            <th>Acciones</th>
+            <th>ID</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Usuario</th>
+            <th>Protocolo experimental</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% if citas %}
+            {% for cita in citas %}
+                <tr>
+                    <td>
+                        <a class="btnIcono"
+                           href="{% url 'cita:editarCita' cita.idcitas %}">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+
+                        <button class="btnIcono"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalEliminarCita{{ cita.idcitas }}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+
+                    <td>{{ cita.idcitas }}</td>
+                    <td>{{ cita.fecha }}</td>
+                    <td>{{ cita.hora }}</td>
+                    <td>{{ cita.usuario }}</td>
+                    <td>{{ cita.protocolo_experimental }}</td>
+                    <td>{{ cita.estado }}</td>
+                </tr>
+
+                {% include 'cita/modalEliminar.html' %}
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="7">No existen registros</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>

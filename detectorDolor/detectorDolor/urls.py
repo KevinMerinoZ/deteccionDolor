@@ -32,4 +32,5 @@ urlpatterns = [
     path('material/', include('material.urls', namespace='material')),
     path('sustanciasExperimentales/', include('sustanciaExperimental.urls', namespace='sustanciaExperimental')),
     path('protocolosExperimentales/', include('protocoloExperimental.urls', namespace='protocoloExperimental')),
+    path('citas/', include('cita.urls', namespace='cita')),
 ]
