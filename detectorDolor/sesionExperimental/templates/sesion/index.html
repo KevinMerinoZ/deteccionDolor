@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Sesiones experimentales {% endblock %}
+{% block encabezado %} Sesiones experimentales {% endblock %}
+
+{% block contenido %}
+<div class="fondo-borde-primario">
+    <section class="card seccion">
+        <div class="card-header seccion-header">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="row g-3 align-items-center">
+
+                    <div class="col-auto">
+                        <label for="filtroSesion" class="col-form-label label-seccion">
+                            Filtrar por:
+                        </label>
+                    </div>
+
+                    <div class="col-auto">
+                        <select id="filtroSesion" class="form-select select-propio">
+                            <option value="">Seleccione una opción</option>
+                            <option value="fecha">Fecha</option>
+                            <option value="experimento">Nombre del experimento</option>
+                            <option value="farmaco">Fármaco</option>
+                            <option value="usuario">Usuario</option>
+                            <option value="protocolo">Protocolo experimental</option>
+                        </select>
+                    </div>
+
+                    <div class="col-auto">
+                        <input type="text" id="buscarSesion" class="form-control">
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <div class="card-body">
+            <h2 class="card-title">Lista de sesiones experimentales</h2>
+
+            <div class="table-responsive" id="tabla-sesiones">
+                {% include 'sesion/tabla_resultados.html' %}
+            </div>
+        </div>
+
+        <div class="div-footer">
+            <a class="btnPrimario" href="{% url 'sesionExperimental:crearSesion' %}">
+                Registrar sesión
+            </a>
+
+            <div id="paginacion-sesiones">
+                {% include 'sesion/paginacion.html' %}
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

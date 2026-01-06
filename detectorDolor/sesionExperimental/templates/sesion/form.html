@@ -1,0 +1,46 @@
+<form method="post">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label class="form-label">Fecha</label>
+        {{ form.fecha }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Nombre del experimento</label>
+        {{ form.nombre_experimento }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Fármaco</label>
+        {{ form.farmaco }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Usuario</label>
+        {{ form.usuario }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Protocolo experimental</label>
+        {{ form.protocolo_experimental }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Número de mediciones</label>
+        {{ form.numero_mediciones }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Observaciones</label>
+        {{ form.observaciones }}
+    </div>
+
+    <div class="div-footer">
+        <button type="submit" class="btnPrimario">Guardar</button>
+        <a class="btnSecundario"
+           href="{% url 'sesionExperimental:indexSesion' %}">
+            Cancelar
+        </a>
+    </div>
+</form>

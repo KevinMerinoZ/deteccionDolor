@@ -1,0 +1,37 @@
+<div class="modal fade"
+     id="modalEliminarSesion{{ sesion.idsesionExperimental }}"
+     tabindex="-1"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-primario">
+
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Confirmar eliminación
+                </h5>
+                <button type="button"
+                        class="btn-close btnCerrar"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
+
+            <div class="modal-body">
+                ¿Deseas eliminar la sesión del experimento
+                <strong>{{ sesion.nombre_experimento }}</strong>?
+            </div>
+
+            <div class="modal-footer">
+                <button class="btnSecundario" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+
+                <a href="{% url 'sesionExperimental:eliminarSesion' sesion.idsesionExperimental %}"
+                   class="btn btn-danger">
+                    Sí, eliminar
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>

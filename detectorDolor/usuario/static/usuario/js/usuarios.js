@@ -838,3 +838,96 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 3000);
     });
 });
+
+/* =====================================
+   sesionExperimental.js
+   Gestión dinámica de Sesiones
+   ===================================== */
+
+// -------------------------
+// Función debounce
+// -------------------------
+function debounce(func, delay) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(func, delay);
+}
+
+// -------------------------
+// Cargar datos AJAX
+// -------------------------
+function cargarSesiones(dato = "", page = 1, tipoDato = "") {
+
+    const url = `/sesionesExperimentales/buscar-sesion/?dato=${encodeURIComponent(dato)}&page=${page}&tipoDato=${encodeURIComponent(tipoDato)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tabla = document.getElementById('tabla-sesiones');
+            const paginacion = document.getElementById('paginacion-sesiones');
+
+            if (tabla) tabla.innerHTML = data.tabla;
+            if (paginacion) paginacion.innerHTML = data.paginacion;
+        })
+        .catch(error => console.error("Error en fetch sesiones:", error));
+}
+
+// ================================
+// Filtro
+// ================================
+const filtroSesiones = document.getElementById('filtroSesion');
+
+if (filtroSesiones) {
+    filtroSesiones.addEventListener('change', function () {
+        const filtro = this.value;
+        const inputBuscar = document.getElementById('buscarSesion');
+
+        if (inputBuscar) {
+            inputBuscar.focus();
+            cargarSesiones(inputBuscar.value.trim(), 1, filtro);
+        }
+    });
+}
+
+// ================================
+// Búsqueda con debounce
+// ================================
+const inputBuscarSesion = document.getElementById('buscarSesion');
+
+if (inputBuscarSesion) {
+    inputBuscarSesion.addEventListener('keyup', function () {
+        const dato = this.value.trim();
+        const filtro = filtroSesiones ? filtroSesiones.value : "";
+
+        debounce(() => {
+            cargarSesiones(dato, 1, filtro);
+        }, 300);
+    });
+}
+
+// ================================
+// Paginación
+// ================================
+document.addEventListener('click', function (e) {
+
+    const enlace = e.target.closest('.link-pagina');
+    if (!enlace) return;
+
+    e.preventDefault();
+
+    const page = enlace.dataset.page;
+    const dato = inputBuscarSesion ? inputBuscarSesion.value.trim() : "";
+    const filtro = filtroSesiones ? filtroSesiones.value : "";
+
+    cargarSesiones(dato, page, filtro);
+});
+
+// ================================
+// Al cargar página
+// ================================
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("sesionExperimental.js cargado correctamente.");
+
+    if (filtroSesiones) {
+        cargarSesiones("", 1, filtroSesiones.value);
+    }
+});

@@ -1,0 +1,49 @@
+<table class="table tabla-primaria">
+    <thead>
+        <tr>
+            <th>Acciones</th>
+            <th>ID</th>
+            <th>Fecha</th>
+            <th>Experimento</th>
+            <th>Fármaco</th>
+            <th>Usuario</th>
+            <th>Protocolo</th>
+            <th>Núm. mediciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% if sesiones %}
+            {% for sesion in sesiones %}
+                <tr>
+                    <td>
+                        <a class="btnIcono"
+                           href="{% url 'sesionExperimental:editarSesion' sesion.idsesionExperimental %}">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+
+                        <button class="btnIcono"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalEliminarSesion{{ sesion.idsesionExperimental }}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+
+                    <td>{{ sesion.idsesionExperimental }}</td>
+                    <td>{{ sesion.fecha }}</td>
+                    <td>{{ sesion.nombre_experimento }}</td>
+                    <td>{{ sesion.farmaco.nombre }}</td>
+                    <td>{{ sesion.usuario.nombre }}</td>
+                    <td>{{ sesion.protocolo_experimental.nombre_protocolo }}</td>
+                    <td>{{ sesion.numero_mediciones }}</td>
+                </tr>
+
+                {% include 'sesion/modalEliminar.html' %}
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="8">No existen registros</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>

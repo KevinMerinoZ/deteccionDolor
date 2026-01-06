@@ -1,0 +1,18 @@
+{% extends 'base.html'%}
+
+{% block titulo %} Crear sesion experimental {% endblock %}
+{% block encabezado %} Sesiones Experimentales {% endblock %}
+
+{% block contenido %}
+
+<div class="fondo-borde-secundario">
+    <div class="card seccion">
+        <div class="card-header seccion-header">Crear una sesion experimental</div>
+        <div class="card-body">
+            <h4 class="card-title">Datos de la sesion experimental</h4>
+            {% include 'sesion/form.html' %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

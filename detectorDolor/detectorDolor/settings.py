@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'sustanciaExperimental',
     'protocoloExperimental',
     'cita',
+    'sesionExperimental',
 ]
 
 MIDDLEWARE = [
