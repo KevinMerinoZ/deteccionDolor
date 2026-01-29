@@ -57,8 +57,8 @@ def pgUsuariosIndex(request):
 def pgUsuariosCrear(request):
     """
     Descripción:
-        Permite registrar un nuevo usuario, creando tanto el modelo User
-        como el modelo Usuario asociado. Envía correo de creación.
+        Permite registrar un nuevo usuario, creando tanto el protocolo User
+        como el protocolo Usuario asociado. Envía correo de creación.
 
     Entradas:
         request (HttpRequest): Datos del formulario vía POST.
@@ -85,7 +85,7 @@ def pgUsuariosCrear(request):
                     grupo = Group.objects.get(name=form.cleaned_data['tipo_usuario'])
                     user.groups.add(grupo)
 
-                    # Crear modelo Usuario
+                    # Crear protocolo Usuario
                     usuario = form.save(commit=False)
                     usuario.user = user
                     usuario.fecha_registro = date.today()
@@ -229,7 +229,7 @@ def pgUsuariosEliminar(request, id):
 
     Entradas:
         request (HttpRequest): Solicitud del navegador.
-        id (int): ID del usuario del modelo User.
+        id (int): ID del usuario del protocolo User.
 
     Salidas:
         HttpResponse: Redirect al listado de usuarios.

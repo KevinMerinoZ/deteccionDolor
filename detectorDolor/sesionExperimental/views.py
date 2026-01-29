@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 
 from .models import SesionExperimental
+from usuario.models import Usuario
 from .forms import SesionExperimentalForm
 
 
@@ -33,14 +34,19 @@ def pgSesionIndex(request):
 def pgSesionCrear(request):
 
     if request.method == 'POST':
-        form = SesionExperimentalForm(request.POST)
+        form = SesionExperimentalForm(request.POST, user = request.user)
 
         if form.is_valid():
-            form.save()
+            sesion = form.save(commit=False)
+
+            if not request.user.groups.filter(name='administrador').exists():
+                sesion.usuario = request.user.usuario  
+
+            sesion.save()
             return redirect('sesionExperimental:indexSesion')
 
     else:
-        form = SesionExperimentalForm()
+        form = SesionExperimentalForm(user = request.user)
 
     return render(request, 'sesion/crear.html', {'form': form})
 
@@ -56,14 +62,14 @@ def pgSesionEditar(request, idSesion):
     )
 
     if request.method == 'POST':
-        form = SesionExperimentalForm(request.POST, instance=sesion)
+        form = SesionExperimentalForm(request.POST, instance=sesion, user = request.user)
 
         if form.is_valid():
             form.save()
             return redirect('sesionExperimental:indexSesion')
 
     else:
-        form = SesionExperimentalForm(instance=sesion)
+        form = SesionExperimentalForm(instance=sesion, user = request.user)
 
     return render(request, 'sesion/editar.html', {'form': form})
 
@@ -92,12 +98,15 @@ def buscarSesion(request):
     filtro = request.GET.get('tipoDato', '')
     page = request.GET.get('page', 1)
 
-    sesiones = SesionExperimental.objects.filter(is_active=True)
+    es_admin = request.user.groups.filter(name='administrador').exists()
 
-    if filtro == 'fecha':
-        sesiones = sesiones.filter(fecha__icontains=dato).order_by('-fecha')
+    if request.user.groups.first().name == 'administrador':
+        sesiones = SesionExperimental.objects.filter(is_active=True)
+    else:
+        usuarioAct = request.user
+        sesiones = SesionExperimental.objects.filter(is_active=True, usuario_id__user__username=usuarioAct)
 
-    elif filtro == 'experimento':
+    if filtro == 'experimento':
         sesiones = sesiones.filter(
             nombre_experimento__icontains=dato
         ).order_by('nombre_experimento')
@@ -124,7 +133,7 @@ def buscarSesion(request):
 
     tabla = render_to_string(
         'sesion/tabla_resultados.html',
-        {'sesiones': page_obj.object_list}
+        {'sesiones': page_obj.object_list, 'es_administrador': es_admin}
     )
 
     paginacion = render_to_string(

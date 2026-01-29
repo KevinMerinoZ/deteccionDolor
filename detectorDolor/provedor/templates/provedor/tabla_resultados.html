@@ -9,6 +9,7 @@
             <th scope="col">Correo</th>
             <th scope="col">Dirección</th>
             <th scope="col">Tipo de insumo</th>
+            <th scope="col">Observaciones</th>
         </tr>
     </thead>
 
@@ -33,6 +34,15 @@
                     <td>{{ proveedor.correo_electronico }}</td>
                     <td>{{ proveedor.direccion }}</td>
                     <td>{{ proveedor.tipo_insumo }}</td>
+                    <td>
+                        <div>
+                        <i class="bi bi-info-square activadorBurbujaTexto">
+                            <div class="burbujaTexto">
+                                {{ proveedor.observaciones }}
+                            </div>
+                        </i>
+                        </div>
+                    </td>
                 </tr>
 
                 {% include 'provedor/modalEliminar.html' %}

@@ -8,5 +8,6 @@ urlpatterns = [
     path('crear/', views.pgLotesCrear, name='crearLote'),
     path('editar/<int:id>', views.pgLotesEditar, name="editarLote"),
     path('eliminar/<int:id>', views.pgLotesEliminar, name="eliminarLote"),
+    path('dar-baja/<int:id>', views.pgLotesDarBaja, name="darBajaLote"),
     path('buscar-lotes/', views.buscar_lotes, name='buscar_lotes'),
 ]

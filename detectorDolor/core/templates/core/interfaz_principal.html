@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Interfaz de {{ user.groups.first.name }} {% endblock %}
+{% block encabezado %} 
+    {% if user.groups.first.name == 'administrador' %}
+        Administrador - Interfaz principal
+    {% elif user.groups.first.name == 'estudianteLicenciatura' %}
+        Estudiante de Licenciatura - Interfaz principal
+    {% else %}
+        Técnico Académico - Interfaz principal
+    {% endif %}
+{% endblock %}
+
+{% block contenido %}
+
+<section class="seccion-interfaz">
+    <div class="contenedor-btnInterfaz">
+        <a class="btnInterfaz" href="{% url 'usuario:indexUsuario' %}"> 
+            Gestión de usuarios 
+        </a>
+        <div class="sombra-btnInterfaz"></div>
+        
+    </div>
+
+    <div class="contenedor-btnInterfaz">
+        <a class="btnInterfaz" href="{% url 'lotesAnimales:indexLotes' %}"> Gestión de lotes de animales </a>
+        <div class="sombra-btnInterfaz"></div>
+    </div>
+
+    <div class="contenedor-btnInterfaz">
+        <a class="btnInterfaz" href="{% url 'farmaco:indexFarmaco' %}"> Gestión de farmacos </a>
+        <div class="sombra-btnInterfaz"></div>
+    </div>
+
+    <div class="contenedor-btnInterfaz">
+        <a class="btnInterfaz" href="{% url 'material:indexMaterial' %}"> Gestión de materiales </a>
+        <div class="sombra-btnInterfaz"></div>
+    </div>
+
+    <div class="contenedor-btnInterfaz">
+        <a class="btnInterfaz" href="{% url 'protocoloExperimental:indexProtocolo' %}"> Gestión de protocolos experimentales </a>
+        <div class="sombra-btnInterfaz"></div>
+    </div>
+
+    <div class="contenedor-btnInterfaz">
+        <a class="btnInterfaz" href="{% url 'provedor:indexProveedor' %}"> Gestión de proveedores </a>
+        <div class="sombra-btnInterfaz"></div>
+    </div>
+
+    <div class="contenedor-btnInterfaz">
+        <a class="btnInterfaz" href="{% url 'sesionExperimental:indexSesion' %}"> Gestión de sesiones experimentales </a>
+        <div class="sombra-btnInterfaz"></div>
+    </div>
+
+    <div class="contenedor-btnInterfaz">
+        <a class="btnInterfaz" href="{% url 'sustanciaExperimental:indexSustancia' %}"> Gestión de sustancias experimentales </a>
+        <div class="sombra-btnInterfaz"></div>
+    </div>
+
+    <div class="contenedor-btnInterfaz">
+        {% comment %}<!-- <a class="btnInterfaz" href="{% url 'detectorDolorApp:indexDetector' %}"> Detector de dolor </a> --> {% endcomment %}
+         <a class="btnInterfaz" href=""> Detector de dolor </a>
+        <div class="sombra-btnInterfaz"></div>
+    </div>
+
+    <div class="contenedor-btnInterfaz">
+        <a class="btnInterfaz" href="{% url 'cita:indexCita' %}"> Gestión de citas </a>
+        <div class="sombra-btnInterfaz"></div>
+    </div>
+</section>
+
+{% endblock %}

@@ -138,6 +138,34 @@ def pgLotesEliminar(request, id):
 
 
 # ----------------------------------------------------------------------
+# Dar de baja lote
+# ----------------------------------------------------------------------
+def pgLotesDarBaja(request, id):
+    """
+    Descripción:
+        Permite dar de baja un lote de animales estableciendo la
+        fecha de baja como la fecha actual.
+
+    Entradas:
+        request (HttpRequest)
+        id (int): ID del lote a dar de baja.
+
+    Salidas:
+        HttpResponse: Redirect al listado.
+    """
+
+    lote = get_object_or_404(LoteAnimales, idlotesAnimales=id)
+
+    if lote.fecha_baja is None:
+        lote.fecha_baja = date.today()
+        lote.save()
+        messages.success(request, "Lote dado de baja correctamente.")
+    else:
+        messages.warning(request, "El lote ya ha sido dado de baja.")
+
+    return redirect('lotesAnimales:indexLotes')
+
+# ----------------------------------------------------------------------
 # Búsqueda dinámica AJAX
 # ----------------------------------------------------------------------
 def buscar_lotes(request):

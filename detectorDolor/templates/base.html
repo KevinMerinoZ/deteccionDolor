@@ -24,21 +24,6 @@
     </head>
 
     <body>
-
-        <!-- <nav class="">
-            <div class="row nav-datosUsuario">
-                <div class="col-4">
-
-                </div>
-
-                <div class="nav navbar-nav">
-                    <a class="nav-item nav-link active" href="#" aria-current="page">
-                        Principal <span class="visually-hidden">(current)</span>
-                    </a>
-                    <a class="nav-item nav-link" href="#">jaja</a>
-                </div>
-            </div>
-        </nav> -->
         <aside class="sidebar">
             <i class="bi bi-person-circle"></i>
             {% if user.is_authenticated %}
@@ -58,7 +43,7 @@
 
         <div class="barraSuperior">
             <nav class="nav-primario">
-                <div><i class="bi bi-house-fill"></i> <!-- ícono de home --> </div>
+                <div><a href="{% url 'core:interfazPrincipal' %}" class="btnIcono"><i class="bi bi-house-fill"></i></a><!-- ícono de home --> </div>
                 <div class="logo-text">UAEM</div>
                 <div></div> <!-- Espacio a la derecha -->
 

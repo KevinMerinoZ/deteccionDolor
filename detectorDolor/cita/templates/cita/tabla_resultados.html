@@ -5,7 +5,9 @@
             <th>ID</th>
             <th>Fecha</th>
             <th>Hora</th>
-            <th>Usuario</th>
+            {% if es_administrador %}
+                <th>Usuario</th>
+            {% endif %}
             <th>Protocolo experimental</th>
             <th>Estado</th>
         </tr>
@@ -31,9 +33,22 @@
                     <td>{{ cita.idcitas }}</td>
                     <td>{{ cita.fecha }}</td>
                     <td>{{ cita.hora }}</td>
-                    <td>{{ cita.usuario }}</td>
+                    {% if es_administrador %}
+                        <td>{{ cita.usuario }}</td>
+                    {% endif %}
                     <td>{{ cita.protocolo_experimental }}</td>
-                    <td>{{ cita.estado }}</td>
+
+                    <td>
+                        {% if cita.estado == 'Cancelada' or cita.estado == 'Finalizada' %}
+                            {{ cita.estado }}   
+                        {% else %}
+                            {% if cita.ya_paso %}
+                                <a class="btnPrimario" href="{% url 'cita:cambiarEstadoCita' cita.idcitas 'Finalizada' %}">Finalizar</a>
+                            {% else %}
+                                <a class="btnSecundario" href="{% url 'cita:cambiarEstadoCita' cita.idcitas 'Cancelada' %}">Cancelar</a>
+                            {% endif %}
+                        {% endif %}
+                    </td>
                 </tr>
 
                 {% include 'cita/modalEliminar.html' %}

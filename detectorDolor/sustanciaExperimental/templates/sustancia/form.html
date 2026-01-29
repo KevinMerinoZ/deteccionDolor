@@ -5,56 +5,37 @@
         <label for="nombre_sustancia" class="form-label">
             Nombre de la sustancia
         </label>
-        <input type="text" name="nombre_sustancia" id="nombre_sustancia"
-               class="form-control"
-               value="{{ form.nombre_sustancia.value|default:'' }}" required>
+        {{ form.nombre_sustancia }}
         {{ form.nombre_sustancia.errors }}
     </div>
 
     <div class="mb-3">
         <label for="tipo" class="form-label">Tipo</label>
-        <input type="text" name="tipo" id="tipo"
-               class="form-control"
-               value="{{ form.tipo.value|default:'' }}" required>
+        {{ form.tipo }}
         {{ form.tipo.errors }}
     </div>
 
     <div class="mb-3">
         <label for="consentracion" class="form-label">Concentración</label>
-        <input type="text" name="consentracion" id="consentracion"
-               class="form-control"
-               value="{{ form.consentracion.value|default:'' }}" required>
+        {{ form.consentracion }}
         {{ form.consentracion.errors }}
     </div>
 
     <div class="mb-3">
         <label for="presentacion" class="form-label">Presentación</label>
-        <input type="text" name="presentacion" id="presentacion"
-               class="form-control"
-               value="{{ form.presentacion.value|default:'' }}" required>
+        {{ form.presentacion }}
         {{ form.presentacion.errors }}
     </div>
 
     <div class="mb-3">
         <label for="unidad_medida" class="form-label">Unidad de medida</label>
-        <input type="text" name="unidad_medida" id="unidad_medida"
-               class="form-control"
-               value="{{ form.unidad_medida.value|default:'' }}" required>
+        {{ form.unidad_medida }}
         {{ form.unidad_medida.errors }}
     </div>
 
     <div class="mb-3">
         <label for="proveedor" class="form-label">Proveedor</label>
-        <select name="proveedor" id="proveedor"
-                class="form-select" required>
-            <option value="">Seleccione uno</option>
-            {% for p in form.fields.proveedor.queryset %}
-                <option value="{{ p.idProveedor }}"
-                    {% if form.proveedor.value == p.idProveedor %}selected{% endif %}>
-                    {{ p.nombre_proveedor }}
-                </option>
-            {% endfor %}
-        </select>
+        {{ form.proveedor }}
         {{ form.proveedor.errors }}
     </div>
 

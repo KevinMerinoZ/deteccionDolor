@@ -48,8 +48,8 @@ class UsuarioForm(forms.ModelForm):
     tipo_usuario = forms.ChoiceField(
         choices=[
             ('administrador', 'Administrador'),
-            ('laboratorista', 'Laboratorista'),
-            ('investigador', 'Investigador')
+            ('estudianteLicenciatura', 'Estudiante de Licenciatura'),
+            ('tecnicoAcademico', 'Técnico Académico')
         ]
     )
 

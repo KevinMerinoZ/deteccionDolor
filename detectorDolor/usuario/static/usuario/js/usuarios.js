@@ -931,3 +931,58 @@ document.addEventListener("DOMContentLoaded", function () {
         cargarSesiones("", 1, filtroSesiones.value);
     }
 });
+
+// ================================
+// detectorDolor app
+// ================================
+
+const conjInputImgRaton = document.querySelectorAll('.btnInputFileImg');
+
+if(conjInputImgRaton){
+    conjInputImgRaton.forEach((input, index) => {
+        input.addEventListener('change', function(){
+            if(this.files && this.files[0]){
+                const nombreArchivo = this.files[0].name;
+                const img = document.getElementById('imgRaton'+(index+1));
+                if(img){
+                    img.src = URL.createObjectURL(this.files[0]);
+                }
+            }
+        });
+    });
+}
+
+document.addEventListener("submit", function (e) {
+    const form = e.target;
+
+    if(!form.classList.contains('contRaton')) return;
+
+    e.preventDefault();
+
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const noMedicionActual = document.querySelector('[name=noMedicionActual]').value;
+
+    const formData = new FormData(form);
+    formData.append('noMedicionActual', noMedicionActual);
+
+    console.log("imagen: ", formData.get('inputImgRaton'));
+
+    fetch(form.action, {
+        method: 'POST',
+        body: formData, 
+        headers:{
+            'X-CSRFToken': csrfToken
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const resultado = form.querySelector('.resultado-dolor');
+        const confianza = form.querySelector('.resultado-confianza');
+
+        if(resultado && confianza){
+            resultado.textContent = 'Nivel de dolor: '+ data.nivel_dolor;
+            confianza.textContent = 'Confianza: '+ data.confianza + '%';
+        }
+    })
+    .catch(error => console.error("Error en fetch:", error));
+});

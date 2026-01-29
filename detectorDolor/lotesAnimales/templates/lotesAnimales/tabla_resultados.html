@@ -6,7 +6,7 @@
             <th scope="col">Especie</th>
             <th scope="col">Cantidad</th>
             <th scope="col">Género</th>
-            <th scope="col">Peso ingreso</th>
+            <th scope="col">Peso ingreso (g)</th>
             <th scope="col">Condición experimental</th>
             <th scope="col">Fecha ingreso</th>
             <th scope="col">Estado</th>
@@ -39,7 +39,11 @@
                     <td>{{ lote.fecha_ingreso }}</td>
                     <td>{{ lote.estado }}</td>
                     <td>{{ lote.cepa }}</td>
-                    <td>{{ lote.fecha_baja|default:"—" }}</td>
+                    {% if lote.fecha_baja %}
+                        <td>{{ lote.fecha_baja }}</td>
+                    {% else %}
+                        <td><a class="btnPrimario" href="{% url 'lotesAnimales:darBajaLote' lote.idlotesAnimales %}">Baja</a></td>
+                    {% endif %}
                     <td>{{ lote.usuario.nombre }}</td>
                 </tr>
 

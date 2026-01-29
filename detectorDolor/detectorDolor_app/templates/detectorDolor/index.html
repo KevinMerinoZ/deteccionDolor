@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block titulo %} Deteccion de dolor {% endblock %}
+{% block encabezado %} Detector de dolor {% endblock %}
+
+{% block contenido %}
+
+<div class="fondo-borde-primario">
+    <section class="card seccion">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        <div class="card-header seccion-header">
+            <form action="" method="post">
+                <div class="row g-3 align-items-center">
+
+                    <div class="col-auto">
+                        <label class="col-form-label label-seccion">Medición: {{noMedicionAct}}</label>
+                        <input type="hidden" name="noMedicionActual" value="{{noMedicionAct}}">
+                    </div>
+
+                    <div class="col-auto">
+                        <a class="btnPrimario" href="{% url 'detectorDolorApp:indexDetector' idSesion accion='siguiente' %}">Siguiente Medición</a>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <div class="card-body">
+            <div class="contRatones">
+                {% for raton in numRatones %}
+                <div class="container bordeContenedorRaton">              
+                    <form class="row contRaton">
+                        <div class="col-12 col-md-8 contRaton-datos">
+                            <p>Raton {{ raton }}</p>
+                            <input type="hidden" name="noRaton" value="{{ raton }}">
+                            <div class="contImgRaton">
+                                <img src="" id="imgRaton{{ raton }}" alt="Imagen del raton">
+                            </div>
+                            <label class="btnArchivo" for="inputImgRaton{{ raton }}">
+                                Subir imagen
+                            </label>
+                            <input class="btnInputFileImg" type="file" name="inputImgRaton" id="inputImgRaton{{ raton }}" accept='image/*'>
+                            <button type="submit">Analizar</button>
+                        </div>
+
+                        <div class="col-12 col-md-4 contRaton-resultados">
+                            <p class="resultado-dolor">Nivel de dolor: </p>
+                            <p class="resultado-confianza">Confianza: </p>
+                        </div>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </section>
+</div>
+
+{% endblock %}

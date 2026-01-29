@@ -13,3 +13,6 @@ class ProtocoloExperimental(models.Model):
 
     def __str__(self):
         return self.nombre_protocolo
+    
+    class Meta:
+        db_table = 'ProtocoloExperimental'

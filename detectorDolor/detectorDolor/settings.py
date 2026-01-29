@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-6+$)l*g-_4+4$q=cde!(4m9(d89b9m+$$83br(e*8l!3s3tyzj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0', '172.23.22.179']
 
 
 # Application definition
@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'protocoloExperimental',
     'cita',
     'sesionExperimental',
+    'detectorDolor_app',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +76,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'usuario.context_processors.grupos_usuario',
             ],
         },
     },
@@ -152,3 +155,4 @@ EMAIL_HOST_PASSWORD = 'xirvmgcajzruarte'
 EMAIL_USE_TLS = True
 
 LOGOUT_REDIRECT_URL = '/'  # Redirige a la página principal después del logout
+

@@ -17,7 +17,7 @@ class RestringirAppMiddleware:
             'provedor': ['administrador'],  
             'material': ['administrador'],
             'farmaco': ['administrador'],
-            'sustancia': ['administrador'],
+            'sustanciaExperimental': ['administrador'],
             'protocoloExperimental': ['administrador'],
             'cita': ['administrador', 'investigador', 'laboratorista'],
         }
@@ -35,14 +35,14 @@ class RestringirAppMiddleware:
 
         # Si requiere autenticación y el usuario no ha iniciado sesión
         if not request.user.is_authenticated:
-            return redirect('login')
+            return redirect('inicioSesion:login')
 
         # Roles permitidos para esta app
         roles_permitidos = self.apps_restringidas[app_actual]
 
         # Validar roles del usuario
         if not request.user.groups.filter(name__in=roles_permitidos).exists():
-            return redirect('login')
+            return redirect('inicioSesion:login')
 
         return self.get_response(request)
 

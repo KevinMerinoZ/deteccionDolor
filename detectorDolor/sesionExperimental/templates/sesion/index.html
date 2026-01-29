@@ -20,10 +20,11 @@
                     <div class="col-auto">
                         <select id="filtroSesion" class="form-select select-propio">
                             <option value="">Seleccione una opción</option>
-                            <option value="fecha">Fecha</option>
                             <option value="experimento">Nombre del experimento</option>
                             <option value="farmaco">Fármaco</option>
-                            <option value="usuario">Usuario</option>
+                            {% if es_administrador %}
+                                <option value="usuario">Usuario</option>
+                            {% endif %}
                             <option value="protocolo">Protocolo experimental</option>
                         </select>
                     </div>

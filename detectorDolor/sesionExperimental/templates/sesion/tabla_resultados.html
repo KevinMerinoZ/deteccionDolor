@@ -2,13 +2,19 @@
     <thead>
         <tr>
             <th>Acciones</th>
+            <th>Iniciar sesión</th>
             <th>ID</th>
             <th>Fecha</th>
             <th>Experimento</th>
             <th>Fármaco</th>
-            <th>Usuario</th>
+            {% if es_administrador %}
+                <th>Usuario</th>
+            {% endif %}
             <th>Protocolo</th>
-            <th>Núm. mediciones</th>
+            <th>No. Mediciones 1</th>
+            <th>Intervalo Tiempo 1</th>
+            <th>No. Mediciones 2</th>
+            <th>Intervalo Tiempo 2</th>
         </tr>
     </thead>
 
@@ -28,14 +34,25 @@
                             <i class="bi bi-trash"></i>
                         </button>
                     </td>
+                    <td>
+                        <a class="btnSecundario"
+                           href="{% url 'detectorDolorApp:indexDetector' sesion.idsesionExperimental %}">
+                            Iniciar
+                        </a>
+                    </td>
 
                     <td>{{ sesion.idsesionExperimental }}</td>
                     <td>{{ sesion.fecha }}</td>
                     <td>{{ sesion.nombre_experimento }}</td>
                     <td>{{ sesion.farmaco.nombre }}</td>
-                    <td>{{ sesion.usuario.nombre }}</td>
+                    {% if es_administrador %}
+                        <td>{{ sesion.usuario.nombre }}</td>
+                    {% endif %}
                     <td>{{ sesion.protocolo_experimental.nombre_protocolo }}</td>
-                    <td>{{ sesion.numero_mediciones }}</td>
+                    <td>{{ sesion.noMediciones1 }}</td>
+                    <td>{{ sesion.intervaloTemp1 }}</td>
+                    <td>{{ sesion.noMediciones2|default:'' }}</td>
+                    <td>{{ sesion.intervaloTemp2|default:'' }}</td>
                 </tr>
 
                 {% include 'sesion/modalEliminar.html' %}

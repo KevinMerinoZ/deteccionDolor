@@ -14,21 +14,21 @@ class LoteAnimalesForm(forms.ModelForm):
             'estado',                  # ← agregado
             'cepa',                    # ← agregado
             'fecha_baja',
-            'observaciones',
             'usuario',                 # ← agregado
         ]
 
         widgets = {
+            'especie': forms.Select(attrs={'class': 'form-select'}),
             'genero': forms.Select(attrs={'class': 'form-select'}),  
-            'condicion_experimental': forms.Select(attrs={'class': 'form-select'}),
             'estado': forms.Select(attrs={'class': 'form-select'}),
-            'cepa': forms.Select(attrs={'class': 'form-select'}),
             'usuario': forms.Select(attrs={'class': 'form-select'}),
 
-            'peso_ingreso': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
-            'cantidad_animales': forms.NumberInput(attrs={'class': 'form-control'}),
+            'cepa': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Wistar, CD-1, Sprague Dawley...'}),
+            'condicion_experimental': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Control, estrés crónico, dolor inflamatorio...'}),
+
+            'peso_ingreso': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder':'15'}),
+            'cantidad_animales': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '20'}),
 
             'fecha_baja': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
 
-            'observaciones': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
         }

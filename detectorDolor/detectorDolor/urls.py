@@ -23,7 +23,7 @@ from usuario import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('inicioSesion.urls')),
+    path('', include('inicioSesion.urls', namespace='inicioSesion')),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('usuarios/', include('usuario.urls', namespace='usuario')), #activar despues
     path('lotesAnimales/', include('lotesAnimales.urls', namespace='lotesAnimales')),
@@ -34,4 +34,6 @@ urlpatterns = [
     path('protocolosExperimentales/', include('protocoloExperimental.urls', namespace='protocoloExperimental')),
     path('citas/', include('cita.urls', namespace='cita')),
     path('sesionesExperimentales/', include('sesionExperimental.urls', namespace='sesionExperimental')),
+    path('detectorDolorApp/', include('detectorDolor_app.urls', namespace='detectorDolorApp')),
+    path('core/', include('core.urls', namespace='core')),
 ]

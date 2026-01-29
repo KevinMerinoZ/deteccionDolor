@@ -21,13 +21,15 @@
                     <div class="col-auto">
                         <select name="filtro" id="filtroCita" class="form-select select-propio">
                             <option value="">Seleccione una opción</option>
-                            <option value="usuario">Usuario</option>
+                            {% if es_administrador %}
+                                <option value="usuario">Usuario</option>
+                            {% endif %}
                             <option value="protocolo">Protocolo experimental</option>
                             <option value="fecha">Fecha</option>
                         </select>
                     </div>
 
-                    <div class="col-auto">
+                    <div class="col-auto"> 
                         <input type="text" id="buscarCita" name="buscar"
                                class="form-control" placeholder="Buscar...">
                     </div>
