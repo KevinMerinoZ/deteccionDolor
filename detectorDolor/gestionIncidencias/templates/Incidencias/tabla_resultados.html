@@ -1,0 +1,43 @@
+<table class="table tabla-primaria">
+    <thead>
+        <tr>
+            <th>Acciones</th>
+            <th>ID</th>
+            <th>Fecha</th>
+            <th>Descripción</th>
+            <th>Sesión Experimental</th>
+            </tr>
+    </thead>
+
+    <tbody>
+        {% if incidencias %}
+            {% for incidencia in incidencias %}
+                <tr>
+                    <td>
+                        <a class="btnIcono" href="{% url 'gestionIncidencias:editarIncidencias' incidencia.idIncidencia %}">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+
+                        <button class="btnIcono" data-bs-toggle="modal"
+                                data-bs-target="#modalEliminarIncidencia{{ incidencia.idIncidencias }}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+
+                    <td>{{ incidencia.idIncidencia }}</td>
+                    <td>{{ incidencia.fecha }}</td>
+                    <td>{{ incidencia.descripcion }}</td>
+                    <td>{{ incidencia.idSesionExperimental.nombre_experimento}}</td>
+                    
+                </tr>
+
+                {% include 'IncidenciaS/modalEliminar.html' %}
+
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="7">No existen registros</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>

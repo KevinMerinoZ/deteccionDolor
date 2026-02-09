@@ -1,0 +1,19 @@
+{% extends 'base.html'%}
+
+{% block titulo %} Crear Incidencia Experimental {% endblock %}
+{% block encabezado %} Incidencia Experimental {% endblock %}
+
+{% block contenido %}
+
+<div class="fondo-borde-secundario">
+    <div class="card seccion">
+        <div class="card-header seccion-header">Crear una incidencia experimental</div>
+        <div class="card-body">
+            <h4 class="card-title">Datos de la incidencia</h4>
+            {% include 'Incidencias/form.html' %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

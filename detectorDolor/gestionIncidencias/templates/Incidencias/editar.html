@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Editar Incidencia {% endblock %}
+{% block encabezado %} Incidencia {% endblock %}
+
+{% block contenido %}
+
+<div class="fondo-borde-secundario">
+    <div class="card seccion">
+        <div class="card-header seccion-header">Editar una Incidencia</div>
+        <div class="card-body">
+            <h4 class="card-title">Datos de la Incidencia</h4>
+            {% include 'Incidencias/form.html' %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

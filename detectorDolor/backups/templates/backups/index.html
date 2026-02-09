@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Respaldo y Restauración {% endblock %}
+{% block encabezado %} Respaldo y Restauración {% endblock %}
+{% block contenido %}
+<div class="row">
+    <div class="col-md-6">
+        <a href="{% url 'backups:backup_db' %}" class="btn btn-success w-100">
+            Descargar Respaldo
+        </a>
+    </div>
+
+    <div class="col-md-6">
+        <a href="{% url 'backups:restore_db' %}" class="btn btn-danger w-100">
+            Restaurar Base de Datos
+        </a>
+    </div>
+</div>
+{% endblock %}

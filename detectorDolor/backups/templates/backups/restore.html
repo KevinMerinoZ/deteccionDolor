@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+<h2>Restaurar base de datos</h2>
+
+{% if mensaje %}
+<div class="alert alert-success">
+    {{ mensaje }}
+</div>
+{% endif %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-danger">
+        Restaurar
+    </button>
+</form>
+
+<p class="text-danger mt-3">
+⚠️ Esta acción sobrescribirá toda la base de datos actual.
+</p>
+{% endblock %}
