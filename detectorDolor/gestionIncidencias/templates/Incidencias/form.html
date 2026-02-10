@@ -1,0 +1,23 @@
+<form method="post">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label class="form-label">Fecha</label>
+        {{ form.fecha }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Descripción</label>
+        {{ form.descripcion }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Sesión experimental</label>
+        {{ form.idSesionExperimental }}
+    </div>   
+    <div class="div-footer">
+        <button type="submit" class="btnPrimario">Guardar</button>
+        <a class="btnSecundario" href="{% url 'gestionIncidencias:indexIncidencias' %}" role="button">Cancelar</a>
+    </div>
+    
+</form>

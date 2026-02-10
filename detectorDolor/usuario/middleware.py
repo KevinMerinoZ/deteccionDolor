@@ -13,13 +13,14 @@ class RestringirAppMiddleware:
         #Puedes agregar más apps o más roles en estas listas
         self.apps_restringidas = {
             'usuario': ['administrador'],       # solo admin
-            'lotesAnimales': ['administrador', 'laboratorista'],  
-            'provedor': ['administrador'],  
-            'material': ['administrador'],
-            'farmaco': ['administrador'],
-            'sustanciaExperimental': ['administrador'],
+            'lotesAnimales': ['administrador', 'tecnicoAcademico'],  
+            'provedor': ['administrador','tecnicoAcademico'],  
+            'material': ['administrador','tecnicoAcademico'],
+            'farmaco': ['administrador','tecnicoAcademico','estudianteLicenciatura'],
+            'sustanciaExperimental': ['administrador','tecnicoAcademico','estudianteLicenciatura'],
             'protocoloExperimental': ['administrador'],
-            'cita': ['administrador', 'investigador', 'laboratorista'],
+            'cita': ['administrador','tecnicoAcademico','estudianteLicenciatura'],
+            'gestionIncidencias': ['administrador','tecnicoAcademico','estudianteLicenciatura'],
         }
 
     def __call__(self, request):

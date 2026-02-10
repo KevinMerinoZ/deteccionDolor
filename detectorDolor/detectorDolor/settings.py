@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'sesionExperimental',
     'detectorDolor_app',
     'core',
+    'gestionIncidencias',
+    'backups',
     'sesionActiva',
 ]
 
@@ -152,7 +154,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'novuskevinz@gmail.com'
-EMAIL_HOST_PASSWORD = 'xirvmgcajzruarte'
+EMAIL_HOST_PASSWORD = 'bcxxhesqbenznwry'
 EMAIL_USE_TLS = True
 
 LOGOUT_REDIRECT_URL = '/'  # Redirige a la página principal después del logout

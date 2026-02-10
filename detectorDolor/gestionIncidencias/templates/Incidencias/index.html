@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Lista de incidencias {% endblock %}
+{% block encabezado %} Incidencias {% endblock %}
+
+{% block contenido %}
+<div class="fondo-borde-primario">
+    <section class="card seccion">
+
+        <!-- Filtros -->
+        <div class="card-header seccion-header">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="row g-3 align-items-center">
+
+                    <div class="col-auto">
+                        <label for="filtroIncidencia" class="col-form-label label-seccion">Filtrar por:</label>
+                    </div>
+
+                    <div class="col-auto">
+                        <select name="filtro" id="filtroIncidencia" class="form-select select-propio">
+                            <option value="">Seleccione una opción</option>
+                            <option value="sesionExperimental">Sesión Experimental</option>
+                        </select>
+                    </div>
+
+                    <div class="col-auto">
+                        <input type="text" id="buscarIncidencia" name="buscar"
+                               class="form-control" value="{{ buscar }}">
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <!-- Lista -->
+        <div class="card-body">
+            <h2 class="card-title">Lista de Incidencias</h2>
+
+            <div class="table-responsive" id="tabla-incidencias">
+                {% include 'Incidencias/tabla_resultados.html' %}
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="div-footer">
+            <a class="btnPrimario" href="{% url 'gestionIncidencias:crearIncidencias' %}" role="button">
+                Registrar Incidencia Experimental
+            </a>
+
+            <div id="paginacion-incidencias">
+                {% include 'Incidencias/paginacion.html' %}
+            </div>
+        </div>
+
+    </section>
+</div>
+{% endblock %}

@@ -989,6 +989,116 @@ document.addEventListener("submit", function (e) {
 });
 
 /* ================================
+   incidencias.js
+   Gestión de incidencias experimentales
+   ================================ */
+
+// -------------------------
+// Función debounce
+// -------------------------
+function debounce(func, delay) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(func, delay);
+}
+
+// -------------------------
+// Cargar datos AJAX
+// -------------------------
+function cargarIncidencias(dato = "", page = 1, tipoDato = "") {
+
+    const url = `/incidencias/buscar-incidencias/?dato=${encodeURIComponent(dato)}&page=${page}&tipoDato=${encodeURIComponent(tipoDato)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tabla = document.getElementById('tabla-incidencias');
+            const paginacion = document.getElementById('paginacion-incidencias');
+
+            if (tabla) tabla.innerHTML = data.tabla;
+            if (paginacion) paginacion.innerHTML = data.paginacion;
+        })
+        .catch(error => console.error("Error en fetch incidencias:", error));
+}
+
+// ================================
+// Filtro: seleccionar tipo de dato
+// ================================
+const filtroIncidencias = document.getElementById('filtroIncidencia');
+
+if (filtroIncidencias) {
+    filtroIncidencias.addEventListener('change', function () {
+        const filtro = this.value;
+
+        const inputBuscar = document.getElementById('buscarIncidencia');
+        if (inputBuscar) {
+            inputBuscar.focus();
+            const dato = inputBuscar.value.trim();
+            cargarIncidencias(dato, 1, filtro);
+        }
+    });
+}
+
+// ================================
+// Búsqueda con debounce
+// ================================
+const inputBuscarIncidencia = document.getElementById('buscarIncidencia');
+
+if (inputBuscarIncidencia) {
+    inputBuscarIncidencia.addEventListener('keyup', function () {
+        const dato = this.value.trim();
+        const filtro = filtroIncidencias ? filtroIncidencias.value : "";
+
+        debounce(() => {
+            cargarIncidencias(dato, 1, filtro);
+        }, 300);
+    });
+}
+
+// ================================
+// Delegación para paginación
+// ================================
+document.addEventListener('click', function (e) {
+    const filtro = filtroIncidencias ? filtroIncidencias.value : null;
+    if (filtro === null) return;
+
+    const enlace = e.target.closest('.link-pagina');
+
+    if (!enlace) return;
+
+    e.preventDefault();
+
+    const page = enlace.dataset.page;
+    const dato = inputBuscarIncidencia ? inputBuscarIncidencia.value.trim() : "";
+
+    if (!page) return;
+
+    cargarIncidencias(dato, page, filtro);
+});
+
+// ================================
+// Evento general al cargar la página
+// ================================
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("incidencia.js cargado correctamente.");
+
+    // Cargar datos iniciales
+    if (filtroIncidencias) {
+        const filtro = filtroIncidencias.value;
+        cargarIncidencias("", 1, filtro);
+    }
+
+    // Manejo de alertas desaparecidas
+    const alerts = document.querySelectorAll('.alert');
+
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.classList.add('fade-out');
+            setTimeout(() => alert.remove(), 1000);
+        }, 3000);
+    });
+});
+
+/* ================================
    Sesiones Activas.js
    Gestión dinámica de Sesiones Activas
    ================================ */
