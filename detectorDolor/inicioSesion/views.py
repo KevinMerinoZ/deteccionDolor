@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
 from django.utils import timezone
 import secrets
 import string
@@ -9,6 +9,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from .models import PassVerificacion
 from usuario.models import Usuario
+from sesionActiva.models import ActividadUsuario
 from django.contrib.auth.hashers import make_password
 
 from django.conf import settings
@@ -28,6 +29,7 @@ def login_vista(request):
             return render(request, 'login.html', {'error': 'Invalid username or password'})
         else:
             login(request, user)
+            activarSesion(request)
             return redirect('core:interfazPrincipal')
     else:
         if request.user.is_authenticated:
@@ -35,6 +37,18 @@ def login_vista(request):
 
         
     return render(request, 'login.html')
+
+def activarSesion(request):
+    usuario = request.user.usuario
+    direccion_ip = request.META.get('REMOTE_ADDR')
+    fecha_inicio = timezone.now()
+
+    actividad = ActividadUsuario(
+        usuario=usuario,
+        fechaInicio=fecha_inicio,
+        direccionIP=direccion_ip
+    )
+    actividad.save()
 
 def recuperarContrasena(request):
     if request.method == 'POST':

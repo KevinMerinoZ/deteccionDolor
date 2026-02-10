@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'sesionExperimental',
     'detectorDolor_app',
     'core',
+    'sesionActiva',
 ]
 
 MIDDLEWARE = [

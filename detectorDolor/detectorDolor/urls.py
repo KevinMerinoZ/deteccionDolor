@@ -36,4 +36,5 @@ urlpatterns = [
     path('sesionesExperimentales/', include('sesionExperimental.urls', namespace='sesionExperimental')),
     path('detectorDolorApp/', include('detectorDolor_app.urls', namespace='detectorDolorApp')),
     path('core/', include('core.urls', namespace='core')),
+    path('sesionesActivas/', include('sesionActiva.urls', namespace='sesionActiva')),
 ]

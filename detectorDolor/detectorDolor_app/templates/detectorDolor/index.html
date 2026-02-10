@@ -16,9 +16,11 @@
                         <input type="hidden" name="noMedicionActual" value="{{noMedicionAct}}">
                     </div>
 
-                    <div class="col-auto">
-                        <a class="btnPrimario" href="{% url 'detectorDolorApp:indexDetector' idSesion accion='siguiente' %}">Siguiente Medición</a>
-                    </div>
+                    {% if not flagFinMediciones %}
+                        <div class="col-auto">
+                            <a class="btnPrimario" href="{% url 'detectorDolorApp:indexDetector' idSesion=idSesion accion='siguiente' %}">Siguiente Medición</a>
+                        </div>
+                    {% endif %}
 
                 </div>
             </form>
@@ -43,8 +45,20 @@
                         </div>
 
                         <div class="col-12 col-md-4 contRaton-resultados">
-                            <p class="resultado-dolor">Nivel de dolor: </p>
-                            <p class="resultado-confianza">Confianza: </p>
+                            <p class="resultado-dolor">Nivel de dolor: 
+                                {% for resRaton in resultadosMedicionAct %}
+                                    {% if resRaton.noRaton == raton %}
+                                        {{ resRaton.get_nivelDolor_display }}
+                                    {% endif %}
+                                {% endfor %}
+                            </p>
+                            <p class="resultado-confianza">Confianza: 
+                                {% for resRaton in resultadosMedicionAct %}
+                                    {% if resRaton.noRaton == raton %}
+                                        {{ resRaton.confianza }}%
+                                    {% endif %}
+                                {% endfor %}
+                            </p>
                         </div>
                     </form>
                 </div>

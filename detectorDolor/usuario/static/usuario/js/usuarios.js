@@ -932,9 +932,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-// ================================
-// detectorDolor app
-// ================================
+/* =====================================
+   detectorDolor_app.js
+   Control de dolor en ratones
+   ===================================== */
 
 const conjInputImgRaton = document.querySelectorAll('.btnInputFileImg');
 
@@ -986,3 +987,68 @@ document.addEventListener("submit", function (e) {
     })
     .catch(error => console.error("Error en fetch:", error));
 });
+
+/* ================================
+   Sesiones Activas.js
+   Gestión dinámica de Sesiones Activas
+   ================================ */
+
+let tiempoInactividada = 0;
+// let timeoutActividad;
+let estaActivo = true;
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let cookie of cookies) {
+            cookie = cookie.trim();
+            if (cookie.startsWith(name + "=")) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(evento => {
+    document.addEventListener(evento, ()=>{
+        estaActivo = true;
+        tiempoInactividada = 0;
+        console.log('Está activo');
+    });
+});
+
+setInterval(()=>{
+    if(estaActivo){
+        console.log('mas 15 segundos')
+        fetch("/sesionesActivas/tiempoSesion")
+        .then(respuesta => respuesta.json)
+        .then(dato => {
+            console.log(dato);
+        })
+        .catch(error => console.error("Error de fetch en js Sesiones Activas: ", error));
+        estaActivo = false;
+
+    }else{
+        tiempoInactividada += 15;
+        console.log('15 seg de inactividad');
+        if(tiempoInactividada >= 60){
+            fetch(`/logout/`, {
+                method:"POST",
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken"),
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log("Se cerró la sesión")
+                }
+            })
+            .catch(error => console.error("Error de fetch en js Sesiones Activas: ", error));
+        }
+        
+    }
+}, 15000); // 15 segundos

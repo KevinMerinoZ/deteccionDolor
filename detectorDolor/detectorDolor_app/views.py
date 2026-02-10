@@ -1,25 +1,35 @@
 from django.http import JsonResponse
+from django.db.models import Count
 from django.shortcuts import get_object_or_404, render, redirect
 from .services.predictor import predecir_imagen
 from decimal import Decimal, ROUND_DOWN
 from sesionExperimental.models import SesionExperimental, ResultadoMedicion
 from PIL import Image
+from django.contrib import messages
+
 
 
 # Create your views here.
 
-def index(request, idSesion):
+def index(request, idSesion, accion=None):
+    cantidadRatones = 10
     sesionExp = get_object_or_404(SesionExperimental, idsesionExperimental=idSesion)
     resultadosMediciones = ResultadoMedicion.objects.filter(sesion_experimental=sesionExp)
     noMedicionAct = (resultadosMediciones.order_by('numero_medicion').last().numero_medicion) if resultadosMediciones.order_by('numero_medicion').exists() else 1
-    numRatones = range(1,11)
-    mensaje = ""
+    numRatones = range(1, cantidadRatones + 1)
+    flagFinMediciones = False
 
-    if request.GET.get('siguiente'):
-        if resultadosMediciones.filter(numero_medicion=noMedicionAct).count() < 10:
-            mensaje = "No. de medición {} no se ha completado.".format(noMedicionAct)
+    resultadosMedicionAct = resultadosMediciones.filter(numero_medicion=noMedicionAct)
+
+    if accion == 'siguiente':
+        ratonesAnalizados = resultadosMediciones.filter(numero_medicion=noMedicionAct).count()
+        if ratonesAnalizados < cantidadRatones:
+            messages.error(request, f"Faltan {cantidadRatones - ratonesAnalizados} ratones por analizar en la medición actual.", extra_tags="danger")
         else:
             noMedicionAct += 1
+
+        if resultadosMediciones.count() >= ((sesionExp.noMediciones1*cantidadRatones)-10):
+            flagFinMediciones = True
 
     if request.method == 'POST' and request.FILES.get('inputImgRaton'):
         imgRaton = Image.open(request.FILES["inputImgRaton"])
@@ -56,4 +66,12 @@ def index(request, idSesion):
             'confianza': confianza
         })
     
-    return render(request, 'detectorDolor/index.html', {'numRatones': numRatones, 'noMedicionAct': noMedicionAct, 'idSesion': idSesion, 'mensaje': mensaje})
+    context = {
+        'numRatones': numRatones,
+        'noMedicionAct': noMedicionAct,
+        'idSesion': idSesion,
+        'resultadosMedicionAct': resultadosMedicionAct,
+        'flagFinMediciones': flagFinMediciones
+    }
+    
+    return render(request, 'detectorDolor/index.html', context)
