@@ -39,4 +39,5 @@ urlpatterns = [
     path('gestionIncidencias/', include('gestionIncidencias.urls', namespace='gestionIncidencias')),
     path('backups/', include('backups.urls', namespace='backups')),
     path('sesionesActivas/', include('sesionActiva.urls', namespace='sesionActiva')),
+    path('checador/', include('checador.urls', namespace='checador')),
 ]

@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Checador {% endblock %}
+{% block encabezado %} Checador {% endblock %}
+{% block contenido %}
+{% load tz %}
+
+
+<h2>Checador</h2>
+
+<p><strong>Fecha:</strong> {{ checada.fecha }}</p>
+
+{% if not checada.hora_entrada %}
+<form method="post">
+    {% csrf_token %}
+    <button name="entrada" class="btn btn-success">
+        Registrar entrada
+    </button>
+</form>
+
+{% elif not checada.hora_salida %}
+<p>Entrada registrada: {{ checada.hora_entrada|date:"H:i:s" }}</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button name="salida" class="btn btn-danger">
+        Registrar salida
+    </button>
+</form>
+
+{% else %}
+<p class="text-success">
+    ✔ Entrada: {{ checada.hora_entrada|date:"H:i:s" }} <br>
+    ✔ Salida: {{ checada.hora_salida|date:"H:i:s" }}
+</p>
+<hr>
+<h3>Historial de checadas</h3>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Fecha</th>
+            <th>Entrada</th>
+            <th>Salida</th>
+            <th>Horas</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in historial %}
+        <tr>
+            <td>{{ c.fecha }}</td>
+            <td>
+                {% if c.hora_entrada %}
+                    {{ c.hora_entrada|date:"H:i:s" }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            <td>
+                {% if c.hora_salida %}
+                    {{ c.hora_salida|date:"H:i:s" }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            <td>{{ c.horas_trabajadas }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">
+                No hay registros aún
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endif %}
+
+{% endblock %}

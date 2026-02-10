@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-6+$)l*g-_4+4$q=cde!(4m9(d89b9m+$$83br(e*8l!3s3tyzj
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0', '172.23.22.179']
-
+TIME_ZONE = 'America/Mexico_City'
+USE_TZ = True
 
 # Application definition
 
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
     'gestionIncidencias',
     'backups',
     'sesionActiva',
+    'checador',
 ]
 
 MIDDLEWARE = [
