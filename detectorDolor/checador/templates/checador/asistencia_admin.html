@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load tz %}
+{% block contenido %}
+
+<h2>Asistencia de Técnicos (Lunes a Viernes)</h2>
+<form method="get" class="row g-3 mb-4">
+    <div class="col-md-4">
+        <label class="form-label">Fecha inicio</label>
+        <input type="date" name="inicio" class="form-control"
+               value="{{ fecha_inicio }}">
+    </div>
+
+    <div class="col-md-4">
+        <label class="form-label">Fecha fin</label>
+        <input type="date" name="fin" class="form-control"
+               value="{{ fecha_fin }}">
+    </div>
+
+    <div class="col-md-4 align-self-end">
+        <button class="btn btn-primary w-100">
+            Filtrar
+        </button>
+    </div>
+</form>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Técnico</th>
+            <th>Fecha</th>
+            <th>Entrada</th>
+            <th>Salida</th>
+            <th>Asistencia</th>
+            <th>Horas del día</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in registros %}
+        <tr>
+            <td>{{ r.usuario.get_full_name|default:r.usuario.username }}</td>
+            <td>{{ r.fecha }}</td>
+            <td>
+                {% if r.entrada %}
+                    {{ r.entrada|localtime|date:"H:i:s" }}
+                {% else %}-{% endif %}
+            </td>
+            <td>
+                {% if r.salida %}
+                    {{ r.salida|localtime|date:"H:i:s" }}
+                {% else %}-{% endif %}
+            </td>
+            <td>
+                {% if r.asistencia %}
+                    <span class="badge bg-success">Asistencia</span>
+                {% else %}
+                    <span class="badge bg-danger">Sin registro</span>
+                {% endif %}
+            </td>
+            <td>{{ r.horas }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h4>⏱️ Horas totales por técnico</h4>
+
+<table class="table table-sm table-bordered">
+    <thead class="table-secondary">
+        <tr>
+            <th>Técnico</th>
+            <th>Total de horas</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for usuario, horas in totales.items %}
+        <tr>
+            <td>{{ usuario.get_full_name|default:usuario.username }}</td>
+            <td>{{ horas }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
