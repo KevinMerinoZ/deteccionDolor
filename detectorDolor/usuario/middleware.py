@@ -21,6 +21,7 @@ class RestringirAppMiddleware:
             'protocoloExperimental': ['administrador'],
             'cita': ['administrador','tecnicoAcademico','estudianteLicenciatura'],
             'gestionIncidencias': ['administrador','tecnicoAcademico','estudianteLicenciatura'],
+            'core':['administrador','tecnicoAcademico','estudianteLicenciatura'],
         }
 
     def __call__(self, request):

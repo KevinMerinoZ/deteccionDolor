@@ -1122,6 +1122,8 @@ function getCookie(name) {
     return cookieValue;
 }
 
+console.log(getCookie("csrftoken"));
+
 ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(evento => {
     document.addEventListener(evento, ()=>{
         estaActivo = true;
@@ -1131,34 +1133,37 @@ function getCookie(name) {
 });
 
 setInterval(()=>{
-    if(estaActivo){
-        console.log('mas 15 segundos')
-        fetch("/sesionesActivas/tiempoSesion")
-        .then(respuesta => respuesta.json)
-        .then(dato => {
-            console.log(dato);
-        })
-        .catch(error => console.error("Error de fetch en js Sesiones Activas: ", error));
-        estaActivo = false;
-
-    }else{
-        tiempoInactividada += 15;
-        console.log('15 seg de inactividad');
-        if(tiempoInactividada >= 60){
-            fetch(`/logout/`, {
-                method:"POST",
-                headers: {
-                    "X-CSRFToken": getCookie("csrftoken"),
-                    "Content-Type": "application/json"
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log("Se cerró la sesión")
-                }
+    if(getCookie("csrftoken")){
+        if(estaActivo){
+            console.log('mas 15 segundos')
+            fetch("/sesionesActivas/tiempoSesion")
+            .then(respuesta => respuesta.json)
+            .then(dato => {
+                console.log(dato);
             })
             .catch(error => console.error("Error de fetch en js Sesiones Activas: ", error));
+            estaActivo = false;
+
+        }else{
+            tiempoInactividada += 15;
+            console.log('15 seg de inactividad');
+            if(tiempoInactividada >= 60){
+                fetch(`/logout/`, {
+                    method:"POST",
+                    headers: {
+                        "X-CSRFToken": getCookie("csrftoken"),
+                        "Content-Type": "application/json"
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log("Se cerró la sesión")
+                        window.location.href = "";
+                    }
+                })
+                .catch(error => console.error("Error de fetch en js Sesiones Activas: ", error));
+            }
+            
         }
-        
     }
 }, 15000); // 15 segundos
