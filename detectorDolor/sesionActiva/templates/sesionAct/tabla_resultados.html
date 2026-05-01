@@ -1,0 +1,47 @@
+<table class="table tabla-primaria">
+    <thead>
+        <tr>
+            <th>Cerrar sesion</th>
+            <th scope="col">ID</th>
+            <th scope="col">Matrícula</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido P</th>
+            <th scope="col">Apellido M</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Tipo de usuario</th>
+            <th scope="col">Fecha y hora de conexión</th>
+            <th scope="col">Fecha y hora de última actividad</th>
+            <th scope="col">Dirección IP</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if actividadUsuarios %}
+            {% for actividadUsuario in actividadUsuarios %}
+                <tr class="">
+                    <td>
+                        <button class="btnIcono"
+                                data-bs-toggle="modal"
+                                data-bs-target="#confirmarCerrarSesion{{actividadUsuario.usuario.idUsuarios}}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                    <td scope="row">{{ actividadUsuario.usuario.idUsuarios }}</td>
+                    <td>{{ actividadUsuario.usuario.matricula }}</td>
+                    <td>{{ actividadUsuario.usuario.nombre }}</td>
+                    <td>{{ actividadUsuario.usuario.apellido_paterno }}</td>
+                    <td>{{ actividadUsuario.usuario.apellido_materno }}</td>
+                    <td>{{ actividadUsuario.usuario.correo }}</td>
+                    <td>{{ actividadUsuario.usuario.user.groups.first.name }}</td>
+                    <td>{{ actividadUsuario.fechaInicio }}</td>
+                    <td>{{ actividadUsuario.ultimaActividad }}</td>
+                    <td>{{ actividadUsuario.direccionIP }}</td>
+                </tr>
+                {% include 'sesionAct/modalEliminar.html' %}
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="8"> No existen registros </td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>

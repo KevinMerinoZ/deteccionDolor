@@ -4,8 +4,9 @@ from django.db import models
 class ActividadUsuario(models.Model):
     idActividad = models.AutoField(primary_key=True)
     usuario = models.ForeignKey("usuario.Usuario", on_delete=models.CASCADE)
-    fechaInicio = models.DateTimeField()
-    fechaFin = models.DateTimeField(null=True)
+    fechaInicio = models.DateTimeField(auto_now_add=True)
+    ultimaActividad = models.DateTimeField(auto_now_add=True)
+    activo = models.BooleanField(default=True)
     direccionIP = models.GenericIPAddressField()
     
     def __str__(self):

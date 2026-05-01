@@ -13,6 +13,7 @@ class SesionExperimental(models.Model):
     intervaloTemp1 = models.IntegerField(default=0)
     noMediciones2 = models.IntegerField(null =True, blank=True)
     intervaloTemp2 = models.IntegerField(null=True, blank=True)
+    estado = models.BooleanField(default=True)
 
     is_active = models.BooleanField(default=True)
 

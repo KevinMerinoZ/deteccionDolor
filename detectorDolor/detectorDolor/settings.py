@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-6+$)l*g-_4+4$q=cde!(4m9(d89b9m+$$83br(e*8l!3s3tyzj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0', '172.23.22.179']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0', '192.168.0.237']
 TIME_ZONE = 'America/Mexico_City'
 USE_TZ = True
 
@@ -67,6 +67,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'usuario.middleware.RestringirAppMiddleware',
+    'sesionActiva.middleware.CerrarSesionMiddleware',
 ]
 
 ROOT_URLCONF = 'detectorDolor.urls'
@@ -132,14 +133,16 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-mx'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Mexico_City'
 
 USE_I18N = True
 
 USE_TZ = True
 
+DATE_FORMAT = 'd/m/Y'
+DATETIME_FORMAT = 'd/m/Y H:i:s'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/

@@ -51,6 +51,10 @@
                 Registrar cita
             </a>
 
+            <a class="btnSecundario" href="{% url 'cita:reporteGeneralCitas' %}">
+                Generar reporte general
+            </a>
+
             <div id="paginacion-citas">
                 {% include 'cita/paginacion.html' %}
             </div>

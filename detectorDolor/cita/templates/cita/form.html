@@ -2,15 +2,21 @@
     {% csrf_token %}
 
     <div class="mb-3">
-        <label for="fecha" class="form-label">Fecha</label>
-        {{ form.fecha }}
-        {{ form.fecha.errors }}
+        <label for="fechaInicio" class="form-label">Fecha de inicio</label>
+        {{ form.fechaInicio }}
+        {{ form.fechaInicio.errors }}
     </div>
 
     <div class="mb-3">
-        <label for="hora" class="form-label">Hora</label>
-        {{ form.hora }}
-        {{ form.hora.errors }}
+        <label for="fechaFin" class="form-label">Fecha de fin</label>
+        {{ form.fechaFin }}
+        {{ form.fechaFin.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="sala_laboratorio" class="form-label">Sala de laboratorio</label>
+        {{ form.sala_laboratorio }}
+        {{ form.sala_laboratorio.errors }}
     </div>
 
     {% if user.groups.first.name == 'administrador' %}

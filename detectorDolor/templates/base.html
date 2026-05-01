@@ -44,8 +44,10 @@
         <div class="barraSuperior">
             <nav class="nav-primario">
                 <div><a href="{% url 'core:interfazPrincipal' %}" class="btnIcono"><i class="bi bi-house-fill"></i></a><!-- ícono de home --> </div>
+                <div class="notificaciones" id="contNotificacionesUsuario">
+                    {% include 'layouts/contNotificaciones.html' %}
+                </div>
                 <div class="logo-text">UAEM</div>
-                <div></div> <!-- Espacio a la derecha -->
 
             </nav>
 
@@ -84,6 +86,142 @@
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
             crossorigin="anonymous"
         ></script>
+
+        <script>
+            const contNotificaciones = document.getElementById("contNotificacionesUsuario");
+
+            fetch('/usuarios/obtener_notificaciones/')
+            .then(respuesta => respuesta.json())
+            .then(datos => {
+                if(contNotificaciones) {
+                    contNotificaciones.innerHTML = datos.contenedor; // Actualiza el contenido del contenedor con las notificaciones
+                    contador = document.getElementById("contadorNotificaciones");
+                    if(contador) {
+                        contador.style.display = contador.dataset.numNotif > 0 ? "inline-block" : "none"; // Muestra u oculta el contador según el número de notificaciones no leídas
+                    }
+                }
+
+            });
+            setInterval(()=>{
+                console.log("ya pasaron 60 seg...")
+                if(contNotificaciones) {
+                    estadoPanelNotificaciones = contNotificaciones.querySelector("#panelNotificaciones").classList.contains("abiertoPanelNotificaciones") ? "abiertoPanelNotificaciones" : "cerradoPanelNotificaciones";
+                    estadoContenidoNotificacion = contNotificaciones.querySelectorAll(".contenidoNotificacion").length > 0 && contNotificaciones.querySelector(".contenidoNotificacion").classList.contains("abiertoContenidoNotificacion") ? "abiertoContenidoNotificacion" : "cerradoContenidoNotificacion";
+                }
+                fetch('/usuarios/obtener_notificaciones/')
+                .then(respuesta => respuesta.json())
+                .then(datos => {
+                    console.log("estado panel notificacion", estadoPanelNotificaciones);
+                    console.log("estado contenido notificación", estadoContenidoNotificacion);
+                    if(contNotificaciones) {
+                        contNotificaciones.innerHTML = datos.contenedor; // Actualiza el contenido del contenedor con las notificaciones
+                        if(contNotificaciones.querySelector("#panelNotificaciones").classList.contains("abiertoPanelNotificaciones")){
+                            console.log("Panel Abierto");
+                            contNotificaciones.querySelector("#panelNotificaciones").classList.remove("abiertoPanelNotificaciones");
+                            contNotificaciones.querySelector("#panelNotificaciones").classList.add(estadoPanelNotificaciones);
+                        }else if(contNotificaciones.querySelector("#panelNotificaciones").classList.contains("cerradoPanelNotificaciones")){
+                            contNotificaciones.querySelector("#panelNotificaciones").classList.remove("cerradoPanelNotificaciones");
+                            contNotificaciones.querySelector("#panelNotificaciones").classList.add(estadoPanelNotificaciones);
+                        }else{
+                            contNotificaciones.querySelector("#panelNotificaciones").classList.add(estadoPanelNotificaciones);
+                        }
+                        
+                        contador = document.getElementById("contadorNotificaciones");
+                        if(contador) {
+                            contador.style.display = contador.dataset.numNotif > 0 ? "inline-block" : "none"; // Muestra u oculta el contador según el número de notificaciones no leídas
+                        }
+                    }
+
+                });
+            }, 60000); // Actualiza cada 60 segundos
+
+            document.addEventListener("click", (e) => {
+                panel = document.getElementById("panelNotificaciones");
+                contador = document.getElementById("contadorNotificaciones");
+                if(e.target.id === "btnNotificaciones"){
+                    if(panel.classList.contains("abiertoPanelNotificaciones")){
+                        panel.classList.remove("abiertoPanelNotificaciones");
+                        panel.classList.add("cerradoPanelNotificaciones");
+                    } else {
+                        panel.classList.remove("cerradoPanelNotificaciones");
+                        panel.classList.add("abiertoPanelNotificaciones");
+                    }
+                }
+            });
+
+            // Cerrar si se hace click fuera
+            document.addEventListener("click", (e) => {
+                if (!(e.target.id === "btnNotificaciones") && !(e.target.closest("#panelNotificaciones"))) {
+                    panel.style.display = "none";
+                }
+
+                contenedorNotif = e.target.closest(".notificacion");
+                if(contenedorNotif){
+                    contenidoNotif = contenedorNotif.querySelector(".contenidoNotificacion");
+                    contador = document.getElementById("contadorNotificaciones");
+                    notificacion_id = contenedorNotif.dataset.id;
+
+                    if(contenidoNotif.classList.contains("cerradoContenidoNotificacion")){
+                        contenidoNotif.classList.remove("cerradoContenidoNotificacion");
+                        contenidoNotif.classList.add("abiertoContenidoNotificacion");
+
+                        if(!contenedorNotif.dataset.leida){
+                            fetch(`/usuarios/actualizar-estado-notificacion/${notificacion_id}/`)
+                            .then(respuesta => respuesta.json())
+                            .then(datos => {
+                                if(datos.success){
+                                    if(contador){ 
+                                        console.log("Notificación marcada como leída, actualizando contador...");
+                                        contador.textContent = datos.notificacionesNoLeidas; // Actualiza el contador con el nuevo número de notificaciones no leídas
+                                        contenedorNotif.dataset.leida = "true"; // Marca la notificación como leída en el DOM para evitar futuras llamadas innecesarias
+                                        if(datos.notificacionesNoLeidas === 0){
+                                            contador.style.display = "none"; // Oculta el contador si no hay notificaciones no leídas
+                                        }
+                                    }
+                                }
+
+                            });
+                        }
+                    } else {
+                        contenidoNotif.classList.remove("abiertoContenidoNotificacion");
+                        contenidoNotif.classList.add("cerradoContenidoNotificacion");
+                    }
+                } else{
+                    // Si se hizo click fuera de una notificación, ocultar el contenido de todas las notificaciones
+                    document.querySelectorAll(".contenidoNotificacion").forEach(contenido => {
+                        contenido.classList.remove("abiertoContenidoNotificacion");
+                        contenido.classList.add("cerradoContenidoNotificacion");
+                    });
+                }
+            });
+
+            document.addEventListener("click", (e) => {
+                if(e.target.id === "btnEliminarNotificacion"){
+                    e.preventDefault();
+                    url = e.target.href;
+                    fetch(`/usuarios/eliminar-notificacion/${e.target.dataset.id}/`)
+                    .then(respuesta => respuesta.json())
+                    .then(datos => {
+                        if(datos.success){
+                            // Eliminar la notificación del DOM
+                            notificacionEliminada = document.getElementById(`notificacion-${datos.idEliminada}`);
+                            if(notificacionEliminada){
+                                notificacionEliminada.remove();
+                            }
+
+                            // Actualizar el contador de notificaciones no leídas
+                            contador = document.getElementById("contadorNotificaciones");
+                            if(contador){
+                                contador.textContent = datos.notificacionesNoLeidas;
+                                if(datos.notificacionesNoLeidas === 0){
+                                    contador.style.display = "none";
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        </script>
         <script src="{% static 'usuario/js/usuarios.js' %}"></script>
         
     </body>

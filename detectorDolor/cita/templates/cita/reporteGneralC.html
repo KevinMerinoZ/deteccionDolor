@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Reporte de citas registradas {% endblock %}
+{% block encabezado %} Reporte de citas registradas {% endblock %}
+
+{% block contenido %}
+
+<div class="fondo-borde-secundario">
+    <div class="card seccion">
+        <div class="card-header seccion-header">Reporte de citas registradas </div>
+        <div class="card-body">
+            <h4 class="card-title">Datos del usuario</h4>
+            <form action="{% url 'cita:reporteGeneralCitas' %}" method="post">
+                {% csrf_token %}
+                <div class="row g-3 align-items-center">
+
+                    <div class="col-auto">
+                        <label for="usuario" class="col-form-label label-seccion">
+                            Usuario:
+                        </label>
+                    </div>
+
+                    <div class="col-auto">
+                        <select name="usuario" id="usuario" class="form-select">
+                            <option value="">Seleccione un usuario</option>
+                            {% for user in usuarios %}
+                                <option value="{{ user.user.username }}">{{ user.user.username }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    de
+
+                    <div class="col-auto">
+                        <label for="fechaInicio" class="col-form-label label-seccion">
+                            Fecha de inicio:
+                        </label>
+                    </div>
+
+                    <div class="col-auto">
+                        <input type="date" name="fechaInicio" class="form-control">
+                    </div>
+
+                    hasta
+
+                     <div class="col-auto">
+                        <label for="fechaFin" class="col-form-label label-seccion">
+                            Fecha de fin:
+                        </label>
+                    </div>
+
+                    <div class="col-auto">
+                        <input type="date" name="fechaFin" class="form-control">
+                    </div>
+                </div>
+
+                <button type="submit" class="btnPrimario mt-3">Generar reporte</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

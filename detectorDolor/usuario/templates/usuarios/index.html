@@ -37,6 +37,7 @@
             </div>
             <div class="div-footer">
                 <a name="" id="" class="btnPrimario" href="{% url 'usuario:crearUsuario' %}" role="button">Crear usuario</a>
+                <a href="{% url 'usuario:reporteSesionesExp' %}" class="btnSecundario" role="button">Reporte sesiones experimentales</a>
                 <div id="paginacion">
                     {% include 'usuarios/paginacion.html' %}
                 </div>

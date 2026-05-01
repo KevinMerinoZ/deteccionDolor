@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Reporte de sesiones por fecha {% endblock %}
+{% block encabezado %} Sesiones Experimentales {% endblock %}
+
+{% block contenido %}
+
+<div class="fondo-borde-secundario">
+    <div class="card seccion">
+        <div class="card-header seccion-header">Reporte de sesiones por fecha</div>
+        <div class="card-body">
+            <h4 class="card-title">Datos de la sesion experimental</h4>
+            <form action="{% url 'sesionExperimental:reporteCantFecha' %}" method="post">
+                {% csrf_token %}
+                <div class="row g-3 align-items-center">
+
+                    <div class="col-auto">
+                        <label for="fechaInicio" class="col-form-label label-seccion">
+                            Fecha de inicio:
+                        </label>
+                    </div>
+
+                    <div class="col-auto">
+                        <input type="date" id="fechaInicio" name="fechaInicio" class="form-control">
+                    </div>
+
+                    <div class="col-auto">
+                        <label for="fechaFin" class="col-form-label label-seccion">
+                            Fecha de fin:
+                        </label>
+                    </div>
+
+                    <div class="col-auto">
+                        <input type="date" id="fechaFin" name="fechaFin" class="form-control">
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btnPrimario mt-3">Generar reporte</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,4 +1,5 @@
 from datetime import timedelta, datetime
+from zoneinfo import ZoneInfo
 from django.utils import timezone
 import secrets
 import string
@@ -41,12 +42,10 @@ def login_vista(request):
 def activarSesion(request):
     usuario = request.user.usuario
     direccion_ip = request.META.get('REMOTE_ADDR')
-    fecha_inicio = timezone.now()
 
     actividad = ActividadUsuario(
         usuario=usuario,
-        fechaInicio=fecha_inicio,
-        direccionIP=direccion_ip
+        direccionIP=direccion_ip,
     )
     actividad.save()
 

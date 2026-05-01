@@ -839,6 +839,21 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// ================================
+// Observador de citas Pendientes
+// ================================
+setInterval(() => {
+    fetch('/citas/buscar-Cita-Pendiente/')
+    .then(respuesta => respuesta.json())
+    .then(datos => {
+        if(datos.existenCitasPendientes == true) {
+            console.log("Todo Ok");
+            
+        }
+
+    });
+}, 10000);
+
 /* =====================================
    sesionExperimental.js
    Gestión dinámica de Sesiones
@@ -1103,6 +1118,108 @@ document.addEventListener("DOMContentLoaded", function () {
    Gestión dinámica de Sesiones Activas
    ================================ */
 
+
+// -------------------------
+// Función debounce
+// -------------------------
+function debounce(func, delay) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(func, delay);
+}
+
+// -------------------------
+// Cargar datos AJAX
+// -------------------------
+function cargarSesionesActivas(dato = "", page = 1, tipoDato = "") {
+    const url = `/sesionesActivas/buscar-sesionesActivas/?dato=${encodeURIComponent(dato)}&page=${page}&tipoDato=${encodeURIComponent(tipoDato)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tabla = document.getElementById('tabla-sesionActiva');
+            const paginacion = document.getElementById('paginacion-sesionActiva');
+
+            if (tabla) tabla.innerHTML = data.tabla;
+            if (paginacion) paginacion.innerHTML = data.paginacion;
+        })
+        .catch(error => console.error("Error en fetch sesiones activas:", error));
+}
+
+// ================================
+// Filtro: seleccionar tipo de dato
+// ================================
+const filtroSesionesActivas = document.getElementById('filtroSesionesActivas');
+
+if (filtroSesionesActivas) {
+    filtroSesionesActivas.addEventListener('change', function () {
+        const filtro = this.value;
+
+        const inputBuscar = document.getElementById('buscarSesionActiva');
+        if (inputBuscar) {
+            inputBuscar.focus();
+            const dato = inputBuscar.value.trim();
+            cargarSesionesActivas(dato, 1, filtro);
+        }
+    });
+}
+
+// ================================
+// Búsqueda con debounce
+// ================================
+const inputBuscarSesionActiva = document.getElementById('buscarSesionActiva');
+
+if (inputBuscarSesionActiva) {
+    inputBuscarSesionActiva.addEventListener('keyup', function () {
+        const dato = this.value.trim();
+        const filtro = filtroSesionesActivas ? filtroSesionesActivas.value : "";
+
+        debounce(() => {
+            cargarSesionesActivas(dato, 1, filtro);
+        }, 300);
+    });
+}
+
+// ================================
+// Delegación para paginación
+// ================================
+document.addEventListener('click', function (e) {
+    const filtro = filtroSesionesActivas ? filtroSesionesActivas.value : null;
+    if (filtro === null) return;
+
+    const enlace = e.target.closest('.link-pagina');
+    if (!enlace) return;
+
+    e.preventDefault();
+
+    const page = enlace.dataset.page;
+    const dato = inputBuscarSesionActiva ? inputBuscarSesionActiva.value.trim() : "";
+
+    cargarSesionesActivas(dato, page, filtro);
+});
+
+// ================================
+// Evento general al cargar la página
+// ================================
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("sesionesActivas.js cargado correctamente.");
+
+    // ----- Cargar datos iniciales -----
+    if (filtroSesionesActivas) {
+        const filtro = filtroSesionesActivas.value;
+        cargarSesionesActivas("", 1, filtro);
+    }
+
+    // ----- Manejo de alertas -----
+    const alerts = document.querySelectorAll('.alert');
+
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.classList.add('fade-out');
+            setTimeout(() => alert.remove(), 1000);
+        }, 3000);
+    });
+});
+
 let tiempoInactividada = 0;
 // let timeoutActividad;
 let estaActivo = true;
@@ -1124,7 +1241,7 @@ function getCookie(name) {
 
 console.log(getCookie("csrftoken"));
 
-['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(evento => {
+['mousemove', 'click', 'scroll', 'touchstart'].forEach(evento => {
     document.addEventListener(evento, ()=>{
         estaActivo = true;
         tiempoInactividada = 0;
@@ -1140,30 +1257,15 @@ setInterval(()=>{
             .then(respuesta => respuesta.json)
             .then(dato => {
                 console.log(dato);
+                if (window.location.pathname === "/sesionesActivas/") {
+                    const pag = document.querySelector(".link-pagina.pagina-actual").dataset.page || 1;
+
+                    cargarSesionesActivas(inputBuscarSesionActiva ? inputBuscarSesionActiva.value.trim() : "", pag, filtroSesionesActivas ? filtroSesionesActivas.value : "")
+                }
             })
             .catch(error => console.error("Error de fetch en js Sesiones Activas: ", error));
             estaActivo = false;
 
-        }else{
-            tiempoInactividada += 15;
-            console.log('15 seg de inactividad');
-            if(tiempoInactividada >= 60){
-                fetch(`/logout/`, {
-                    method:"POST",
-                    headers: {
-                        "X-CSRFToken": getCookie("csrftoken"),
-                        "Content-Type": "application/json"
-                    }
-                })
-                .then(response => {
-                    if (response.ok) {
-                        console.log("Se cerró la sesión")
-                        window.location.href = "";
-                    }
-                })
-                .catch(error => console.error("Error de fetch en js Sesiones Activas: ", error));
-            }
-            
         }
     }
 }, 15000); // 15 segundos

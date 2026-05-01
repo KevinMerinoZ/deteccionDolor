@@ -18,7 +18,8 @@ def backup_database(request):
 
     command = (
         f"mysqldump "
-        f"-u {db['USER']} "        
+        f"-u {db['USER']} "
+        f"--events --routines "   
         f"{db['NAME']} > \"{filepath}\""
     )
 

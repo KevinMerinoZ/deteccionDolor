@@ -13,6 +13,12 @@ from django.http import JsonResponse
 from .forms import UsuarioForm
 from django.contrib.auth.decorators import user_passes_test
 from .models import Usuario
+from sesionExperimental.models import SesionExperimental
+from django.db.models import Count
+from django.utils import timezone
+
+import io
+import xlsxwriter
 import secrets
 import string
 
@@ -247,6 +253,189 @@ def pgUsuariosEliminar(request, id):
 
     return redirect('usuario:indexUsuario')
 
+# ----------------------------------------------------------------------
+# Reporte de sesiones experimentales por usuario
+# ----------------------------------------------------------------------
+def reporteSesionesExp(request):
+    usuarios = Usuario.objects.filter(is_active=True)
+    if request.method == 'POST':
+        usuario_username = request.POST.get('usuario')
+
+        if not usuario_username:
+            return HttpResponse("Debe proporcionar el usuario")
+
+        try:
+            usuario = usuarios.get(user__username=usuario_username)
+        except Usuario.DoesNotExist:
+            return HttpResponse("Usuario no encontrado")
+
+        sesiones = SesionExperimental.objects.filter(usuario=usuario)
+
+        total_sesiones = sesiones.count()
+
+        finalizadas = sesiones.filter(estado=True).count()
+        pendientes = sesiones.filter(estado=False).count()
+
+        # Crear archivo en memoria
+        output = io.BytesIO()
+
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        worksheet = workbook.add_worksheet("Reporte")
+
+        # FORMATOS
+        titulo = workbook.add_format({
+            'bold': True,
+            'align': 'center',
+            'valign': 'vcenter',
+            'font_size': 16
+        })
+
+        encabezado = workbook.add_format({
+            'bold': True,
+            'align': 'center',
+            'border': 1
+        })
+
+        celda = workbook.add_format({
+            'border': 1,
+            'align': 'center'
+        })
+
+        # Ajustar columnas
+        worksheet.set_column('A:A', 25)
+        worksheet.set_column('B:B', 20)
+
+        # Título
+        worksheet.merge_range('A1:B1', 'Reporte de Sesiones Experimentales por Usuario', titulo)
+
+        # Información del usuario
+        worksheet.write('A3', 'Usuario:', encabezado)
+        worksheet.write('B3', f"{usuario.nombre} {usuario.apellido_paterno}", celda)
+
+        worksheet.write('A4', 'Total de sesiones:', encabezado)
+        worksheet.write('B4', total_sesiones, celda)
+
+        # Encabezados tabla
+        worksheet.write('A6', 'Estado', encabezado)
+        worksheet.write('B6', 'Cantidad', encabezado)
+
+        # Datos
+        worksheet.write('A7', 'Finalizadas', celda)
+        worksheet.write('B7', finalizadas, celda)
+
+        worksheet.write('A8', 'Pendientes', celda)
+        worksheet.write('B8', pendientes, celda)
+
+        # Crear gráfica
+        chart = workbook.add_chart({'type': 'column'})
+
+        chart.add_series({
+            'name': 'Sesiones',
+            'categories': '=Reporte!$A$7:$A$8',
+            'values': '=Reporte!$B$7:$B$8',
+            'data_labels': {'value': True},
+        })
+
+        chart.set_title({'name': 'Sesiones realizadas por estado'})
+        chart.set_x_axis({'name': 'Estado'})
+        chart.set_y_axis({'name': 'Cantidad de sesiones', 'major_unit':1})
+
+        worksheet.insert_chart('D6', chart)
+
+        workbook.close()
+        output.seek(0)
+
+        # Respuesta para descargar
+        response = HttpResponse(
+            output,
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+
+        nombreArchivo = f"reporte_sesiones_usuario_{usuario_username}_{timezone.now().strftime('%Y-%m-%d %H-%M-%S')}.xlsx"
+
+        response['Content-Disposition'] = f'attachment; filename="{nombreArchivo}"'
+
+        return response
+    
+    return render(request, 'usuarios/reporteSesionesExp.html', {'usuarios': usuarios})
+
+# ----------------------------------------------------------------------
+# Funciones de notificaciones
+# ----------------------------------------------------------------------
+def obtener_notificaciones(request):
+    """
+    Descripción:
+        Consulta las notificaciones activas para el usuario autenticado.
+
+    Entradas:
+        request (HttpRequest): Solicitud del navegador.
+
+    Salidas:
+        JsonResponse: Lista de notificaciones en formato JSON.
+    """
+    if request.user.is_authenticated:
+        usuario = get_object_or_404(Usuario, user=request.user)
+        notificaciones = usuario.notificaciones.filter().values('idNotificaciones', 'titulo', 'mensaje', 'fecha_creacion', 'leido').order_by('-fecha_creacion')
+
+        notificacionesNoLeidas = notificaciones.filter(leido=False).count()
+        contenedor = render_to_string('layouts/contNotificaciones.html', {
+            'notificaciones': notificaciones,
+            'notificacionesNoLeidas': notificacionesNoLeidas,
+        })
+        return JsonResponse({'contenedor': contenedor}, safe=False)
+    else:
+        return JsonResponse({'error': 'Usuario no autenticado'}, status=401)
+    
+def actualizar_estado_notificacion(request, id):
+    """
+    Descripción:
+        Marca una notificación como leída.
+
+    Entradas:
+        request (HttpRequest): Solicitud del navegador.
+        id (int): ID de la notificación a actualizar.
+
+    Salidas:
+        JsonResponse: Estado de la operación.
+    """
+    if request.user.is_authenticated:
+        usuario = get_object_or_404(Usuario, user=request.user)
+        notificacion = usuario.notificaciones.filter(idNotificaciones=id).first()
+
+        if notificacion:
+            notificacion.leido = True
+            notificacion.save()
+            notificacionesNoLeidas = usuario.notificaciones.filter(leido=False).count()
+            return JsonResponse({'success': 'Notificación marcada como leída', 'notificacionesNoLeidas': notificacionesNoLeidas})
+        else:
+            return JsonResponse({'error': 'Notificación no encontrada'}, status=404)
+    else:
+        return JsonResponse({'error': 'Usuario no autenticado'}, status=401)
+    
+def eliminar_notificacion(request, id):
+    """
+    Descripción:
+        Elimina una notificación del sistema.
+
+    Entradas:
+        request (HttpRequest): Solicitud del navegador.
+        id (int): ID de la notificación a eliminar.
+
+    Salidas:
+        JsonResponse: Estado de la operación.
+    """
+    if request.user.is_authenticated:
+        usuario = get_object_or_404(Usuario, user=request.user)
+        notificacion = usuario.notificaciones.filter(idNotificaciones=id).first()
+
+        if notificacion:
+            notificacion.delete()
+            notificacionesNoLeidas = usuario.notificaciones.filter(leido=False).count()
+            return JsonResponse({'success': 'Notificación eliminada', 'notificacionesNoLeidas': notificacionesNoLeidas, 'idEliminada': id})
+        else:
+            return JsonResponse({'error': 'Notificación no encontrada'}, status=404)
+    else:
+        return JsonResponse({'error': 'Usuario no autenticado'}, status=401)
 
 # ----------------------------------------------------------------------
 # Búsqueda y paginación AJAX

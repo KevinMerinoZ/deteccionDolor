@@ -7,6 +7,11 @@ from .models import SesionExperimental
 from usuario.models import Usuario
 from .forms import SesionExperimentalForm
 
+from django.http import HttpResponse
+from django.db.models import Count
+from datetime import datetime
+import io
+import xlsxwriter
 
 # ------------------------------------------------------------
 #  INDEX
@@ -87,6 +92,98 @@ def pgSesionEliminar(request, idSesion):
     sesion.save()
 
     return redirect('sesionExperimental:indexSesion')
+
+# ------------------------------------------------------------
+#  REPORTE DE CANTIDAD DE SESIONES POR FECHA
+# ------------------------------------------------------------
+
+def pgReporteCantFecha(request):
+    if request.method == 'POST':
+        fecha_inicio = request.POST.get('fechaInicio')
+        fecha_fin = request.POST.get('fechaFin')
+
+        if not fecha_inicio or not fecha_fin:
+            return HttpResponse("Debe proporcionar fecha_inicio y fecha_fin")
+
+        fecha_inicio = datetime.strptime(fecha_inicio, "%Y-%m-%d").date()
+        fecha_fin = datetime.strptime(fecha_fin, "%Y-%m-%d").date()
+
+        sesiones = SesionExperimental.objects.filter(
+            fecha__range=(fecha_inicio, fecha_fin)
+        )
+
+        conteo = sesiones.values('estado').annotate(total=Count('estado'))
+
+        finalizadas = 0
+        pendientes = 0
+
+        for item in conteo:
+            if item['estado']:
+                finalizadas = item['total']
+            else:
+                pendientes = item['total']
+
+        # Crear archivo en memoria
+        output = io.BytesIO()
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        worksheet = workbook.add_worksheet("Reporte")
+
+        # Formatos
+        bold = workbook.add_format({'bold': True})
+        title_format = workbook.add_format({
+            'bold': True,
+            'font_size': 14
+        })
+
+        # Título
+        worksheet.merge_range('A1:D1', 'Reporte de Estado de Sesiones Experimentales', title_format)
+
+        worksheet.write('A3', 'Intervalo:', bold)
+        worksheet.write('B3', f'{fecha_inicio} a {fecha_fin}')
+
+        # Encabezados
+        worksheet.write('A5', 'Estado', bold)
+        worksheet.write('B5', 'Cantidad', bold)
+
+        # Datos
+        worksheet.write('A6', 'Finalizadas')
+        worksheet.write('B6', finalizadas)
+
+        worksheet.write('A7', 'Pendientes')
+        worksheet.write('B7', pendientes)
+
+        # Crear gráfica
+        chart = workbook.add_chart({'type': 'column'})
+
+        chart.add_series({
+            'name': 'Sesiones',
+            'categories': '=Reporte!$A$6:$A$7',
+            'values': '=Reporte!$B$6:$B$7',
+            'data_labels': {'value': True},
+        })
+
+        chart.set_title({'name': 'Sesiones por Estado'})
+        chart.set_x_axis({'name': 'Estado'})
+        chart.set_y_axis({'name': 'Cantidad'})
+
+        worksheet.insert_chart('D5', chart)
+
+        workbook.close()
+        output.seek(0)
+
+        # Respuesta HTTP para descarga automática
+        response = HttpResponse(
+            output,
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+
+        nombreArchivo = "reporte_sesiones_experimentales"+ str(datetime.now()) +".xlsx"
+
+        response['Content-Disposition'] = f'attachment; filename={nombreArchivo}'
+
+        return response
+    
+    return render(request, 'sesion/reporteCantFecha.html')
 
 
 # ------------------------------------------------------------

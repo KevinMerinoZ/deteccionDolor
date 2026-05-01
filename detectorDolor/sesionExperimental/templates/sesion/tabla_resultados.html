@@ -35,10 +35,15 @@
                         </button>
                     </td>
                     <td>
-                        <a class="btnSecundario"
-                           href="{% url 'detectorDolorApp:indexDetector' sesion.idsesionExperimental %}">
-                            Iniciar
-                        </a>
+                        {% if sesion.estado %}
+                            <a class="btnSecundario"
+                               href="{% url 'detectorDolorApp:indexDetector' sesion.idsesionExperimental %}">
+                                Iniciar
+                            </a>
+
+                        {% else %}
+                            <p>Finalizado</p>
+                        {% endif %}
                     </td>
 
                     <td>{{ sesion.idsesionExperimental }}</td>

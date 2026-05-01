@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Reporte de las sesiones experimentales de un usuario {% endblock %}
+{% block encabezado %} Reporte de sesiones experimentales de un usuario{% endblock %}
+
+{% block contenido %}
+
+<div class="fondo-borde-secundario">
+    <div class="card seccion">
+        <div class="card-header seccion-header">Reporte de sesiones experimentales de un usuario</div>
+        <div class="card-body">
+            <h4 class="card-title">Filtros del reporte</h4>
+            <form action="{% url 'usuario:reporteSesionesExp' %}" method="post">
+                {% csrf_token %}
+                <div class="row g-3 align-items-center">
+
+                    <div class="col-auto">
+                        <label for="usuario" class="col-form-label label-seccion">
+                            Usuario:
+                        </label>
+                    </div>
+
+                    <div class="col-auto">
+                        <select name="usuario" id="usuario" class="form-control">
+                            <option value="">Seleccione un usuario</option>
+                            {% for u in usuarios %}
+                                <option value="{{ u.user.username }}">{{ u.user.username }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btnPrimario mt-3">Generar reporte</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Lista de sesiones activas  {% endblock %}
+{% block encabezado %} Sesiones activas {% endblock %}
+
+{% block contenido %}
+    <div class="fondo-borde-primario">
+        <section class="card seccion">
+            <div class="card-header seccion-header">
+                <form action="" method="post" class="">
+                    {% csrf_token %}
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label for="filtro" class="col-form-label label-seccion">Filtrar por: </label>
+                        </div>
+                        <div class="col-auto">
+                            <select name="filtro" id="filtroSesionesActivas" class="form-select select-propio">
+                                <option value="">Seleccione una opcion</option>
+                                <option value="nombre">Nombre</option>
+                                <option value="apellidoP">Apellido P</option>
+                                <option value="matricula">Matrícula</option>
+                                <option value="correo">Correo</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" id="buscarSesionActiva" name="buscar" class="form-control" value="{{ buscar }}">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-body">
+                <h2 class="card-title">Lista de sesiones activas</h2>
+                <div class="table-responsive" id="tabla-sesionActiva">
+                    {% include 'sesionAct/tabla_resultados.html' %}
+                </div>
+                
+            </div>
+            <div class="div-footer">
+                <a href="{% url 'sesionActiva:reporteActividadUsuario' %}" class="btnPrimario">Generar Reporte de un usuario</a>
+
+                <div id="paginacion-sesionActiva">
+                    {% include 'sesionAct/paginacion.html' %}
+                </div>
+            </div>
+        </section>
+    </div>
+    
+{% endblock %}

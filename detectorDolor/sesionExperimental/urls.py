@@ -8,6 +8,7 @@ urlpatterns = [
     path('crear/', views.pgSesionCrear, name='crearSesion'),
     path('editar/<int:idSesion>/', views.pgSesionEditar, name='editarSesion'),
     path('eliminar/<int:idSesion>/', views.pgSesionEliminar, name='eliminarSesion'),
+    path('reporte-cantidad-sesiones-fecha/', views.pgReporteCantFecha, name='reporteCantFecha'),
 
     # AJAX
     path('buscar-sesion/', views.buscarSesion, name='buscarSesion'),

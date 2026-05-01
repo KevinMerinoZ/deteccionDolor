@@ -1,0 +1,20 @@
+<button id="btnNotificaciones" class="campana">
+    🔔
+    <span id="contadorNotificaciones" class="badge" data-num-notif="{{ notificacionesNoLeidas }}">{{ notificacionesNoLeidas }}</span>
+</button>
+
+<div id="panelNotificaciones" class="panel-notificaciones cerradoPanelNotificaciones">
+    {% for notificacion in notificaciones %}
+        <div class="notificacion" id="notificacion-{{ notificacion.idNotificaciones }}" data-leida="{{ notificacion.leida }}" data-id="{{ notificacion.idNotificaciones }}">
+            <div class="encabezadoNotificacion">
+                <i class="btnIcono" id="btnEliminarNotificacion" data-id="{{ notificacion.idNotificaciones }}">✕</i>
+                <div class="tituloNotificacion">{{ notificacion.titulo }}</div>
+            </div>
+
+            <div class="contenidoNotificacion cerradoContenidoNotificacion">{{ notificacion.mensaje }}</div>
+        </div>
+
+    {% empty %}
+        <div class="notificacion">No hay notificaciones</div>
+    {% endfor %}
+</div>
