@@ -4,6 +4,7 @@ from django.http import JsonResponse, HttpResponse
 from django.template.loader import render_to_string
 from django.utils.dateparse import parse_date
 from django.utils import timezone
+from django.contrib import messages
 
 from .models import Cita
 from usuario.models import Usuario, Notificacion
@@ -50,7 +51,11 @@ def pgCitaCrear(request):
 
             cita.save()
             registrarNotificacion(usuario_cita, 'Nueva Cita Registrada', f'El usuario {usuario_cita} registró una nueva cita para la fecha {cita.fechaInicio}.')
+            messages.success(request, 'Cita creada exitosamente.')
             return redirect('cita:indexCita')
+        else:
+            messages.error(request, 'Error al crear la cita. Por favor, revise los datos ingresados.', extra_tags='danger')
+            return render(request, 'cita/crear.html', {'form': form})
     else:
         form = CitaForm(user = request.user)
 
@@ -117,7 +122,11 @@ def pgCitaEditar(request, idcitas):
 
         if form.is_valid():
             form.save()
+            messages.success(request, 'Cita actualizada exitosamente.')
             return redirect('cita:indexCita')
+        else:
+            messages.error(request, 'Error al actualizar la cita. Por favor, revise los datos ingresados.', extra_tags='danger')
+            return render(request, 'cita/editar.html', {'form': form})
     else:
         form = CitaForm(instance=cita, user = request.user)
 
@@ -132,7 +141,7 @@ def pgCitaEliminar(request, idcitas):
     cita = get_object_or_404(Cita, idcitas=idcitas)
     cita.is_active = False
     cita.save()
-
+    messages.success(request, 'Cita eliminada exitosamente.')
     return redirect('cita:indexCita')
 
 def cambiarEstadoCita(request, idcitas, nuevo_estado):

@@ -30,7 +30,7 @@ class Notificacion(models.Model):
     idNotificaciones = models.AutoField(primary_key=True)
     tipo = models.CharField(max_length=50, choices=TIPOS_NOTIFICACION)
     id_objeto = models.IntegerField()
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='notificaciones')
+    usuario = models.ForeignKey('usuario.Usuario', on_delete=models.CASCADE, related_name='notificaciones')
     titulo = models.CharField(max_length=100)
     mensaje = models.TextField()
     leido = models.BooleanField(default=False)

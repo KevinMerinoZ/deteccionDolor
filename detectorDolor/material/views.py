@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from django.contrib import messages
 
 from .models import Material
 from .forms import MaterialForm
@@ -36,7 +37,11 @@ def pgMaterialCrear(request):
 
         if form.is_valid():
             form.save()
+            messages.success(request, 'Material creado exitosamente.')
             return redirect('material:indexMaterial')
+        else:
+            messages.error(request, 'Error al crear el material. Por favor, revise los datos ingresados.', extra_tags='danger')
+            return render(request, 'material/crear.html', {'form': form})
 
     else:
         form = MaterialForm()
@@ -52,16 +57,21 @@ def pgMaterialEditar(request, idmateriales):
 
     material = get_object_or_404(Material, idmateriales=idmateriales)
 
+    provedores = Proveedor.objects.filter(is_active=True)
+
     if request.method == 'POST':
         form = MaterialForm(request.POST, instance=material)
 
         if form.is_valid():
             form.save()
+            messages.success(request, 'Material actualizado exitosamente.')
             return redirect('material:indexMaterial')
+        else:
+            messages.error(request, 'Error al actualizar el material. Por favor, revise los datos ingresados.', extra_tags='danger')
+            return render(request, 'material/editar.html', {'form': form, 'proveedores': provedores})
 
     else:
         form = MaterialForm(instance=material)
-        provedores = Proveedor.objects.filter(is_active=True)
 
     return render(request, 'material/editar.html', {'form': form, 'proveedores': provedores})
 
@@ -74,6 +84,7 @@ def pgMaterialEliminar(request, idmateriales):
     material = get_object_or_404(Material, idmateriales=idmateriales)
     material.is_active = False
     material.save()
+    messages.success(request, 'Material eliminado exitosamente.')
 
     return redirect('material:indexMaterial')
 

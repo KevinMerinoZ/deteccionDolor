@@ -12,13 +12,18 @@
                 <div class="row g-3 align-items-center">
 
                     <div class="col-auto">
-                        <label class="col-form-label label-seccion">Medición: {{noMedicionAct}}</label>
+                        <label class="col-form-label label-seccion">Medición: {{noMedicionAct}} de {{noMediciones1}}</label>
                         <input type="hidden" name="noMedicionActual" value="{{noMedicionAct}}">
                     </div>
 
                     {% if not flagFinMediciones %}
                         <div class="col-auto">
                             <a class="btnPrimario" href="{% url 'detectorDolorApp:indexDetector' idSesion=idSesion accion='siguiente' %}">Siguiente Medición</a>
+                        </div>
+                    
+                    {%else%}
+                        <div class="col-auto">
+                            <div class="btnPrimario btnGenerarResultadoDeDolor" id="btnGenerarResultadoDeDolor" data-href="{% url 'detectorDolorApp:reporteResultados' idSesion=idSesion %}">Generar resultado</div>
                         </div>
                     {% endif %}
 
@@ -45,17 +50,83 @@
                         </div>
 
                         <div class="col-12 col-md-4 contRaton-resultados">
-                            <p class="resultado-dolor">Nivel de dolor: 
+                            <p class="resultado-dolor">Nivel de dolor promedio: 
                                 {% for resRaton in resultadosMedicionAct %}
                                     {% if resRaton.noRaton == raton %}
-                                        {{ resRaton.get_nivelDolor_display }}
+                                        {{ resRaton.promedio_nivel }}
                                     {% endif %}
                                 {% endfor %}
                             </p>
-                            <p class="resultado-confianza">Confianza: 
+                            <p class="resultado-dolorOrejas">
+                                Orejas: 
                                 {% for resRaton in resultadosMedicionAct %}
                                     {% if resRaton.noRaton == raton %}
-                                        {{ resRaton.confianza }}%
+                                        {{ resRaton.orejas_nivel }}
+                                    {% endif %}
+                                {% endfor %}
+                            </p>
+                            <p class="resultado-dolorOjos">
+                                Ojos: 
+                                {% for resRaton in resultadosMedicionAct %}
+                                    {% if resRaton.noRaton == raton %}
+                                        {{ resRaton.ojos_nivel }}
+                                    {% endif %}
+                                {% endfor %}
+                            </p>
+                            <p class="resultado-dolorNariz">
+                                Nariz: 
+                                {% for resRaton in resultadosMedicionAct %}
+                                    {% if resRaton.noRaton == raton %}
+                                        {{ resRaton.nariz_nivel }}
+                                    {% endif %}
+                                {% endfor %}
+                            </p>
+                            <p class="resultado-dolorCachetes">
+                                Cachetes: 
+                                {% for resRaton in resultadosMedicionAct %}
+                                    {% if resRaton.noRaton == raton %}
+                                        {{ resRaton.cachetes_nivel }}
+                                    {% endif %}
+                                {% endfor %}
+                            </p>
+
+                            <br>
+                            <p class="resultado-confianza">Confianza promedio: 
+                                {% for resRaton in resultadosMedicionAct %}
+                                    {% if resRaton.noRaton == raton %}
+                                        {{ resRaton.promedio_confianza }}
+                                    {% endif %}
+                                {% endfor %}
+                            </p>
+                            <p class="resultado-confianzaOrejas">
+                                Orejas: 
+                                {% for resRaton in resultadosMedicionAct %}
+                                    {% if resRaton.noRaton == raton %}
+                                        {{ resRaton.confianza_orejas }}
+                                    {% endif %}
+                                {% endfor %}
+                            </p>
+                            <p class="resultado-confianzaOjos">
+                                Ojos: 
+                                {% for resRaton in resultadosMedicionAct %}
+                                    {% if resRaton.noRaton == raton %}
+                                        {{ resRaton.confianza_ojos }}
+                                    {% endif %}
+                                {% endfor %}
+                            </p>
+                            <p class="resultado-confianzaNariz">
+                                Nariz: 
+                                {% for resRaton in resultadosMedicionAct %}
+                                    {% if resRaton.noRaton == raton %}
+                                        {{ resRaton.confianza_nariz }}
+                                    {% endif %}
+                                {% endfor %}
+                            </p>
+                            <p class="resultado-confianzaCachetes">
+                                Cachetes: 
+                                {% for resRaton in resultadosMedicionAct %}
+                                    {% if resRaton.noRaton == raton %}
+                                        {{ resRaton.confianza_cachetes }}
                                     {% endif %}
                                 {% endfor %}
                             </p>

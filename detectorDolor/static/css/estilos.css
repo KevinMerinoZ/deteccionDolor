@@ -228,7 +228,6 @@ header{
 }
 
 .badge {
-    position: absolute;
     top: -5px;
     right: -8px;
     background: red;
@@ -537,7 +536,21 @@ header{
     flex-direction: column;
     justify-content: center;
     min-width: 100px;
+    overflow-y: auto;
+    
 }
+
+.contRaton-resultados p{
+    margin: 0;
+}
+
+/* .resultado-dolor{
+    white-space: pre-wrap;
+}
+
+.resultado-confianza{
+    white-space: pre-wrap;
+} */
 
 .contImgRaton{
     display: flex;

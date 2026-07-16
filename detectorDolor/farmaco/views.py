@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.http import JsonResponse
@@ -35,7 +36,11 @@ def pgFarmacoCrear(request):
 
         if form.is_valid():
             form.save()
+            messages.success(request, 'Farmaco creado exitosamente.')
             return redirect('farmaco:indexFarmaco')
+        else:
+            messages.error(request, 'Error al crear el farmaco. Por favor, revise los datos ingresados.', extra_tags='danger')
+            return render(request, 'farmaco/crear.html', {'form': form})
 
     else:
         form = FarmacoForm()
@@ -55,7 +60,11 @@ def pgFarmacoEditar(request, idfarmacos):
 
         if form.is_valid():
             form.save()
+            messages.success(request, 'Farmaco actualizado exitosamente.')
             return redirect('farmaco:indexFarmaco')
+        else:
+            messages.error(request, 'Error al actualizar el farmaco. Por favor, revise los datos ingresados.', extra_tags='danger')
+            return render(request, 'farmaco/editar.html', {'form': form})
 
     else:
         form = FarmacoForm(instance=farmaco)
@@ -71,6 +80,7 @@ def pgFarmacoEliminar(request, idfarmacos):
     farmaco = get_object_or_404(Farmaco, idfarmacos=idfarmacos)
     farmaco.is_active = False
     farmaco.save()
+    messages.success(request, 'Farmaco eliminado exitosamente.')
 
     return redirect('farmaco:indexFarmaco')
 

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from django.contrib import messages
 
 from .models import IncidenciaExperimental
 from .forms import IncidenciaExperimentalforms
@@ -35,7 +36,11 @@ def IncidenciasCrear(request):
 
         if form.is_valid():
             form.save()
+            messages.success(request, 'Incidencia creada exitosamente.')
             return redirect('gestionIncidencias:indexIncidencias')
+        else:
+            messages.error(request, 'Error al crear la incidencia. Por favor, revise los datos ingresados.', extra_tags='danger')
+            return render(request, 'Incidencias/crear.html', {'form': form})
     else:
         form = IncidenciaExperimentalforms(user=request.user)
 
@@ -54,7 +59,11 @@ def IncidenciasEditar(request, idIncidencia):
 
         if form.is_valid():
             form.save()
+            messages.success(request, 'Incidencia actualizada exitosamente.')
             return redirect('gestionIncidencias:indexIncidencias')
+        else:
+            messages.error(request, 'Error al actualizar la incidencia. Por favor, revise los datos ingresados.', extra_tags='danger')
+            return render(request, 'Incidencias/editar.html', {'form': form})
     else:
         form = IncidenciaExperimentalforms(instance=incidencia, user=request.user)
 
@@ -68,6 +77,8 @@ def IncidenciasEliminar(request, idIncidencia):
     incidencia = get_object_or_404(IncidenciaExperimental, idIncidencia=idIncidencia)
     incidencia.is_active = False
     incidencia.save()
+    messages.success(request, 'Incidencia eliminada exitosamente.')
+
     return redirect('gestionIncidencias:indexIncidencias')
 
 

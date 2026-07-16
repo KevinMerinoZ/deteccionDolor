@@ -8,13 +8,13 @@ class LoteAnimalesForm(forms.ModelForm):
         fields = [
             'especie',
             'cantidad_animales',
-            'genero',                   # ← agregado
-            'peso_ingreso',            # ← agregado
-            'condicion_experimental',  # ← agregado
-            'estado',                  # ← agregado
-            'cepa',                    # ← agregado
+            'genero',                  
+            'peso_ingreso',            
+            'condicion_experimental', 
+            'estado',                 
+            'cepa',                    
             'fecha_baja',
-            'usuario',                 # ← agregado
+            'usuario',                 
         ]
 
         widgets = {

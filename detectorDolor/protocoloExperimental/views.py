@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from django.contrib import messages
 
 from .models import ProtocoloExperimental
 from .forms import ProtocoloExperimentalForm
@@ -37,7 +38,11 @@ def pgProtocoloCrear(request):
 
         if form.is_valid():
             form.save()
+            messages.success(request, 'Protocolo creado exitosamente.')
             return redirect('protocoloExperimental:indexProtocolo')
+        else:
+            messages.error(request, 'Error al crear el protocolo. Por favor, revise los datos ingresados.', extra_tags='danger')
+            return render(request, 'protocolo/crear.html', {'form': form})
 
     else:
         form = ProtocoloExperimentalForm()
@@ -60,7 +65,11 @@ def pgProtocoloEditar(request, idProtocolo):
 
         if form.is_valid():
             form.save()
+            messages.success(request, 'Protocolo actualizado exitosamente.')
             return redirect('protocoloExperimental:indexProtocolo')
+        else:
+            messages.error(request, 'Error al actualizar el protocolo. Por favor, revise los datos ingresados.', extra_tags='danger')
+            return render(request, 'protocolo/editar.html', {'form': form})
 
     else:
         form = ProtocoloExperimentalForm(instance=protocolo)
@@ -80,6 +89,7 @@ def pgProtocoloEliminar(request, idProtocolo):
 
     protocolo.is_active = False
     protocolo.save()
+    messages.success(request, 'Protocolo eliminado exitosamente.')
 
     return redirect('protocoloExperimental:indexProtocolo')
 

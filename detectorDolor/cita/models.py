@@ -18,7 +18,7 @@ class Cita(models.Model):
     fechaFin = models.DateTimeField()
     usuario = models.ForeignKey('usuario.Usuario', on_delete=models.CASCADE)
     protocolo_experimental = models.ForeignKey('protocoloExperimental.ProtocoloExperimental', on_delete=models.CASCADE)
-    sala_laboratorio = models.ForeignKey('salaLaboratorio', on_delete=models.CASCADE)
+    sala_laboratorio = models.ForeignKey('cita.salaLaboratorio', on_delete=models.CASCADE)
     estado = models.CharField(max_length=15, choices=ESTADOS, default=ESTADO_ASIGNADA)
 
     is_active = models.BooleanField(default=True)

@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from .models import SesionExperimental
 from usuario.models import Usuario
 from .forms import SesionExperimentalForm
+from django.contrib import messages
 
 from django.http import HttpResponse
 from django.db.models import Count
@@ -48,7 +49,11 @@ def pgSesionCrear(request):
                 sesion.usuario = request.user.usuario  
 
             sesion.save()
+            messages.success(request, 'Sesión creada exitosamente.')
             return redirect('sesionExperimental:indexSesion')
+        else:
+            messages.error(request, 'Error al crear la sesión. Por favor, revise los datos ingresados.', extra_tags='danger')
+            return render(request, 'sesion/crear.html', {'form': form})      
 
     else:
         form = SesionExperimentalForm(user = request.user)
@@ -71,7 +76,11 @@ def pgSesionEditar(request, idSesion):
 
         if form.is_valid():
             form.save()
+            messages.success(request, 'Sesión actualizada exitosamente.')
             return redirect('sesionExperimental:indexSesion')
+        else:
+            messages.error(request, 'Error al actualizar la sesión. Por favor, revise los datos ingresados.', extra_tags='danger')
+            return render(request, 'sesion/editar.html', {'form': form})
 
     else:
         form = SesionExperimentalForm(instance=sesion, user = request.user)
@@ -90,7 +99,7 @@ def pgSesionEliminar(request, idSesion):
     )
     sesion.is_active = False
     sesion.save()
-
+    messages.success(request, 'Sesión eliminada exitosamente.')
     return redirect('sesionExperimental:indexSesion')
 
 # ------------------------------------------------------------

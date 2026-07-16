@@ -38,7 +38,7 @@
             {% else %}
                 <span>Invitado</span>
             {% endif %}
-            <p><strong>Nombre:</strong><br>Kevin Joel Merino Castillo Arriaga</p>
+            <p><strong>Nombre:</strong><br>{{ user.usuario.nombre }} {{ user.usuario.apellido_paterno }} {{ user.usuario.apellido_materno }}</p>
         </aside>
 
         <div class="barraSuperior">

@@ -73,7 +73,8 @@ def pgLotesCrear(request):
             messages.success(request, "Lote registrado correctamente.")
             return redirect('lotesAnimales:indexLotes')
         else:
-            messages.error(request, "Formulario inválido.")
+            messages.error(request, "Formulario inválido.", extra_tags='danger')
+            return render(request, 'lotesAnimales/crear.html', {'form': form})
 
     else:
         form = LoteAnimalesForm()
@@ -106,7 +107,7 @@ def pgLotesEditar(request, id):
             messages.success(request, "Lote actualizado correctamente.")
             return redirect('lotesAnimales:indexLotes')
         else:
-            messages.error(request, "Formulario inválido.")
+            messages.error(request, "Formulario inválido.", extra_tags='danger')
 
     return render(request, 'lotesAnimales/editar.html', {
         'form': form,

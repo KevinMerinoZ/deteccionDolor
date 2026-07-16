@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from django.contrib import messages
 
 from .models import Proveedor
 from .forms import ProveedorForm
@@ -35,7 +36,11 @@ def pgProveedorCrear(request):
 
         if form.is_valid():
             form.save()
+            messages.success(request, 'Proveedor creado exitosamente.')
             return redirect('provedor:indexProveedor')
+        else:
+            messages.error(request, 'Error al crear el proveedor. Por favor, revise los datos ingresados.', extra_tags='danger')
+            return render(request, 'provedor/crear.html', {'form': form})
 
     else:
         form = ProveedorForm()
@@ -55,7 +60,11 @@ def pgProveedorEditar(request, idProveedor):
 
         if form.is_valid():
             form.save()
+            messages.success(request, 'Proveedor actualizado exitosamente.')
             return redirect('provedor:indexProveedor')
+        else:
+            messages.error(request, 'Error al actualizar el proveedor. Por favor, revise los datos ingresados.', extra_tags='danger')
+            return render(request, 'provedor/editar.html', {'form': form})
 
     else:
         form = ProveedorForm(instance=proveedor)
@@ -71,6 +80,7 @@ def pgProveedorEliminar(request, idProveedor):
     proveedor = get_object_or_404(Proveedor, idProveedor=idProveedor)
     proveedor.is_active = False
     proveedor.save()
+    messages.success(request, 'Proveedor eliminado exitosamente.')
 
     return redirect('provedor:indexProveedor')
 

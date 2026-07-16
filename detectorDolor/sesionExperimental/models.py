@@ -14,6 +14,7 @@ class SesionExperimental(models.Model):
     noMediciones2 = models.IntegerField(null =True, blank=True)
     intervaloTemp2 = models.IntegerField(null=True, blank=True)
     estado = models.BooleanField(default=True)
+    loteAnimal = models.ForeignKey('lotesAnimales.LoteAnimales', on_delete=models.CASCADE, default=1)
 
     is_active = models.BooleanField(default=True)
 
@@ -21,22 +22,37 @@ class SesionExperimental(models.Model):
         return self.nombre_experimento
     
 class ResultadoMedicion(models.Model):
+    NIVEL_DOLOR_0 = 0
     NIVEL_DOLOR_1 = 1
     NIVEL_DOLOR_2 = 2
-    NIVEL_DOLOR_3 = 3
 
     NIVELES_DOLOR = [
-        (NIVEL_DOLOR_1, 'Sin dolor'),
-        (NIVEL_DOLOR_2, 'Dolor leve'),
-        (NIVEL_DOLOR_3, 'Dolor intenso'),
+        (NIVEL_DOLOR_0, 'Sin dolor'),
+        (NIVEL_DOLOR_1, 'Dolor leve'),
+        (NIVEL_DOLOR_2, 'Dolor intenso'),
     ]
 
     idresultadoMedicion = models.AutoField(primary_key=True)
     noRaton = models.IntegerField()
+    
     nivelDolor = models.IntegerField(choices=NIVELES_DOLOR)
+    orejas_nivel = models.IntegerField(default=0)
+    nariz_nivel = models.IntegerField(default=0)
+    ojos_nivel = models.IntegerField(default=0)
+    bigotes_nivel = models.IntegerField(default=0)
+    cachetes_nivel = models.IntegerField(default=0)
+    promedio_nivel = models.DecimalField(max_digits=6, decimal_places=3, default=0.0)
+
     confianza = models.DecimalField(max_digits=6, decimal_places=3) 
+    confianza_orejas = models.DecimalField(max_digits=6, decimal_places=3, default=0.0)
+    confianza_nariz = models.DecimalField(max_digits=6, decimal_places=3, default=0.0)
+    confianza_ojos = models.DecimalField(max_digits=6, decimal_places=3, default=0.0)
+    confianza_cachetes = models.DecimalField(max_digits=6, decimal_places=3, default=0.0)
+    promedio_confianza = models.DecimalField(max_digits=6, decimal_places=3, default=0.0)
+
     numero_medicion = models.IntegerField()
     sesion_experimental = models.ForeignKey('sesionExperimental.SesionExperimental', on_delete=models.CASCADE)
+    estado_medicion = models.BooleanField(default=True)
 
     is_active = models.BooleanField(default=True)
 

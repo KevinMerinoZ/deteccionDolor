@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from django.contrib import messages
 
 from .models import SustanciaExperimental
 from .forms import SustanciaExperimentalForm
@@ -37,7 +38,11 @@ def pgSustanciaCrear(request):
 
         if form.is_valid():
             form.save()
+            messages.success(request, 'Sustancia creada exitosamente.')
             return redirect('sustanciaExperimental:indexSustancia')
+        else:
+            messages.error(request, 'Error al crear la sustancia. Por favor, revise los datos ingresados.', extra_tags='danger')
+            return render(request, 'sustancia/crear.html', {'form': form})
     else:
         form = SustanciaExperimentalForm()
 
@@ -59,7 +64,11 @@ def pgSustanciaEditar(request, idsustanciaExperimental):
 
         if form.is_valid():
             form.save()
+            messages.success(request, 'Sustancia actualizada exitosamente.')
             return redirect('sustanciaExperimental:indexSustancia')
+        else:
+            messages.error(request, 'Error al actualizar la sustancia. Por favor, revise los datos ingresados.', extra_tags='danger')
+            return render(request, 'sustancia/editar.html', {'form': form})
     else:
         form = SustanciaExperimentalForm(instance=sustancia)
 
@@ -78,6 +87,7 @@ def pgSustanciaEliminar(request, idsustanciaExperimental):
 
     sustancia.is_active = False
     sustancia.save()
+    messages.success(request, 'Sustancia eliminada exitosamente.')
 
     return redirect('sustanciaExperimental:indexSustancia')
 
