@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from .services.predictor import predecir_imagen
 from decimal import Decimal, ROUND_DOWN
 from sesionExperimental.models import SesionExperimental, ResultadoMedicion
+from usuario.models import Usuario
 from PIL import Image
 from django.contrib import messages
 
@@ -102,6 +103,14 @@ def index(request, idSesion, accion=None):
     }
     
     return render(request, 'detectorDolor/index.html', context)
+
+def cuestionario_principal(request):
+    usuarios = Usuario.objects.filter(is_active=True)
+    if request.method == 'POST':
+        # Aquí puedes procesar los datos del cuestionario si es necesario
+        return redirect('detectorDolorApp:indexDetector', idSesion=1)  # Redirige a la página principal del detector de dolor
+
+    return render(request, 'detectorDolor/cuestionario_principal.html', {'usuarios': usuarios})
 
 
 def reporte_resultados_dolor(request, idSesion):
