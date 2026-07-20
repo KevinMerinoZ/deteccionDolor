@@ -36,19 +36,7 @@ class ResultadoMedicion(models.Model):
     noRaton = models.IntegerField()
     
     nivelDolor = models.IntegerField(choices=NIVELES_DOLOR)
-    orejas_nivel = models.IntegerField(default=0)
-    nariz_nivel = models.IntegerField(default=0)
-    ojos_nivel = models.IntegerField(default=0)
-    bigotes_nivel = models.IntegerField(default=0)
-    cachetes_nivel = models.IntegerField(default=0)
-    promedio_nivel = models.DecimalField(max_digits=6, decimal_places=3, default=0.0)
-
     confianza = models.DecimalField(max_digits=6, decimal_places=3) 
-    confianza_orejas = models.DecimalField(max_digits=6, decimal_places=3, default=0.0)
-    confianza_nariz = models.DecimalField(max_digits=6, decimal_places=3, default=0.0)
-    confianza_ojos = models.DecimalField(max_digits=6, decimal_places=3, default=0.0)
-    confianza_cachetes = models.DecimalField(max_digits=6, decimal_places=3, default=0.0)
-    promedio_confianza = models.DecimalField(max_digits=6, decimal_places=3, default=0.0)
 
     numero_medicion = models.IntegerField()
     sesion_experimental = models.ForeignKey('sesionExperimental.SesionExperimental', on_delete=models.CASCADE)

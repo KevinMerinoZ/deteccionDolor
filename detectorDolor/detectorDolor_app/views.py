@@ -1,7 +1,7 @@
 import datetime
 
 from django.http import JsonResponse
-from django.db.models import Count
+from django.db.models import Avg, Count
 from django.shortcuts import get_object_or_404, render, redirect
 from .services.predictor import predecir_imagen
 from decimal import Decimal, ROUND_DOWN
@@ -62,81 +62,34 @@ def index(request, idSesion, accion=None):
         noRaton = request.POST.get('noRaton')
         numero_medicion = request.POST.get('noMedicionActual')
 
-        if(resultado['clase'] == 0):
-            nivelDolor = 1
-        else:
-            nivelDolor = 2
-
         confianza = Decimal(resultado['confianza']*100).quantize(Decimal('0.000'), rounding=ROUND_DOWN)
-        confianza_orejas = Decimal(resultado['confianza_orejas']*100).quantize(Decimal('0.000'), rounding=ROUND_DOWN)
-        confianza_ojos = Decimal(resultado['confianza_ojos']*100).quantize(Decimal('0.000'), rounding=ROUND_DOWN)
-        confianza_nariz = Decimal(resultado['confianza_nariz']*100).quantize(Decimal('0.000'), rounding=ROUND_DOWN)
-        confianza_cachetes = Decimal(resultado['confianza_cachetes']*100).quantize(Decimal('0.000'), rounding=ROUND_DOWN)
 
         # ************* Proceso de guardado o actualización de resultados de medición *************
         resultadoMedExists = ResultadoMedicion.objects.filter(noRaton = noRaton, numero_medicion = numero_medicion, sesion_experimental = sesionExp).first()
 
-        promedio_nivel = (resultado['clase_orejas'] + resultado['clase_ojos'] + resultado['clase_nariz'] + resultado['clase_cachetes']) / 4
-        promedio_confianza = (confianza_orejas + confianza_ojos + confianza_nariz + confianza_cachetes) / 4
         # Si existe un resultado de medición para el ratón y la medición actual, se actualiza; de lo contrario, se crea uno nuevo.
         if resultadoMedExists:
-            resultadoMedExists.nivelDolor = nivelDolor
+            resultadoMedExists.nivelDolor = resultado['clase']
             resultadoMedExists.confianza = confianza
-            resultadoMedExists.orejas_nivel = resultado['clase_orejas']
-            resultadoMedExists.ojos_nivel = resultado['clase_ojos']
-            resultadoMedExists.nariz_nivel = resultado['clase_nariz']
-            resultadoMedExists.cachetes_nivel = resultado['clase_cachetes']
-
-            resultadoMedExists.confianza_orejas = confianza_orejas
-            resultadoMedExists.confianza_ojos = confianza_ojos
-            resultadoMedExists.confianza_nariz = confianza_nariz
-            resultadoMedExists.confianza_cachetes = confianza_cachetes
-
-            resultadoMedExists.promedio_nivel = promedio_nivel
-            resultadoMedExists.promedio_confianza = promedio_confianza
+            
             resultadoMedExists.save()
 
         else:
             resultadoMed = ResultadoMedicion(
                 noRaton = request.POST.get('noRaton'),
-                nivelDolor = nivelDolor,
+                nivelDolor = resultado['clase'],
                 confianza = confianza,
-                orejas_nivel = resultado['clase_orejas'],
-                ojos_nivel = resultado['clase_ojos'],
-                nariz_nivel = resultado['clase_nariz'],
-                cachetes_nivel = resultado['clase_cachetes'],
-
-                confianza_orejas = confianza_orejas,
-                confianza_ojos = confianza_ojos,
-                confianza_nariz = confianza_nariz,
-                confianza_cachetes = confianza_cachetes,
 
                 numero_medicion = numero_medicion,
                 sesion_experimental = sesionExp,
-
-                promedio_nivel = promedio_nivel,
-                promedio_confianza = promedio_confianza
             )
             resultadoMed.save()
         
-        print("Nivel de dolor predicho:", nivelDolor)
-        print("Resultado de clase: ", resultado['clase'])
-        print("Confianza:", confianza)
 
         # Devolver respuesta JSON para mostrarlos en la interfaz de usuario
         return JsonResponse({
             'nivel_dolor': int(resultado['clase']),
             'confianza': float(confianza),
-            'nivel_dolor_orejas': int(resultado['clase_orejas']),
-            'confianza_orejas': float(confianza_orejas),
-            'nivel_dolor_ojos': int(resultado['clase_ojos']),
-            'confianza_ojos': float(confianza_ojos),
-            'nivel_dolor_nariz': int(resultado['clase_nariz']),
-            'confianza_nariz': float(confianza_nariz),
-            'nivel_dolor_cachetes': int(resultado['clase_cachetes']),
-            'confianza_cachetes': float(confianza_cachetes),
-            'promedio_confianza': float(promedio_confianza),
-            'promedio_nivel': float(promedio_nivel),
         })
     
     context = {
@@ -178,13 +131,13 @@ def reporte_resultados_dolor(request, idSesion):
 
         medicion = resultado.numero_medicion
 
-        if resultado.nivelDolor == ResultadoMedicion.NIVEL_DOLOR_1:
+        if resultado.nivelDolor == ResultadoMedicion.NIVEL_DOLOR_0:
             datos[medicion]['sin_dolor'] += 1
 
-        elif resultado.nivelDolor == ResultadoMedicion.NIVEL_DOLOR_2:
+        elif resultado.nivelDolor == ResultadoMedicion.NIVEL_DOLOR_1:
             datos[medicion]['dolor_leve'] += 1
 
-        elif resultado.nivelDolor == ResultadoMedicion.NIVEL_DOLOR_3:
+        elif resultado.nivelDolor == ResultadoMedicion.NIVEL_DOLOR_2:
             datos[medicion]['dolor_intenso'] += 1
 
     # Crear Excel
@@ -295,13 +248,8 @@ def reporte_resultados_dolor(request, idSesion):
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
 
-    nombreArchivo = f"reporte_resultados_dolor_sesion_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.xlsx"
-    
     response['Content-Disposition'] = (
-        f'attachment; filename="{nombreArchivo}"'
+        'attachment; filename="reporte_resultados_dolor.xlsx"'
     )
-
-    sesion.estado = False
-    sesion.save()    
 
     return response
