@@ -23,18 +23,15 @@
     </div>
 
     <div class="mb-3">
-        <label for="via_administracion" class="form-label">Vía administración</label>
-        <input type="text" name="via_administracion" id="via_administracion"
-               class="form-control" placeholder="Ej. Intramuscular"
-               value="{{ form.via_administracion.value|default:'' }}" required>
-        {{ form.via_administracion.errors }}
+        <label for="fecha_llegada" class="form-label">Fecha de llegada</label>
+        {{ form.fecha_llegada }}
+        {{ form.fecha_llegada.errors }}
     </div>
 
     <div class="mb-3">
-        <label for="consentracion" class="form-label">Concentración</label>
-        <input type="text" name="consentracion" id="consentracion" class="form-control"
-               placeholder="10mg/ml" value="{{ form.consentracion.value|default:'' }}" required>
-        {{ form.consentracion.errors }}
+        <label for="fecha_abierto" class="form-label">Fecha de apertura</label>
+        {{ form.fecha_abierto }}
+        {{ form.fecha_abierto.errors }}
     </div>
 
     <div class="div-footer">

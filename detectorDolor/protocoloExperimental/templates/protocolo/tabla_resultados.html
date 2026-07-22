@@ -6,6 +6,8 @@
             <th>Nombre del protocolo</th>
             <th>Objetivo</th>
             <th>Sustancia experimental</th>
+            <th>Número de aprobación</th>
+            <th>Vigencia</th>
             <th>Descripción</th>
             <th>Consideraciones éticas</th>
         </tr>
@@ -34,6 +36,8 @@
                     <td>
                         {{ protocolo.sustancia_experimental|default:"—" }}
                     </td>
+                    <td>{{ protocolo.numero_aprobacion|default:"—" }}</td>
+                    <td>{{ protocolo.vigencia|default:"—" }}</td>
                     <td>{{ protocolo.descripcion_protocolo }}</td>
                     <td>{{ protocolo.consideraciones_eticas }}</td>
                 </tr>

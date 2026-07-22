@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 class ProtocoloExperimental(models.Model):
@@ -8,6 +9,8 @@ class ProtocoloExperimental(models.Model):
     sustancia_experimental = models.ForeignKey('sustanciaExperimental.SustanciaExperimental', on_delete=models.SET_NULL, null=True, blank=True)
     descripcion_protocolo = models.CharField(max_length=100)
     consideraciones_eticas = models.CharField(max_length=100)
+    numero_aprobacion = models.IntegerField(default=0)
+    vigencia = models.DateField()
 
     is_active = models.BooleanField(default=True)
 

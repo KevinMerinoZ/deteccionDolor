@@ -6,8 +6,8 @@
             <th>Nombre</th>
             <th>Presentación</th>
             <th>Tipo</th>
-            <th>Vía administración</th>
-            <th>Concentración</th>
+            <th>Fecha de llegada</th>
+            <th>Fecha de apertura</th>
         </tr>
     </thead>
 
@@ -30,8 +30,12 @@
                     <td>{{ farmaco.nombre }}</td>
                     <td>{{ farmaco.presentacion }}</td>
                     <td>{{ farmaco.tipo_farmaco }}</td>
-                    <td>{{ farmaco.via_administracion }}</td>
-                    <td>{{ farmaco.consentracion }}</td>
+                    <td>{{ farmaco.fecha_llegada }}</td>
+                    {% if farmaco.fecha_abierto %}
+                        <td>{{ farmaco.fecha_abierto }}</td>
+                    {% else %}
+                        <td><a class="btnPrimario" href="">Abrir</a></td>
+                    {% endif %}
                 </tr>
 
                 {% include 'farmaco/modalEliminar.html' %}

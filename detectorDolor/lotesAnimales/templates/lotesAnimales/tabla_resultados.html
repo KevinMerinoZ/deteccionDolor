@@ -4,15 +4,16 @@
             <th scope="col">Acciones</th>
             <th scope="col">ID</th>
             <th scope="col">Especie</th>
-            <th scope="col">Cantidad</th>
-            <th scope="col">Género</th>
-            <th scope="col">Peso ingreso (g)</th>
-            <th scope="col">Condición experimental</th>
-            <th scope="col">Fecha ingreso</th>
-            <th scope="col">Estado</th>
             <th scope="col">Cepa</th>
-            <th scope="col">Fecha baja</th>
-            <th scope="col">Responsable</th>
+            <th scope="col">Género</th>
+            <th scope="col">Cantidad de animales</th>
+            <th scope="col">Fecha de ingreso</th>
+            <th scope="col">Peso de ingreso (g)</th>
+            <th scope="col">Condición experimental</th>
+            <th scope="col">Tratamiento</th>
+            <th scope="col">Usuario</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Fecha de baja</th>
         </tr>
     </thead>
 
@@ -31,20 +32,22 @@
                     </td>
 
                     <td>{{ lote.idlotesAnimales }}</td>
-                    <td>{{ lote.especie }}</td>
+                    <td class="celda-resaltada">{{ lote.especie }}</td>
+                    <td class="celda-resaltada">{{ lote.cepa }}</td>
+                    <td class="celda-resaltada">{{ lote.genero }}</td>
                     <td>{{ lote.cantidad_animales }}</td>
-                    <td>{{ lote.genero }}</td>
+                    <td>{{ lote.fecha_ingreso }}</td>
                     <td>{{ lote.peso_ingreso }}</td>
                     <td>{{ lote.condicion_experimental }}</td>
-                    <td>{{ lote.fecha_ingreso }}</td>
+                    <td>{{ lote.tratamiento|default:"Ninguno" }}</td>
+                    <td>{{ lote.usuario.nombre }}</td>
                     <td>{{ lote.estado }}</td>
-                    <td>{{ lote.cepa }}</td>
+
                     {% if lote.fecha_baja %}
                         <td>{{ lote.fecha_baja }}</td>
                     {% else %}
                         <td><a class="btnPrimario" href="{% url 'lotesAnimales:darBajaLote' lote.idlotesAnimales %}">Baja</a></td>
                     {% endif %}
-                    <td>{{ lote.usuario.nombre }}</td>
                 </tr>
 
                 {% include 'lotesAnimales/modalEliminar.html' %}

@@ -8,11 +8,11 @@
         {{ form.especie.errors }}
     </div>
 
-    <!-- CANTIDAD -->
+    <!-- CEPA -->
     <div class="mb-3">
-        <label class="form-label">{{form.cantidad_animales.label}}</label>
-        {{ form.cantidad_animales }}
-        {{ form.cantidad_animales.errors }}
+        <label class="form-label">{{form.cepa.label}}</label>
+        {{ form.cepa }}
+        {{ form.cepa.errors }}
     </div>
 
     <!-- GENERO -->
@@ -20,6 +20,20 @@
         <label class="form-label">{{form.genero.label}}</label>
         {{ form.genero }}
         {{ form.genero.errors }}
+    </div>
+
+    <!-- CANTIDAD -->
+    <div class="mb-3">
+        <label class="form-label">{{form.cantidad_animales.label}}</label>
+        {{ form.cantidad_animales }}
+        {{ form.cantidad_animales.errors }}
+    </div>
+
+    <!-- FECHA INGRESO -->
+    <div class="mb-3">
+        <label class="form-label">{{form.fecha_ingreso.label}}</label>
+        {{ form.fecha_ingreso }}
+        {{ form.fecha_ingreso.errors }}
     </div>
 
     <!-- PESO INGRESO -->
@@ -36,25 +50,25 @@
         {{ form.condicion_experimental.errors }}
     </div>
 
+    <!-- TRATAMIENTO -->
+    <div class="mb-3">
+        <label class="form-label">{{form.tratamiento.label}}</label>
+        {{ form.tratamiento }}
+        {{ form.tratamiento.errors }}
+    </div>
+
+    <!-- USUARIO -->
+    <div class="mb-3">
+        <label class="form-label">{{form.usuario.label}} responsable</label>
+        {{ form.usuario }}
+        {{ form.usuario.errors }}
+    </div>
+
     <!-- ESTADO -->
     <div class="mb-3">
         <label class="form-label">{{form.estado.label}}</label>
         {{ form.estado }}
         {{ form.estado.errors }}
-    </div>
-
-    <!-- CEPA -->
-    <div class="mb-3">
-        <label class="form-label">{{form.cepa.label}}</label>
-        {{ form.cepa }}
-        {{ form.cepa.errors }}
-    </div>
-
-    <!-- USUARIO -->
-    <div class="mb-3">
-        <label class="form-label">{{form.usuario.label}}</label>
-        {{ form.usuario }}
-        {{ form.usuario.errors }}
     </div>
 
     <!-- BOTONES -->

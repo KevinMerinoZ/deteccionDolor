@@ -67,9 +67,7 @@ def pgLotesCrear(request):
 
         print(form.errors)
         if form.is_valid():
-            lote = form.save(commit=False)
-            lote.fecha_ingreso = date.today()
-            lote.save()
+            form.save()
             messages.success(request, "Lote registrado correctamente.")
             return redirect('lotesAnimales:indexLotes')
         else:

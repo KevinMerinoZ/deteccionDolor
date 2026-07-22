@@ -35,6 +35,7 @@ class LoteAnimales(models.Model):
     estado = models.CharField(max_length=50, choices=ESTADOS)
     cepa = models.CharField(max_length=15)
     fecha_baja = models.DateField(null=True, blank=True)
+    tratamiento = models.TextField(null=True, blank=True)
     usuario = models.ForeignKey("usuario.Usuario", on_delete=models.CASCADE)
 
     is_active = models.BooleanField(default=True) 

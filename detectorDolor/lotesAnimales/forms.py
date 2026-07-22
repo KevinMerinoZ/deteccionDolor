@@ -14,6 +14,8 @@ class LoteAnimalesForm(forms.ModelForm):
             'estado',                 
             'cepa',                    
             'fecha_baja',
+            'fecha_ingreso',
+            'tratamiento',
             'usuario',                 
         ]
 
@@ -28,7 +30,9 @@ class LoteAnimalesForm(forms.ModelForm):
 
             'peso_ingreso': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder':'15'}),
             'cantidad_animales': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '20'}),
+            'tratamiento': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Descripción del tratamiento...'}),
 
             'fecha_baja': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'fecha_ingreso': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
 
         }

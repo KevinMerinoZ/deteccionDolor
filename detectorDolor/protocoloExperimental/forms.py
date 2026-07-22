@@ -11,6 +11,8 @@ class ProtocoloExperimentalForm(forms.ModelForm):
             'sustancia_experimental',
             'descripcion_protocolo',
             'consideraciones_eticas',
+            'numero_aprobacion',
+            'vigencia'
         ]
 
         widgets = {
@@ -31,4 +33,11 @@ class ProtocoloExperimentalForm(forms.ModelForm):
                 'class': 'form-control',
                 'rows': 3
             }),
+            'numero_aprobacion': forms.NumberInput(attrs={
+                'class': 'form-control'
+            }),
+            'vigencia': forms.DateInput(attrs={
+                'class': 'form-control',
+                'type': 'date'
+            })
         }

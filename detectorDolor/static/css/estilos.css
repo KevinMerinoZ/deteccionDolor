@@ -414,6 +414,10 @@ header{
     text-decoration: none;
 }
 
+.celda-resaltada{
+    background-color: rgb(17, 0, 119, 0.1) !important;
+}
+
 /********** footer y paginación de section **********/
 .div-footer{
     display: flex;
