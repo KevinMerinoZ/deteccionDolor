@@ -51,19 +51,23 @@
 
                         <div class="col-12 col-md-4 contRaton-resultados">
                             <p class="resultado-dolor">Nivel de dolor: 
-                                {% for resRaton in resultadosMedicionAct %}
-                                    {% if resRaton.noRaton == raton %}
-                                        {{ resRaton.get_nivelDolor_display }}
-                                    {% endif %}
-                                {% endfor %}
+                                {% if resultadosMedicionAct %}
+                                    {% for resRaton in resultadosMedicionAct %}
+                                        {% if resRaton.noRaton == raton %}
+                                            {{ resRaton.get_nivelDolor_display }}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
                             </p>
 
                             <p class="resultado-confianza">Confianza: 
-                                {% for resRaton in resultadosMedicionAct %}
-                                    {% if resRaton.noRaton == raton %}
-                                        {{ resRaton.confianza }}%
-                                    {% endif %}
-                                {% endfor %}
+                                {% if resultadosMedicionAct %}
+                                    {% for resRaton in resultadosMedicionAct %}
+                                        {% if resRaton.noRaton == raton %}
+                                            {{ resRaton.confianza }}%
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
                             </p>
                         </div>
                     </form>

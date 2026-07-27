@@ -24,12 +24,13 @@ def index(request, idSesion, accion=None):
     sesionExp = get_object_or_404(SesionExperimental, idsesionExperimental=idSesion)
     resultadosMediciones = ResultadoMedicion.objects.filter(sesion_experimental=sesionExp)
 
-    if resultadosMediciones.filter(estado_medicion=True).order_by('numero_medicion').exists():
-        noMedicionAct = (resultadosMediciones.filter(estado_medicion=True).order_by('numero_medicion').last().numero_medicion) 
+    # ************* Determinar el número de medición actual *************
+    if resultadosMediciones.filter(estado_medicion=True).exists():
+        noMedicionAct = (resultadosMediciones.filter(estado_medicion=True).order_by('numero_medicion').last().numero_medicion)
         
-    elif resultadosMediciones.filter(estado_medicion=False).order_by('numero_medicion').exists():
-        
-        noMedicionAct = (resultadosMediciones.filter(estado_medicion=False).order_by('numero_medicion').last().numero_medicion) + 1 
+    elif resultadosMediciones.exists():
+        noMedicionAct = (resultadosMediciones.order_by('numero_medicion').last().numero_medicion) + 1
+
         if noMedicionAct > sesionExp.noMediciones1:
             noMedicionAct = sesionExp.noMediciones1
     
@@ -41,16 +42,18 @@ def index(request, idSesion, accion=None):
 
     resultadosMedicionAct = None
 
+
+    # ************* Procesamiento del botón para cambiar de medición *************
     if accion == 'siguiente':
+        if not(resultadosMediciones.filter(estado_medicion=True).exists()):
+            noMedicionAct = (resultadosMediciones.filter(estado_medicion=False).order_by('numero_medicion').last().numero_medicion)
+
         ratonesAnalizados = resultadosMediciones.filter(numero_medicion=noMedicionAct).count() if resultadosMediciones.filter(numero_medicion=noMedicionAct).exists() else 0
         if ratonesAnalizados < cantidadRatones:
             messages.error(request, f"Faltan {cantidadRatones - ratonesAnalizados} ratones por analizar en la medición actual.", extra_tags="danger")
         else:
             resultadosMediciones.filter(numero_medicion=noMedicionAct).update(estado_medicion=False)
             noMedicionAct += 1
-
-        if resultadosMediciones.count() >= ((sesionExp.noMediciones1*cantidadRatones)-10):
-            flagFinMediciones = True
     
     if resultadosMediciones.count() >= ((sesionExp.noMediciones1*cantidadRatones)-10):
             flagFinMediciones = True

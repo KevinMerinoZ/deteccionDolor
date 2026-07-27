@@ -26,10 +26,8 @@
                     Cancelar
                 </button>
 
-                <a href="{% url 'sesionExperimental:eliminarSesion' sesion.idsesionExperimental %}"
-                   class="btn btn-danger">
-                    Sí, eliminar
-                </a>
+                <button class="btn btn-danger" data-direccionUrl="{% url 'sesionExperimental:eliminarSesion' sesion.idsesionExperimental %}"> Si, eliminar </button>
+
             </div>
 
         </div>
