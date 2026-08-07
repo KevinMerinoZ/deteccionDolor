@@ -1027,14 +1027,30 @@ document.addEventListener("submit", function (e) {
     .then(response => response.json())
     .then(data => {
 
-        const resultado = form.querySelector('.resultado-dolor');
+         const resultado = form.querySelector('.resultado-dolor');
+        const resultadoOrejas = form.querySelector('.resultado-dolorOrejas');
+        const resultadoOjos = form.querySelector('.resultado-dolorOjos');
+        const resultadoNariz = form.querySelector('.resultado-dolorNariz');
+        const resultadoCachetes = form.querySelector('.resultado-dolorCachetes');
 
         const confianza = form.querySelector('.resultado-confianza');
+        const confianzaOrejas = form.querySelector('.resultado-confianzaOrejas');
+        const confianzaOjos = form.querySelector('.resultado-confianzaOjos');
+        const confianzaNariz = form.querySelector('.resultado-confianzaNariz');
+        const confianzaCachetes = form.querySelector('.resultado-confianzaCachetes');
 
         if(resultado && confianza){
-            resultado.textContent = 'Nivel de dolor: '+ data.nivel_dolor;
+            resultado.textContent = 'Nivel de dolor promedio: '+ data.promedio_nivel;
+            resultadoOrejas.textContent = 'Orejas: '+ data.nivel_dolor_orejas;
+            resultadoOjos.textContent = 'Ojos: '+ data.nivel_dolor_ojos;
+            resultadoNariz.textContent = 'Nariz: '+ data.nivel_dolor_nariz;
+            resultadoCachetes.textContent = 'Cachetes: '+ data.nivel_dolor_cachetes;
 
-            confianza.textContent = 'Confianza: '+ data.confianza + '%';
+            confianza.textContent = 'Confianza promedio: '+ data.promedio_confianza + '%'
+            confianzaOrejas.textContent = 'Orejas: '+ data.confianza_orejas + '%';
+            confianzaOjos.textContent = 'Ojos: '+ data.confianza_ojos + '%';
+            confianzaNariz.textContent = 'Nariz: '+ data.confianza_nariz + '%';
+            confianzaCachetes.textContent = 'Cachetes: '+ data.confianza_cachetes + '%';
         }
     })
     .catch(error => console.error("Error en fetch:", error));
