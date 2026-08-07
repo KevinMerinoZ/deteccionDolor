@@ -40,4 +40,5 @@ urlpatterns = [
     path('backups/', include('backups.urls', namespace='backups')),
     path('sesionesActivas/', include('sesionActiva.urls', namespace='sesionActiva')),
     path('checador/', include('checador.urls', namespace='checador')),
+    path('bitacoraMaterialesEliminados/', include('bitacoraMaterialesEliminados.urls', namespace='bitacoraMaterialesEliminados')),
 ]

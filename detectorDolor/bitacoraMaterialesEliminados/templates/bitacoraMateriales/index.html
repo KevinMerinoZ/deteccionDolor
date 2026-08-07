@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Lista de materiales eliminados  {% endblock %}
+{% block encabezado %} Materiales eliminados {% endblock %}
+
+{% block contenido %}
+    <div class="fondo-borde-primario">
+        <section class="card seccion">
+            <div class="card-header seccion-header">
+                <form action="" method="post" class="">
+                    {% csrf_token %}
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label for="filtro" class="col-form-label label-seccion">Filtrar por: </label>
+                        </div>
+                        <div class="col-auto">
+                            <select name="filtro" id="filtroMaterialEliminado" class="form-select select-propio">
+                                <option value="">Seleccione una opcion</option>
+                                <option value="material">Material</option>
+                                <option value="usuario_responsable">Usuario responsable</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" id="buscarMaterialEliminado" name="buscar" class="form-control" value="{{ buscar }}">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-body">
+                <h2 class="card-title">Lista de materiales eliminados</h2>
+                <div class="table-responsive" id="tabla-resultados">
+                    {% include 'bitacoraMateriales/tabla_resultados.html' %}
+                </div>
+                
+            </div>
+            <div class="div-footer">
+                <a name="" id="" class="btnPrimario" href="{% url 'bitacoraMaterialesEliminados:crear_materiales_eliminados' %}" role="button">Crear material eliminado</a>
+                <div id="paginacion">
+                    {% include 'bitacoraMateriales/paginacion.html' %}
+                </div>
+            </div>
+        </section>
+    </div>
+    
+{% endblock %}

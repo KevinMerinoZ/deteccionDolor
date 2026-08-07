@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'backups',
     'sesionActiva',
     'checador',
+    'bitacoraMaterialesEliminados',
 ]
 
 MIDDLEWARE = [

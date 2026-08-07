@@ -1,0 +1,45 @@
+<table class="table tabla-primaria">
+                    <thead>
+                        <tr>
+                            <th>Acciones</th>
+                            <th>ID</th>
+                            <th>Material</th>
+                            <th>Cantidad</th>
+                            <th>Fecha eliminación</th>
+                            <th>Motivo</th>
+                            <th>Responsable</th>
+                            <th>Observaciones</th>
+                            <th>Fecha de registro</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if bitacoraMaterialesEliminados %}
+                            {% for materialesEliminados in bitacoraMaterialesEliminados %}
+                                <tr class="">
+                                    <td>
+                                        <a name="" id="" class="btnIcono" href="{% url 'bitacoraMaterialesEliminados:editar_materiales_eliminados' materialesEliminados.idBitacora %}" role="button"><i class="bi bi-pencil-square"></i></a>
+
+                                        <button class="btnIcono" data-bs-toggle="modal" data-bs-target="#confirmarEliminarModal{{materialesEliminados.idBitacora}}">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                        
+                                        
+                                    </td>
+                                    <td scope="row">{{ materialesEliminados.idBitacora}}</td>
+                                    <td>{{ materialesEliminados.material.nombre }}</td>
+                                    <td>{{ materialesEliminados.cantidad }}</td>
+                                    <td>{{ materialesEliminados.fecha_eliminacion }}</td>
+                                    <td>{{ materialesEliminados.motivo }}</td>
+                                    <td>{{ materialesEliminados.usuario_responsable.nombre }} {{ materialesEliminados.usuario_responsable.apellido_paterno }} {{ materialesEliminados.usuario_responsable.apellido_materno }}</td>
+                                    <td>{{ materialesEliminados.observaciones }}</td>
+                                    <td>{{ materialesEliminados.fecha_registro }}</td>
+                                </tr>
+                                {% include 'bitacoraMateriales/modalEliminar.html' %}
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="8"> No existen registros </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>

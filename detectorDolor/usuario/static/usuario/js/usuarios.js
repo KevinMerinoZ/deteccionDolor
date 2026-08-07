@@ -1257,6 +1257,178 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+/* ==========================================
+   bitacoraMaterialesEliminados.js
+   Gestión dinámica de Materiales Eliminados
+   ========================================== */
+
+// -------------------------
+// Función debounce
+// -------------------------
+function debounce(func, delay) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(func, delay);
+}
+
+// -------------------------
+// Cargar datos AJAX
+// -------------------------
+function cargarMaterialesEliminados(dato = "", page = 1, tipoDato = "") {
+
+    const url =
+        `/bitacoraMaterialesEliminados/buscar-materiales/?dato=${encodeURIComponent(dato)}&page=${page}&tipoDato=${encodeURIComponent(tipoDato)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+
+            const tabla = document.getElementById("tabla-resultados");
+            const paginacion = document.getElementById("paginacion");
+
+            if (tabla) {
+                tabla.innerHTML = data.tabla;
+            }
+
+            if (paginacion) {
+                paginacion.innerHTML = data.paginacion;
+            }
+
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+
+}
+
+// =======================================
+// Filtro
+// =======================================
+
+const filtroMaterialEliminado =
+    document.getElementById("filtroMaterialEliminado");
+
+if (filtroMaterialEliminado) {
+
+    filtroMaterialEliminado.addEventListener("change", function () {
+
+        const input =
+            document.getElementById("buscarMaterialEliminado");
+
+        const dato = input ? input.value.trim() : "";
+
+        cargarMaterialesEliminados(
+            dato,
+            1,
+            this.value
+        );
+
+    });
+
+}
+
+// =======================================
+// Búsqueda
+// =======================================
+
+const buscarMaterialEliminado =
+    document.getElementById("buscarMaterialEliminado");
+
+if (buscarMaterialEliminado) {
+
+    buscarMaterialEliminado.addEventListener("keyup", function () {
+
+        const dato = this.value.trim();
+
+        const filtro = filtroMaterialEliminado
+            ? filtroMaterialEliminado.value
+            : "";
+
+        debounce(() => {
+
+            cargarMaterialesEliminados(
+                dato,
+                1,
+                filtro
+            );
+
+        }, 300);
+
+    });
+
+}
+
+// =======================================
+// Paginación
+// =======================================
+
+document.addEventListener("click", function (e) {
+
+    const enlace = e.target.closest(".link-pagina");
+
+    if (!enlace) {
+        return;
+    }
+
+    e.preventDefault();
+
+    const page = enlace.dataset.page;
+
+    if (!page) {
+        return;
+    }
+
+    const dato = buscarMaterialEliminado
+        ? buscarMaterialEliminado.value.trim()
+        : "";
+
+    const filtro = filtroMaterialEliminado
+        ? filtroMaterialEliminado.value
+        : "";
+
+    cargarMaterialesEliminados(
+        dato,
+        page,
+        filtro
+    );
+
+});
+
+// =======================================
+// Al cargar la página
+// =======================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    console.log("bitacoraMaterialesEliminados.js cargado.");
+
+    if (filtroMaterialEliminado) {
+
+        cargarMaterialesEliminados(
+            "",
+            1,
+            filtroMaterialEliminado.value
+        );
+
+    }
+
+    const alerts = document.querySelectorAll(".alert");
+
+    alerts.forEach(alert => {
+
+        setTimeout(() => {
+
+            alert.classList.add("fade-out");
+
+            setTimeout(() => {
+                alert.remove();
+            }, 1000);
+
+        }, 3000);
+
+    });
+
+});
+
 let tiempoInactividada = 0;
 // let timeoutActividad;
 let estaActivo = true;

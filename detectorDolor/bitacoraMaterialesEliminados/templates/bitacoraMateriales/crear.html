@@ -1,0 +1,19 @@
+{% extends 'base.html'%}
+
+{% block titulo %} Registrar baja de material(s) {% endblock %}
+{% block encabezado %} Materiales eliminados {% endblock %}
+
+{% block contenido %}
+
+<div class="fondo-borde-secundario">
+    <div class="card seccion">
+        <div class="card-header seccion-header">Registrar baja de material(s)</div>
+        <div class="card-body">
+            <h4 class="card-title">Datos del material eliminado</h4>
+            {% include 'bitacoraMateriales/form.html' %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

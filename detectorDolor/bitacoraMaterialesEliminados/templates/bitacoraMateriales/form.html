@@ -1,0 +1,45 @@
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label for="material" class="form-label">Material</label>
+        {{ form.material }}
+        {{ form.material.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="cantidad" class="form-label">Cantidad</label>
+        {{ form.cantidad }}
+        {{ form.cantidad.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="fecha_eliminacion" class="form-label">Fecha eliminación</label>
+        {{ form.fecha_eliminacion }}
+        {{ form.fecha_eliminacion.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="motivo" class="form-label">Motivo</label>
+        {{ form.motivo }}
+        {{ form.motivo.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="usuario_responsable" class="form-label">Usuario responsable</label>
+        {{ form.usuario_responsable }}
+        {{ form.usuario_responsable.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="observaciones" class="form-label">Observaciones</label>
+        {{ form.observaciones }}
+        {{ form.observaciones.errors }}
+    </div>
+
+    <div class="div-footer">
+        <button type="submit" class="btnPrimario">Guardar</button>
+        <a class="btnSecundario" href="{% url 'bitacoraMaterialesEliminados:index_materiales_eliminados' %}" role="button">Cancelar</a>
+    </div>
+
+</form>
