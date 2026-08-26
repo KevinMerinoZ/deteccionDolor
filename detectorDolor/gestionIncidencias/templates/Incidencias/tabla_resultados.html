@@ -1,7 +1,9 @@
 <table class="table tabla-primaria">
     <thead>
         <tr>
-            <th>Acciones</th>
+            {% if es_admin %}
+                <th>Acciones</th>
+            {% endif %}
             <th>ID</th>
             <th>Fecha</th>
             <th>Descripción</th>
@@ -13,6 +15,7 @@
         {% if incidencias %}
             {% for incidencia in incidencias %}
                 <tr>
+                    {% if es_admin %}
                     <td>
                         <a class="btnIcono" href="{% url 'gestionIncidencias:editarIncidencias' incidencia.idIncidencia %}">
                             <i class="bi bi-pencil-square"></i>
@@ -23,6 +26,7 @@
                             <i class="bi bi-trash"></i>
                         </button>
                     </td>
+                    {% endif %}
 
                     <td>{{ incidencia.idIncidencia }}</td>
                     <td>{{ incidencia.fecha }}</td>

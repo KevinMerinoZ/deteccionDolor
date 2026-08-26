@@ -14,91 +14,108 @@
 {% block contenido %}
 
 <section class="seccion-interfaz">
-    <h2>Gestiones</h2>
-    <div class="contenedor-btnInterfaz">
-        <a class="btnInterfaz" href="{% url 'usuario:indexUsuario' %}"> Gestión de usuarios </a>
-        <div class="sombra-btnInterfaz"></div>
-    </div>
+    <div class="">
+        <h2>Gestiones</h2>
+        <hr>
+        <div class="contenedor-categoria">
+            <div class="contenedor-btnInterfaz">
+                <a class="btnInterfaz" href="{% url 'usuario:indexUsuario' %}"> Gestión de usuarios </a>
+                <div class="sombra-btnInterfaz"></div>
+            </div>
 
-    <div class="contenedor-btnInterfaz">
-        <a class="btnInterfaz" href="{% url 'lotesAnimales:indexLotes' %}"> Gestión de lotes de animales </a>
-        <div class="sombra-btnInterfaz"></div>
-    </div>
-    <div class="contenedor-btnInterfaz">
-        <a class="btnInterfaz" href="{% url 'gestionIncidencias:indexIncidencias' %}"> Gestión de incidencias experimentales </a>
-        <div class="sombra-btnInterfaz"></div>
-    </div>
-    <div class="contenedor-btnInterfaz">
-        <a class="btnInterfaz" href="{% url 'farmaco:indexFarmaco' %}"> Gestión de farmacos </a>
-        <div class="sombra-btnInterfaz"></div>
-    </div>
+            <div class="contenedor-btnInterfaz">
+                <a class="btnInterfaz" href="{% url 'lotesAnimales:indexLotes' %}"> Gestión de lotes de animales </a>
+                <div class="sombra-btnInterfaz"></div>
+            </div>
 
-    <div class="contenedor-btnInterfaz">
-        <a class="btnInterfaz" href="{% url 'material:indexMaterial' %}"> Gestión de materiales </a>
-        <div class="sombra-btnInterfaz"></div>
-    </div>
+            <!-- <div class="contenedor-btnInterfaz">
+                <a class="btnInterfaz" href="{% url 'gestionIncidencias:indexIncidencias' %}"> Gestión de incidencias experimentales </a>
+                <div class="sombra-btnInterfaz"></div>
+            </div> -->
+            <div class="contenedor-btnInterfaz">
+                <a class="btnInterfaz" href="{% url 'farmaco:indexFarmaco' %}"> Gestión de farmacos </a>
+                <div class="sombra-btnInterfaz"></div>
+            </div>
 
-    <div class="contenedor-btnInterfaz">
-        <a class="btnInterfaz" href="{% url 'bitacoraMaterialesEliminados:index_materiales_eliminados' %}"> Bitácora de materiales eliminados </a>
-        <div class="sombra-btnInterfaz"></div>
-    </div>
+            <div class="contenedor-btnInterfaz">
+                <a class="btnInterfaz" href="{% url 'material:indexMaterial' %}"> Gestión de materiales </a>
+                <div class="sombra-btnInterfaz"></div>
+            </div>
 
-    <div class="contenedor-btnInterfaz">
-        <a class="btnInterfaz" href="{% url 'protocoloExperimental:indexProtocolo' %}"> Gestión de protocolos experimentales </a>
-        <div class="sombra-btnInterfaz"></div>
-    </div>
+            <div class="contenedor-btnInterfaz">
+                <a class="btnInterfaz" href="{% url 'bitacoraMaterialesEliminados:index_materiales_eliminados' %}"> Bitácora de materiales eliminados </a>
+                <div class="sombra-btnInterfaz"></div>
+            </div>
 
-    <div class="contenedor-btnInterfaz">
-        <a class="btnInterfaz" href="{% url 'provedor:indexProveedor' %}"> Gestión de proveedores </a>
-        <div class="sombra-btnInterfaz"></div>
-    </div>
+            <div class="contenedor-btnInterfaz">
+                <a class="btnInterfaz" href="{% url 'protocoloExperimental:indexProtocolo' %}"> Gestión de protocolos experimentales </a>
+                <div class="sombra-btnInterfaz"></div>
+            </div>
 
-    <div class="contenedor-btnInterfaz">
-        <a class="btnInterfaz" href="{% url 'sesionExperimental:indexSesion' %}"> Gestión de sesiones experimentales </a>
-        <div class="sombra-btnInterfaz"></div>
-    </div>
+            <!-- <div class="contenedor-btnInterfaz">
+                <a class="btnInterfaz" href="{% url 'provedor:indexProveedor' %}"> Gestión de proveedores </a>
+                <div class="sombra-btnInterfaz"></div>
+            </div> -->
 
-    <div class="contenedor-btnInterfaz">
-        <a class="btnInterfaz" href="{% url 'sustanciaExperimental:indexSustancia' %}"> Gestión de sustancias experimentales </a>
-        <div class="sombra-btnInterfaz"></div>
-    </div>
+            <div class="contenedor-btnInterfaz">
+                <a class="btnInterfaz" href="{% url 'sesionExperimental:indexSesion' %}"> Gestión de sesiones experimentales </a>
+                <div class="sombra-btnInterfaz"></div>
+            </div>
 
-    <div class="contenedor-btnInterfaz">
-        <a class="btnInterfaz" href="{% url 'cita:indexCita' %}"> Gestión de citas </a>
-        <div class="sombra-btnInterfaz"></div>
-    </div>
+            <div class="contenedor-btnInterfaz">
+                <a class="btnInterfaz" href="{% url 'sustanciaExperimental:indexSustancia' %}"> Gestión de sustancias experimentales </a>
+                <div class="sombra-btnInterfaz"></div>
+            </div>
 
-    <h2>Módulos especiales</h2>
-    <div class="contenedor-btnInterfaz">
-        {% comment %}<!-- <a class="btnInterfaz" href="{% url 'detectorDolorApp:indexDetector' %}"> Detector de dolor </a> --> {% endcomment %}
-         <a class="btnInterfaz" href="{% url 'detectorDolorApp:cuestionarioPrincipal' %}"> Detector de dolor </a>
-        <div class="sombra-btnInterfaz"></div>
-    </div>
-
-    <div class="contenedor-btnInterfaz">
-        <a class="btnInterfaz" href="{% url 'checador:checador_panel' %}"> Checador </a>
-        <div class="sombra-btnInterfaz"></div>
-    </div>
-
-    {% if user.groups.first.name == "administrador" %}
-        <div class="contenedor-btnInterfaz">
-            <a class="btnInterfaz" href="{% url 'checador:asistencia_admin' %}"> Checador (Admin) </a>
-            <div class="sombra-btnInterfaz"></div>
+            <!-- <div class="contenedor-btnInterfaz">
+                <a class="btnInterfaz" href="{% url 'cita:indexCita' %}"> Gestión de citas </a>
+                <div class="sombra-btnInterfaz"></div>
+            </div> -->
         </div>
+    </div>
 
-        <div class="contenedor-btnInterfaz">
-            <a class="btnInterfaz" href="{% url 'sesionActiva:indexSesionActiva' %}"> Control de sesiones </a>
-            <div class="sombra-btnInterfaz"></div>
-        </div>
-    {% endif %}
+    <div class="">
+        <h2>Módulos especiales</h2>
+        <hr>
+        <div class="contenedor-categoria">
+            <div class="contenedor-btnInterfaz">
+                {% comment %}<!-- <a class="btnInterfaz" href="{% url 'detectorDolorApp:indexDetector' %}"> Detector de dolor </a> --> {% endcomment %}
+                <a class="btnInterfaz" href="{% url 'detectorDolorApp:cuestionarioPrincipal' %}"> Detector de dolor </a>
+                <div class="sombra-btnInterfaz"></div>
+            </div>
 
-    <h2>Respaldo y restauración</h2>
-    {% if user.groups.first.name == "administrador" %}
-        <div class="contenedor-btnInterfaz">
-            <a class="btnInterfaz" href="{% url 'backups:backup_panel' %}"> Respaldo y restauración </a>
-            <div class="sombra-btnInterfaz"></div>
+            <div class="contenedor-btnInterfaz">
+                <a class="btnInterfaz" href="{% url 'checador:checador_panel' %}"> Checador </a>
+                <div class="sombra-btnInterfaz"></div>
+            </div>
+
+            {% if user.groups.first.name == "administrador" %}
+                <div class="contenedor-btnInterfaz">
+                    <a class="btnInterfaz" href="{% url 'checador:asistencia_admin' %}"> Checador (Admin) </a>
+                    <div class="sombra-btnInterfaz"></div>
+                </div>
+
+                <div class="contenedor-btnInterfaz">
+                    <a class="btnInterfaz" href="{% url 'sesionActiva:indexSesionActiva' %}"> Control de sesiones </a>
+                    <div class="sombra-btnInterfaz"></div>
+                </div>
+            {% endif %}
         </div>
-    {% endif %}
+    </div>
+
+    <div class="">
+        <h2>Respaldo y restauración</h2>
+        <hr>
+        <div class="contenedor-categoria">
+            <p>{{user.groups.first.name}}</p>
+            {% if user.groups.first.name == "administrador" %}
+                <div class="contenedor-btnInterfaz">
+                    <a class="btnInterfaz" href="{% url 'backups:backup_panel' %}"> Respaldo y restauración </a>
+                    <div class="sombra-btnInterfaz"></div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
 </section>
 
 {% endblock %}

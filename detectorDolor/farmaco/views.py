@@ -95,7 +95,7 @@ def buscarFarmaco(request):
     filtro = request.GET.get('tipoDato', '')
     page = request.GET.get('page', 1)
 
-    farmacos = Farmaco.objects.filter(is_active=True)
+    farmacos = Farmaco.objects.filter(is_active=True).order_by('-pk')
 
     if filtro == 'nombre':
         farmacos = farmacos.filter(nombre__icontains=dato).order_by('nombre')
@@ -103,14 +103,15 @@ def buscarFarmaco(request):
     elif filtro == 'presentacion':
         farmacos = farmacos.filter(presentacion__icontains=dato).order_by('presentacion')
 
-    else:
-        farmacos = farmacos.order_by('-pk')
 
     paginator = Paginator(farmacos, 10)
     page_obj = paginator.get_page(page)
 
+    es_admin = request.user.groups.filter(name='administrador').exists()
+
     tabla = render_to_string('farmaco/tabla_resultados.html', {
-        'farmacos': page_obj.object_list
+        'farmacos': page_obj.object_list,
+        'es_admin': es_admin
     })
 
     paginacion = render_to_string('farmaco/paginacion.html', {

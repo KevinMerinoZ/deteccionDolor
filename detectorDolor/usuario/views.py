@@ -468,7 +468,7 @@ def buscar_usuarios(request):
     elif tipoDato == 'correo':
         usuarios = Usuario.objects.filter(correo__icontains=dato, is_active=True).order_by('correo')
     else:
-        usuarios = Usuario.objects.filter(is_active=True).order_by('idUsuarios')
+        usuarios = Usuario.objects.filter(is_active=True).order_by('-pk')
 
     paginator = Paginator(usuarios, 10)
     page_obj = paginator.get_page(page_number)

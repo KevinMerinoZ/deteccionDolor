@@ -232,7 +232,7 @@ def buscarSesion(request):
             protocolo_experimental_id__nombre_protocolo__icontains=dato
         ).order_by('protocolo_experimental_id__nombre_protocolo')
     else:
-        sesiones = sesiones.order_by('idsesionExperimental')
+        sesiones = sesiones.order_by('-pk')
 
     paginator = Paginator(sesiones, 10)
     page_obj = paginator.get_page(page)

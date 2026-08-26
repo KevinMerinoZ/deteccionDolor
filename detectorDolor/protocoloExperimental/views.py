@@ -106,21 +106,20 @@ def buscarProtocolo(request):
     protocolos = ProtocoloExperimental.objects.filter(is_active=True)
 
     if filtro == 'nombre':
-        protocolos = protocolos.filter(
-            nombre_protocolo__icontains=dato
-        ).order_by('nombre_protocolo')
+        protocolos = protocolos.filter(nombre_protocolo__icontains=dato).order_by('nombre_protocolo')
 
     elif filtro == 'sustanciaExperimental':
         protocolos = protocolos.filter(sustancia_experimental_id__nombre_sustancia__icontains=dato).order_by('sustancia_experimental_id__nombre_sustancia')
 
     else:
-        protocolos = protocolos.order_by('idprotocolosExperimentales')
+        protocolos = protocolos.order_by('idprotocolosExperimentales').order_by('-pk')
 
     paginator = Paginator(protocolos, 10)
     page_obj = paginator.get_page(page)
 
     tabla = render_to_string('protocolo/tabla_resultados.html', {
-        'protocolos': page_obj.object_list
+        'protocolos': page_obj.object_list,
+        'es_admin': request.user.groups.filter(name='administrador').exists()
     })
 
     paginacion = render_to_string('protocolo/paginacion.html', {

@@ -108,7 +108,7 @@ def buscarProveedor(request):
         proveedores = proveedores.filter(tipo_insumo__icontains=dato).order_by('tipo_insumo')
 
     else:
-        proveedores = proveedores.order_by('idProveedor')
+        proveedores = proveedores.order_by('-pk')
 
     paginator = Paginator(proveedores, 10)
     page_obj = paginator.get_page(page)

@@ -1,7 +1,9 @@
 <table class="table tabla-primaria">
     <thead>
         <tr>
-            <th scope="col">Acciones</th>
+            {% if es_admin %}
+                <th>Acciones</th>
+            {% endif %}
             <th scope="col">ID</th>
             <th scope="col">Nombre</th>
             <th scope="col">Fabricación</th>
@@ -15,6 +17,7 @@
         {% if materiales %}
             {% for material in materiales %}
                 <tr>
+                    {% if es_admin %}
                     <td>
                         <a class="btnIcono" href="{% url 'material:editarMaterial' material.idmateriales %}">
                             <i class="bi bi-pencil-square"></i>
@@ -26,6 +29,7 @@
                             <i class="bi bi-trash"></i>
                         </button>
                     </td>
+                    {% endif %}
 
                     <td>{{ material.idmateriales }}</td>
                     <td>{{ material.nombre }}</td>

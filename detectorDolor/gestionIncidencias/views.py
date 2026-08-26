@@ -18,6 +18,7 @@ def IncidenciasIndex(request):
     paginator = Paginator(incidencia, 10)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
+    
 
     context = {
         'page_obj': page_obj,
@@ -91,20 +92,19 @@ def buscarIncidencia(request):
     filtro = request.GET.get('tipoDato', '')
     page = request.GET.get('page', 1)
 
-    incidencias = IncidenciaExperimental.objects.filter(is_active=True)
+    incidencias = IncidenciaExperimental.objects.filter(is_active=True).order_by('-pk')
 
     if filtro == 'sesionExperimental':
         incidencias = incidencias.filter(idSesionExperimental__nombre_experimento__icontains=dato).order_by('idSesionExperimental__nombre_experimento')
 
-    
-    else:
-        incidencias = incidencias.order_by('idIncidencia')
-
     paginator = Paginator(incidencias, 10)
     page_obj = paginator.get_page(page)
 
+    es_admin = request.user.groups.filter(name='administrador').exists()
+
     tabla = render_to_string('Incidencias/tabla_resultados.html', {
-        'incidencias': page_obj.object_list
+        'incidencias': page_obj.object_list,
+        'es_admin': es_admin
     })
 
     paginacion = render_to_string('Incidencias/paginacion.html', {

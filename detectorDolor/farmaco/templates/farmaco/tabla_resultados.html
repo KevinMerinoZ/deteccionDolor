@@ -1,7 +1,9 @@
 <table class="table tabla-primaria">
     <thead>
         <tr>
-            <th>Acciones</th>
+            {% if es_admin %}
+                <th>Acciones</th>
+            {% endif %}
             <th>ID</th>
             <th>Nombre</th>
             <th>Presentación</th>
@@ -15,6 +17,7 @@
         {% if farmacos %}
             {% for farmaco in farmacos %}
                 <tr>
+                    {% if es_admin %}
                     <td>
                         <a class="btnIcono" href="{% url 'farmaco:editarFarmaco' farmaco.idfarmacos %}">
                             <i class="bi bi-pencil-square"></i>
@@ -25,6 +28,7 @@
                             <i class="bi bi-trash"></i>
                         </button>
                     </td>
+                    {% endif %}
 
                     <td>{{ farmaco.idfarmacos }}</td>
                     <td>{{ farmaco.nombre }}</td>

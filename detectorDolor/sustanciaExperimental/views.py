@@ -114,14 +114,14 @@ def buscarSustancia(request):
         ).order_by('proveedor__nombre_proveedor')
 
     else:
-        sustancias = sustancias.order_by('idsustanciaExperimental')
+        sustancias = sustancias.order_by('-pk')
 
     paginator = Paginator(sustancias, 10)
     page_obj = paginator.get_page(page)
 
     tabla = render_to_string(
         'sustancia/tabla_resultados.html',
-        {'sustancias': page_obj.object_list}
+        {'sustancias': page_obj.object_list, 'es_admin': request.user.groups.filter(name='administrador').exists()}
     )
 
     paginacion = render_to_string(

@@ -1110,7 +1110,7 @@ function debounce(func, delay) {
 // -------------------------
 function cargarIncidencias(dato = "", page = 1, tipoDato = "") {
 
-    const url = `/incidencias/buscar-incidencias/?dato=${encodeURIComponent(dato)}&page=${page}&tipoDato=${encodeURIComponent(tipoDato)}`;
+    const url = `/gestionIncidencias/buscar-Incidencia/?dato=${encodeURIComponent(dato)}&page=${page}&tipoDato=${encodeURIComponent(tipoDato)}`;
 
     fetch(url)
         .then(response => response.json())

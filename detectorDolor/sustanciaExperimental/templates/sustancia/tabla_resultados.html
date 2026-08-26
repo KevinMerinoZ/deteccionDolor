@@ -1,7 +1,9 @@
 <table class="table tabla-primaria">
     <thead>
         <tr>
-            <th>Acciones</th>
+            {% if es_admin %}
+                <th>Acciones</th>
+            {% endif %}
             <th>ID</th>
             <th>Nombre</th>
             <th>Tipo</th>
@@ -16,6 +18,7 @@
         {% if sustancias %}
             {% for sustancia in sustancias %}
                 <tr>
+                    {% if es_admin %}
                     <td>
                         <a class="btnIcono"
                            href="{% url 'sustanciaExperimental:editarSustancia' sustancia.idsustanciaExperimental %}">
@@ -28,6 +31,7 @@
                             <i class="bi bi-trash"></i>
                         </button>
                     </td>
+                    {% endif %}
 
                     <td>{{ sustancia.idsustanciaExperimental }}</td>
                     <td>{{ sustancia.nombre_sustancia }}</td>

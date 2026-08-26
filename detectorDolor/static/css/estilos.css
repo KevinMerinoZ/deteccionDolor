@@ -377,11 +377,29 @@ header{
 
 .seccion-interfaz{
     display: flex;
+    flex-direction: column;
+    justify-content: left;
+    gap: 5px;
+    width: 100%;
+}
+
+.seccion-interfaz hr{
+    border: 2px solid #110077;
+    border-radius: 10px;
+}
+
+.seccion-interfaz h2{
+    color: #110077;
+}
+
+.contenedor-categoria{
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     gap: 5px;
+    margin-bottom: 75px;
 }
 
 /********** Tablas **********/

@@ -1,7 +1,9 @@
 <table class="table tabla-primaria">
     <thead>
         <tr>
-            <th scope="col">Acciones</th>
+            {% if es_admin %}
+                <th>Acciones</th>
+            {% endif %}
             <th scope="col">ID</th>
             <th scope="col">Especie</th>
             <th scope="col">Cepa</th>
@@ -21,6 +23,7 @@
         {% if lotes %}
             {% for lote in lotes %}
                 <tr>
+                    {% if es_admin %}
                     <td>
                         <a class="btnIcono" href="{% url 'lotesAnimales:editarLote' lote.idlotesAnimales %}" role="button">
                             <i class="bi bi-pencil-square"></i>
@@ -30,6 +33,7 @@
                             <i class="bi bi-trash"></i>
                         </button>
                     </td>
+                    {% endif %}
 
                     <td>{{ lote.idlotesAnimales }}</td>
                     <td class="celda-resaltada">{{ lote.especie }}</td>

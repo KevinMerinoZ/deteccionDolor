@@ -191,7 +191,7 @@ def buscar_lotes(request):
     elif tipoDato == 'responsable':
         lotes = LoteAnimales.objects.select_related('usuario').filter(usuario__nombre__icontains=dato, is_active=True).order_by('usuario__nombre') 
     else:
-        lotes = LoteAnimales.objects.filter(is_active=True)
+        lotes = LoteAnimales.objects.filter(is_active=True).order_by('-pk')
 
     paginator = Paginator(lotes, 10)
     page_obj = paginator.get_page(page_number)
@@ -199,6 +199,7 @@ def buscar_lotes(request):
 
     tabla_html = render_to_string('lotesAnimales/tabla_resultados.html', {
         'lotes': page_obj,
+        'es_admin': request.user.groups.filter(name='administrador').exists()
     })
 
     paginacion_html = render_to_string('lotesAnimales/paginacion.html', {

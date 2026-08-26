@@ -315,10 +315,10 @@ def buscarCita(request):
     es_admin = request.user.groups.filter(name='administrador').exists()
 
     if request.user.groups.first().name == 'administrador':
-        citas = Cita.objects.filter(is_active=True)
+        citas = Cita.objects.filter(is_active=True).order_by('-pk')
     else:
         usuarioAct = request.user
-        citas = Cita.objects.filter(is_active=True, usuario_id__user__username=usuarioAct)
+        citas = Cita.objects.filter(is_active=True, usuario_id__user__username=usuarioAct).order_by('-pk')
 
     if filtro == 'usuario':
         citas = citas.filter(
@@ -330,8 +330,7 @@ def buscarCita(request):
             protocolo_experimental__nombre_protocolo__icontains=dato
         ).order_by('protocolo_experimental__nombre_protocolo')
 
-    else:
-        citas = citas.order_by('idcitas')
+
 
     paginator = Paginator(citas, 10)
     page_obj = paginator.get_page(page)

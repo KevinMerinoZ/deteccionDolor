@@ -116,7 +116,7 @@ def buscarMaterial(request):
         materiales = materiales.filter(proveedor__nombre_proveedor__icontains=dato).order_by('proveedor__nombre_proveedor')
 
     else:
-        materiales = materiales.order_by('idmateriales')
+        materiales = materiales.order_by('-pk')
 
     # -----------------------------
     # Paginación
@@ -125,7 +125,8 @@ def buscarMaterial(request):
     page_obj = paginator.get_page(page)
 
     tabla = render_to_string('material/tabla_resultados.html', {
-        'materiales': page_obj.object_list
+        'materiales': page_obj.object_list,
+        'es_admin': request.user.groups.filter(name='administrador').exists()
     })
 
     paginacion = render_to_string('material/paginacion.html', {
