@@ -1,0 +1,1532 @@
+let debounceTimer = null;
+
+function debounce(func, delay) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(func, delay);
+}
+
+function cargarDatos(dato = "", page = 1, tipoDato = "") {
+    const url = `/usuarios/buscar-usuarios/?dato=${encodeURIComponent(dato)}&page=${page}&tipoDato=${encodeURIComponent(tipoDato)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('tabla-resultados').innerHTML = data.tabla;
+            document.getElementById('paginacion').innerHTML = data.paginacion;
+        });
+}
+
+if(document.getElementById('filtroUsuario')){
+document.getElementById('filtroUsuario').addEventListener('change', function () {
+    const filtro = this.value;
+
+    const inputBuscar = document.getElementById('buscarUsuario');
+    inputBuscar.focus();
+    const dato = inputBuscar.value;
+    cargarDatos(dato, 1, filtro);
+});
+}
+
+// Búsqueda con debounce
+if(document.getElementById('buscarUsuario')){
+    document.getElementById('buscarUsuario').addEventListener('keyup', function() {
+        const nombre = this.value;
+        const filtro = document.getElementById('filtroUsuario').value;
+
+        debounce(() => {
+            cargarDatos(nombre, 1, filtro);
+        }, 300);
+    });
+}
+
+// Delegación para paginación
+document.addEventListener('click', function(e) {
+    if(document.getElementById('filtroUsuario')){
+        const filtro = document.getElementById('filtroUsuario').value;
+        const enlace = e.target.closest('.link-pagina');
+
+        if(!enlace) return;
+
+        e.preventDefault();
+        const page = enlace.dataset.page;
+        const nombre = document.getElementById('buscarUsuario').value;
+        cargarDatos(nombre, page, filtro);
+    }
+});
+
+// ******** listener general al cargar la página ********
+document.addEventListener("DOMContentLoaded", function () {
+    // ----- Cargar datos iniciales -----
+    if(document.getElementById('filtroUsuario')){
+        const filtro = document.getElementById('filtroUsuario').value;
+        cargarDatos("", 1, filtro); // carga la página 1 desde el inicio
+    }
+
+    // ----- Manejo de alertas -----
+    const alerts = document.querySelectorAll('.alert');
+
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.classList.add('fade-out');
+
+            setTimeout(() => {
+                alert.remove();
+            }, 1000);
+        }, 3000);
+    });
+});
+
+// ******** Modales ********
+
+// const modales = document.querySelectorAll('.modal');
+
+// modales.forEach(modal => {
+//     modal.addEventListener('show.bs.modal', function (event) {
+//         const button = event.relatedTarget;
+//         const modalTitle = modal.querySelector('.modal-title');
+//         const modalBody = modal.querySelector('.modal-body');
+// });
+
+/* ================================
+   lotesAnimales.js
+   Gestión dinámica de Lotes de Animales
+   ================================ */
+
+// -------------------------
+// Función debounce
+// -------------------------
+function debounce(func, delay) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(func, delay);
+}
+
+// -------------------------
+// Cargar datos AJAX
+// -------------------------
+function cargarLotes(dato = "", page = 1, tipoDato = "") {
+    const url = `/lotesAnimales/buscar-lotes/?dato=${encodeURIComponent(dato)}&page=${page}&tipoDato=${encodeURIComponent(tipoDato)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tabla = document.getElementById('tabla-lotes');
+            const paginacion = document.getElementById('paginacion-lotes');
+
+            if (tabla) tabla.innerHTML = data.tabla;
+            if (paginacion) paginacion.innerHTML = data.paginacion;
+        })
+        .catch(error => console.error("Error en fetch lotes:", error));
+}
+
+// ================================
+// Filtro: seleccionar tipo de dato
+// ================================
+const filtroLotes = document.getElementById('filtroLotes');
+
+if (filtroLotes) {
+    filtroLotes.addEventListener('change', function () {
+        const filtro = this.value;
+
+        const inputBuscar = document.getElementById('buscarLote');
+        if (inputBuscar) {
+            inputBuscar.focus();
+            const dato = inputBuscar.value.trim();
+            cargarLotes(dato, 1, filtro);
+        }
+    });
+}
+
+// ================================
+// Búsqueda con debounce
+// ================================
+const inputBuscarLote = document.getElementById('buscarLote');
+
+if (inputBuscarLote) {
+    inputBuscarLote.addEventListener('keyup', function () {
+        const dato = this.value.trim();
+        const filtro = filtroLotes ? filtroLotes.value : "";
+
+        debounce(() => {
+            cargarLotes(dato, 1, filtro);
+        }, 300);
+    });
+}
+
+// ================================
+// Delegación para paginación
+// ================================
+document.addEventListener('click', function (e) {
+    const filtro = filtroLotes ? filtroLotes.value : null;
+    if (filtro === null) return;
+
+    const enlace = e.target.closest('.link-pagina');
+    if (!enlace) return;
+
+    e.preventDefault();
+
+    const page = enlace.dataset.page;
+    const dato = inputBuscarLote ? inputBuscarLote.value.trim() : "";
+
+    cargarLotes(dato, page, filtro);
+});
+
+// ================================
+// Evento general al cargar la página
+// ================================
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("lotesAnimales.js cargado correctamente.");
+
+    // ----- Cargar datos iniciales -----
+    if (filtroLotes) {
+        const filtro = filtroLotes.value;
+        cargarLotes("", 1, filtro);
+    }
+
+    // ----- Manejo de alertas -----
+    const alerts = document.querySelectorAll('.alert');
+
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.classList.add('fade-out');
+            setTimeout(() => alert.remove(), 1000);
+        }, 3000);
+    });
+});
+
+/* ================================
+   provedor.js
+   Gestión dinámica de Proveedores
+   ================================ */
+
+// -------------------------
+// Función debounce
+// -------------------------
+function debounce(func, delay) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(func, delay);
+}
+
+// -------------------------
+// Cargar datos AJAX
+// -------------------------
+function cargarProveedores(dato = "", page = 1, tipoDato = "") {
+
+    const url = `/provedor/buscar-proveedor/?dato=${encodeURIComponent(dato)}&page=${page}&tipoDato=${encodeURIComponent(tipoDato)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tabla = document.getElementById('tabla-proveedores');
+            const paginacion = document.getElementById('paginacion-proveedores');
+
+            if (tabla) tabla.innerHTML = data.tabla;
+            if (paginacion) paginacion.innerHTML = data.paginacion;
+        })
+        .catch(error => console.error("Error en fetch proveedores:", error));
+}
+
+// ================================
+// Filtro: seleccionar tipo de dato
+// ================================
+const filtroProveedores = document.getElementById('filtroProveedor');
+
+if (filtroProveedores) {
+    filtroProveedores.addEventListener('change', function () {
+        const filtro = this.value;
+
+        const inputBuscar = document.getElementById('buscarProveedor');
+        if (inputBuscar) {
+            inputBuscar.focus();
+            const dato = inputBuscar.value.trim();
+            cargarProveedores(dato, 1, filtro);
+        }
+    });
+}
+
+// ================================
+// Búsqueda con debounce
+// ================================
+const inputBuscarProveedor = document.getElementById('buscarProveedor');
+
+if (inputBuscarProveedor) {
+    inputBuscarProveedor.addEventListener('keyup', function () {
+        const dato = this.value.trim();
+        const filtro = filtroProveedores ? filtroProveedores.value : "";
+
+        debounce(() => {
+            cargarProveedores(dato, 1, filtro);
+        }, 300);
+    });
+}
+
+// ================================
+// Delegación para paginación
+// ================================
+document.addEventListener('click', function (e) {
+    const filtro = filtroProveedores ? filtroProveedores.value : null;
+    if (filtro === null) return;
+
+    const enlace = e.target.closest('.link-pagina');
+
+    if (!enlace) return;
+
+    e.preventDefault();
+
+    const page = enlace.dataset.page;
+    const dato = inputBuscarProveedor ? inputBuscarProveedor.value.trim() : "";
+
+    if (!page) return;
+
+    cargarProveedores(dato, page, filtro);
+});
+
+// ================================
+// Evento general al cargar la página
+// ================================
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("provedor.js cargado correctamente.");
+
+    // Cargar datos iniciales
+    if (filtroProveedores) {
+        const filtro = filtroProveedores.value;
+        cargarProveedores("", 1, filtro);
+    }
+
+    // Manejo de alertas desaparecidas
+    const alerts = document.querySelectorAll('.alert');
+
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.classList.add('fade-out');
+            setTimeout(() => alert.remove(), 1000);
+        }, 3000);
+    });
+});
+
+/* ================================
+   farmaco.js
+   Gestión dinámica de Fármacos
+   ================================ */
+let pgActualFarmaco = 1;
+let tipoDatoActualFarmaco = "";
+let datoActualFarmaco = "";
+
+// -------------------------
+// Función debounce
+// -------------------------
+function debounce(func, delay) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(func, delay);
+}
+
+// -------------------------
+// Cargar datos AJAX
+// -------------------------
+function cargarFarmacos(dato = "", page = 1, tipoDato = "") {
+
+    const url = `/farmaco/buscar-farmaco/?dato=${encodeURIComponent(dato)}&page=${page}&tipoDato=${encodeURIComponent(tipoDato)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tabla = document.getElementById('tabla-farmacos');
+            const paginacion = document.getElementById('paginacion-farmacos');
+
+            if (tabla) tabla.innerHTML = data.tabla;
+            if (paginacion) paginacion.innerHTML = data.paginacion;
+            pgActualFarmaco = page; // Actualiza la página actual
+            tipoDatoActualFarmaco = tipoDato; // Actualiza el tipo de dato actual
+            datoActualFarmaco = dato; // Actualiza el dato actual
+        })
+        .catch(error => console.error("Error en fetch farmacos:", error));
+}
+
+// ================================
+// Filtro: seleccionar tipo de dato
+// ================================
+const filtroFarmacos = document.getElementById('filtroFarmaco');
+
+if (filtroFarmacos) {
+    filtroFarmacos.addEventListener('change', function () {
+        const filtro = this.value;
+
+        const inputBuscar = document.getElementById('buscarFarmaco');
+        if (inputBuscar) {
+            inputBuscar.focus();
+            const dato = inputBuscar.value.trim();
+            cargarFarmacos(dato, 1, filtro);
+        }
+    });
+}
+
+// ================================
+// Búsqueda con debounce
+// ================================
+const inputBuscarFarmaco = document.getElementById('buscarFarmaco');
+
+if (inputBuscarFarmaco) {
+    inputBuscarFarmaco.addEventListener('keyup', function () {
+        const dato = this.value.trim();
+        const filtro = filtroFarmacos ? filtroFarmacos.value : "";
+
+        debounce(() => {
+            cargarFarmacos(dato, 1, filtro);
+        }, 300);
+    });
+}
+
+// ================================
+// Delegación para paginación
+// ================================
+document.addEventListener('click', function (e) {
+    const filtro = filtroFarmacos ? filtroFarmacos.value : null;
+    if (filtro === null) return;
+
+    const enlace = e.target.closest('.link-pagina');
+
+    if (!enlace) return;
+
+    e.preventDefault();
+
+    const page = enlace.dataset.page;
+    const dato = inputBuscarFarmaco ? inputBuscarFarmaco.value.trim() : "";
+
+    if (!page) return;
+
+    cargarFarmacos(dato, page, filtro);
+});
+
+// ================================
+// Función abrir farmaco
+// ================================
+document.addEventListener('click', function (e) {
+    const enlace = e.target.closest('.btn-abrirFarmaco');
+
+    if (!enlace) return;
+
+    e.preventDefault();
+
+    const enlaceUrl = enlace.dataset.href;
+
+    if (!enlaceUrl) return;
+
+    fetch(enlaceUrl, {
+        method: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Respuesta de abrirFarmaco:", data);
+        if (data.resultadoCorrecto) {
+            cargarFarmacos(datoActualFarmaco, pgActualFarmaco, tipoDatoActualFarmaco);
+        }
+    })
+    .catch(error => console.error("Error en fetch abrirFarmaco:", error));
+});
+
+// ================================
+// Evento general al cargar la página
+// ================================
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("farmaco.js cargado correctamente.");
+
+    // Cargar datos iniciales
+    if (filtroFarmacos) {
+        const filtro = filtroFarmacos.value;
+        cargarFarmacos("", 1, filtro);
+    }
+
+    // Manejo de alertas desaparecidas
+    const alerts = document.querySelectorAll('.alert');
+
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.classList.add('fade-out');
+            setTimeout(() => alert.remove(), 1000);
+        }, 3000);
+    });
+});
+
+/* ================================
+   material.js
+   Gestión dinámica de Materiales
+   ================================ */
+
+// -------------------------
+// Función debounce
+// -------------------------
+function debounce(func, delay) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(func, delay);
+}
+
+// -------------------------
+// Cargar datos AJAX
+// -------------------------
+function cargarMateriales(dato = "", page = 1, tipoDato = "") {
+
+    const url = `/material/buscar-material/?dato=${encodeURIComponent(dato)}&page=${page}&tipoDato=${encodeURIComponent(tipoDato)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tabla = document.getElementById('tabla-materiales');
+            const paginacion = document.getElementById('paginacion-materiales');
+
+            if (tabla) tabla.innerHTML = data.tabla;
+            if (paginacion) paginacion.innerHTML = data.paginacion;
+        })
+        .catch(error => console.error("Error en fetch materiales:", error));
+}
+
+// ================================
+// Filtro: seleccionar tipo de dato
+// ================================
+const filtroMaterial = document.getElementById('filtroMaterial');
+
+if (filtroMaterial) {
+    filtroMaterial.addEventListener('change', function () {
+        const filtro = this.value;
+
+        const inputBuscar = document.getElementById('buscarMaterial');
+        if (inputBuscar) {
+            inputBuscar.focus();
+            const dato = inputBuscar.value.trim();
+            cargarMateriales(dato, 1, filtro);
+        }
+    });
+}
+
+// ================================
+// Búsqueda con debounce
+// ================================
+const inputBuscarMaterial = document.getElementById('buscarMaterial');
+
+if (inputBuscarMaterial) {
+    inputBuscarMaterial.addEventListener('keyup', function () {
+        const dato = this.value.trim();
+        const filtro = filtroMaterial ? filtroMaterial.value : "";
+
+        debounce(() => {
+            cargarMateriales(dato, 1, filtro);
+        }, 300);
+    });
+}
+
+// ================================
+// Delegación para paginación
+// ================================
+document.addEventListener('click', function (e) {
+
+    const filtro = filtroMaterial ? filtroMaterial.value : null;
+    if (filtro === null) return;
+
+    const enlace = e.target.closest('.link-pagina');
+    if (!enlace) return;
+
+    e.preventDefault();
+
+    const page = enlace.dataset.page;
+    const dato = inputBuscarMaterial ? inputBuscarMaterial.value.trim() : "";
+
+    if (!page) return;
+
+    cargarMateriales(dato, page, filtro);
+});
+
+// ================================
+// Evento general al cargar la página
+// ================================
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("material.js cargado correctamente.");
+
+    // Cargar datos iniciales
+    if (filtroMaterial) {
+        const filtro = filtroMaterial.value;
+        cargarMateriales("", 1, filtro);
+    }
+
+    // Manejo de alertas desaparecidas
+    const alerts = document.querySelectorAll('.alert');
+
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.classList.add('fade-out');
+            setTimeout(() => alert.remove(), 1000);
+        }, 3000);
+    });
+});
+
+/* ==========================================
+   sustanciaExperimental.js
+   Gestión dinámica de Sustancias Experimentales
+   ========================================== */
+
+// -------------------------
+// Función debounce
+// -------------------------
+function debounce(func, delay) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(func, delay);
+}
+
+// -------------------------
+// Cargar datos AJAX
+// -------------------------
+function cargarSustancias(dato = "", page = 1, tipoDato = "") {
+
+    const url = `/sustanciasExperimentales/buscar-sustancia/?dato=${encodeURIComponent(dato)}&page=${page}&tipoDato=${encodeURIComponent(tipoDato)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tabla = document.getElementById('tabla-sustancias');
+            const paginacion = document.getElementById('paginacion-sustancias');
+
+            if (tabla) tabla.innerHTML = data.tabla;
+            if (paginacion) paginacion.innerHTML = data.paginacion;
+        })
+        .catch(error => console.error("Error en fetch sustancias:", error));
+}
+
+// ================================
+// Filtro: seleccionar tipo de dato
+// ================================
+const filtroSustancias = document.getElementById('filtroSustancia');
+
+if (filtroSustancias) {
+    filtroSustancias.addEventListener('change', function () {
+        const filtro = this.value;
+
+        const inputBuscar = document.getElementById('buscarSustancia');
+        if (inputBuscar) {
+            inputBuscar.focus();
+            const dato = inputBuscar.value.trim();
+            cargarSustancias(dato, 1, filtro);
+        }
+    });
+}
+
+// ================================
+// Búsqueda con debounce
+// ================================
+const inputBuscarSustancia = document.getElementById('buscarSustancia');
+
+if (inputBuscarSustancia) {
+    inputBuscarSustancia.addEventListener('keyup', function () {
+        const dato = this.value.trim();
+        const filtro = filtroSustancias ? filtroSustancias.value : "";
+
+        debounce(() => {
+            cargarSustancias(dato, 1, filtro);
+        }, 300);
+    });
+}
+
+// ================================
+// Delegación para paginación
+// ================================
+document.addEventListener('click', function (e) {
+    const filtro = filtroSustancias ? filtroSustancias.value : null;
+    if (filtro === null) return;
+
+    const enlace = e.target.closest('.link-pagina');
+    if (!enlace) return;
+
+    e.preventDefault();
+
+    const page = enlace.dataset.page;
+    const dato = inputBuscarSustancia ? inputBuscarSustancia.value.trim() : "";
+
+    if (!page) return;
+
+    cargarSustancias(dato, page, filtro);
+});
+
+// ================================
+// Evento general al cargar la página
+// ================================
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("sustanciaExperimental.js cargado correctamente.");
+
+    // Cargar datos iniciales
+    if (filtroSustancias) {
+        const filtro = filtroSustancias.value;
+        cargarSustancias("", 1, filtro);
+    }
+
+    // Manejo de alertas desaparecidas
+    const alerts = document.querySelectorAll('.alert');
+
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.classList.add('fade-out');
+            setTimeout(() => alert.remove(), 1000);
+        }, 3000);
+    });
+});
+
+/* ==========================================
+   protocoloExperimental.js
+   Gestión dinámica de Protocolos Experimentales
+   ========================================== */
+
+// -------------------------
+// Función debounce
+// -------------------------
+function debounce(func, delay) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(func, delay);
+}
+
+// -------------------------
+// Cargar datos AJAX
+// -------------------------
+function cargarProtocolos(dato = "", page = 1, tipoDato = "") {
+
+    const url = `/protocolosExperimentales/buscar-protocolo/?dato=${encodeURIComponent(dato)}&page=${page}&tipoDato=${encodeURIComponent(tipoDato)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tabla = document.getElementById('tabla-protocolos');
+            const paginacion = document.getElementById('paginacion-protocolos');
+
+            if (tabla) tabla.innerHTML = data.tabla;
+            if (paginacion) paginacion.innerHTML = data.paginacion;
+        })
+        .catch(error => console.error("Error en fetch protocolos:", error));
+}
+
+// ================================
+// Filtro: seleccionar tipo de dato
+// ================================
+const filtroProtocolos = document.getElementById('filtroProtocolo');
+
+if (filtroProtocolos) {
+    filtroProtocolos.addEventListener('change', function () {
+        const filtro = this.value;
+
+        const inputBuscar = document.getElementById('buscarProtocolo');
+        if (inputBuscar) {
+            inputBuscar.focus();
+            const dato = inputBuscar.value.trim();
+            cargarProtocolos(dato, 1, filtro);
+        }
+    });
+}
+
+// ================================
+// Búsqueda con debounce
+// ================================
+const inputBuscarProtocolo = document.getElementById('buscarProtocolo');
+
+if (inputBuscarProtocolo) {
+    inputBuscarProtocolo.addEventListener('keyup', function () {
+        const dato = this.value.trim();
+        const filtro = filtroProtocolos ? filtroProtocolos.value : "";
+
+        debounce(() => {
+            cargarProtocolos(dato, 1, filtro);
+        }, 300);
+    });
+}
+
+// ================================
+// Delegación para paginación
+// ================================
+document.addEventListener('click', function (e) {
+    const filtro = filtroProtocolos ? filtroProtocolos.value : null;
+    if (filtro === null) return;
+
+    const enlace = e.target.closest('.link-pagina');
+    if (!enlace) return;
+
+    e.preventDefault();
+
+    const page = enlace.dataset.page;
+    const dato = inputBuscarProtocolo ? inputBuscarProtocolo.value.trim() : "";
+
+    if (!page) return;
+
+    cargarProtocolos(dato, page, filtro);
+});
+
+// ================================
+// Evento general al cargar la página
+// ================================
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("protocoloExperimental.js cargado correctamente.");
+
+    // Carga inicial
+    if (filtroProtocolos) {
+        const filtro = filtroProtocolos.value;
+        cargarProtocolos("", 1, filtro);
+    }
+
+    // Manejo de alertas
+    const alerts = document.querySelectorAll('.alert');
+
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.classList.add('fade-out');
+            setTimeout(() => alert.remove(), 1000);
+        }, 3000);
+    });
+});
+
+/* ================================
+   cita.js
+   Gestión dinámica de Citas
+   ================================ */
+
+// -------------------------
+// Función debounce
+// -------------------------
+function debounce(func, delay) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(func, delay);
+}
+
+// -------------------------
+// Cargar datos AJAX
+// -------------------------
+function cargarCitas(dato = "", page = 1, tipoDato = "") {
+
+    const url = `/citas/buscar-cita/?dato=${encodeURIComponent(dato)}&page=${page}&tipoDato=${encodeURIComponent(tipoDato)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tabla = document.getElementById('tabla-citas');
+            const paginacion = document.getElementById('paginacion-citas');
+
+            if (tabla) tabla.innerHTML = data.tabla;
+            if (paginacion) paginacion.innerHTML = data.paginacion;
+        })
+        .catch(error => console.error("Error en fetch citas:", error));
+}
+
+// ================================
+// Filtro: seleccionar tipo de dato
+// ================================
+const filtroCitas = document.getElementById('filtroCita');
+
+if (filtroCitas) {
+    filtroCitas.addEventListener('change', function () {
+        const filtro = this.value;
+
+        const inputBuscar = document.getElementById('buscarCita');
+        if (inputBuscar) {
+            inputBuscar.focus();
+            const dato = inputBuscar.value.trim();
+            cargarCitas(dato, 1, filtro);
+        }
+    });
+}
+
+// ================================
+// Búsqueda con debounce
+// ================================
+const inputBuscarCita = document.getElementById('buscarCita');
+
+if (inputBuscarCita) {
+    inputBuscarCita.addEventListener('keyup', function () {
+        const dato = this.value.trim();
+        const filtro = filtroCitas ? filtroCitas.value : "";
+
+        debounce(() => {
+            cargarCitas(dato, 1, filtro);
+        }, 300);
+    });
+}
+
+// ================================
+// Delegación para paginación
+// ================================
+document.addEventListener('click', function (e) {
+    const filtro = filtroCitas ? filtroCitas.value : null;
+    if (filtro === null) return;
+
+    const enlace = e.target.closest('.link-pagina');
+    if (!enlace) return;
+
+    e.preventDefault();
+
+    const page = enlace.dataset.page;
+    const dato = inputBuscarCita ? inputBuscarCita.value.trim() : "";
+
+    if (!page) return;
+
+    cargarCitas(dato, page, filtro);
+});
+
+// ================================
+// Evento general al cargar la página
+// ================================
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("cita.js cargado correctamente.");
+
+    // Cargar datos iniciales
+    if (filtroCitas) {
+        const filtro = filtroCitas.value;
+        cargarCitas("", 1, filtro);
+    }
+
+    // Manejo de alertas temporales
+    const alerts = document.querySelectorAll('.alert');
+
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.classList.add('fade-out');
+            setTimeout(() => alert.remove(), 1000);
+        }, 3000);
+    });
+});
+
+// ================================
+// Observador de citas Pendientes
+// ================================
+// setInterval(() => {
+//     fetch('/citas/buscar-Cita-Pendiente/')
+//     .then(respuesta => respuesta.json())
+//     .then(datos => {
+//         if(datos.existenCitasPendientes == true) {
+//             console.log("Todo Ok");
+            
+//         }
+
+//     });
+// }, 10000);
+
+/* =====================================
+   sesionExperimental.js
+   Gestión dinámica de Sesiones
+   ===================================== */
+
+// -------------------------
+// Función debounce
+// -------------------------
+function debounce(func, delay) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(func, delay);
+}
+
+// -------------------------
+// Cargar datos AJAX
+// -------------------------
+function cargarSesiones(dato = "", page = 1, tipoDato = "") {
+
+    const url = `/sesionesExperimentales/buscar-sesion/?dato=${encodeURIComponent(dato)}&page=${page}&tipoDato=${encodeURIComponent(tipoDato)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tabla = document.getElementById('tabla-sesiones');
+            const paginacion = document.getElementById('paginacion-sesiones');
+
+            if (tabla) tabla.innerHTML = data.tabla;
+            if (paginacion) paginacion.innerHTML = data.paginacion;
+        })
+        .catch(error => console.error("Error en fetch sesiones:", error));
+}
+
+// ================================
+// Filtro
+// ================================
+const filtroSesiones = document.getElementById('filtroSesion');
+
+if (filtroSesiones) {
+    filtroSesiones.addEventListener('change', function () {
+        const filtro = this.value;
+        const inputBuscar = document.getElementById('buscarSesion');
+
+        if (inputBuscar) {
+            inputBuscar.focus();
+            cargarSesiones(inputBuscar.value.trim(), 1, filtro);
+        }
+    });
+}
+
+// ================================
+// Búsqueda con debounce
+// ================================
+const inputBuscarSesion = document.getElementById('buscarSesion');
+
+if (inputBuscarSesion) {
+    inputBuscarSesion.addEventListener('keyup', function () {
+        const dato = this.value.trim();
+        const filtro = filtroSesiones ? filtroSesiones.value : "";
+
+        debounce(() => {
+            cargarSesiones(dato, 1, filtro);
+        }, 300);
+    });
+}
+
+// ================================
+// Paginación
+// ================================
+document.addEventListener('click', function (e) {
+
+    const enlace = e.target.closest('.link-pagina');
+    if (!enlace) return;
+
+    e.preventDefault();
+
+    const page = enlace.dataset.page;
+    const dato = inputBuscarSesion ? inputBuscarSesion.value.trim() : "";
+    const filtro = filtroSesiones ? filtroSesiones.value : "";
+
+    cargarSesiones(dato, page, filtro);
+});
+
+// ================================
+// Al cargar página
+// ================================
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("sesionExperimental.js cargado correctamente.");
+
+    if (filtroSesiones) {
+        cargarSesiones("", 1, filtroSesiones.value);
+    }
+});
+
+/* =====================================
+   detectorDolor_app.js
+   Control de dolor en ratones
+   ===================================== */
+
+const conjInputImgRaton = document.querySelectorAll('.btnInputFileImg');
+
+if(conjInputImgRaton){
+    conjInputImgRaton.forEach((input, index) => {
+        input.addEventListener('change', function(){
+            if(this.files && this.files[0]){
+                const nombreArchivo = this.files[0].name;
+                const img = document.getElementById('imgRaton'+(index+1));
+                if(img){
+                    img.src = URL.createObjectURL(this.files[0]);
+                    input.parentElement.querySelector('[type="submit"]').focus();
+                }
+            }
+        });
+    });
+}
+
+document.addEventListener("click", function (e) {
+    const btnGenerarResultadoDeDolor = e.target.closest('.btnGenerarResultadoDeDolor');
+    if (!btnGenerarResultadoDeDolor) {
+        return;
+    }else{
+        console.log("btnGenerarResultadoDeDolor: ", btnGenerarResultadoDeDolor);
+        window.open(btnGenerarResultadoDeDolor.dataset.href, '_blank');
+        window.location.href = '/sesionesExperimentales/';
+    }
+});
+const btnGenerarResultadoDeDolor = document.querySelectorAll('.btnGenerarResultadoDeDolor');
+
+if(btnGenerarResultadoDeDolor.length){
+    console.log("btnGenerarResultadoDeDolor: ", btnGenerarResultadoDeDolor[0]);
+    btnGenerarResultadoDeDolor.forEach((btn) => {
+        btn.addEventListener('click', function(){
+            window.open(btn.dataset.href, '_blank');
+            window.location.href = '/sesionesExperimentales/';
+        });
+    });
+}
+
+document.addEventListener("submit", function (e) {
+    const form = e.target;
+
+    if(!form.classList.contains('contRaton')) return;
+
+    e.preventDefault();
+
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const noMedicionActual = document.querySelector('[name=noMedicionActual]').value;
+
+    const formData = new FormData(form);
+    formData.append('noMedicionActual', noMedicionActual);
+
+    console.log("imagen: ", formData.get('inputImgRaton'));
+
+    fetch(form.action, {
+        method: 'POST',
+        body: formData, 
+        headers:{
+            'X-CSRFToken': csrfToken
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+
+         const resultado = form.querySelector('.resultado-dolor');
+        const resultadoOrejas = form.querySelector('.resultado-dolorOrejas');
+        const resultadoOjos = form.querySelector('.resultado-dolorOjos');
+        const resultadoNariz = form.querySelector('.resultado-dolorNariz');
+        const resultadoCachetes = form.querySelector('.resultado-dolorCachetes');
+
+        const confianza = form.querySelector('.resultado-confianza');
+        const confianzaOrejas = form.querySelector('.resultado-confianzaOrejas');
+        const confianzaOjos = form.querySelector('.resultado-confianzaOjos');
+        const confianzaNariz = form.querySelector('.resultado-confianzaNariz');
+        const confianzaCachetes = form.querySelector('.resultado-confianzaCachetes');
+
+        if(resultado && confianza){
+            resultado.textContent = 'Nivel de dolor promedio: '+ data.promedio_nivel;
+            resultadoOrejas.textContent = 'Orejas: '+ data.nivel_dolor_orejas;
+            resultadoOjos.textContent = 'Ojos: '+ data.nivel_dolor_ojos;
+            resultadoNariz.textContent = 'Nariz: '+ data.nivel_dolor_nariz;
+            resultadoCachetes.textContent = 'Cachetes: '+ data.nivel_dolor_cachetes;
+
+            confianza.textContent = 'Confianza promedio: '+ data.promedio_confianza + '%'
+            confianzaOrejas.textContent = 'Orejas: '+ data.confianza_orejas + '%';
+            confianzaOjos.textContent = 'Ojos: '+ data.confianza_ojos + '%';
+            confianzaNariz.textContent = 'Nariz: '+ data.confianza_nariz + '%';
+            confianzaCachetes.textContent = 'Cachetes: '+ data.confianza_cachetes + '%';
+        }
+    })
+    .catch(error => console.error("Error en fetch:", error));
+});
+
+/* ================================
+   incidencias.js
+   Gestión de incidencias experimentales
+   ================================ */
+
+// -------------------------
+// Función debounce
+// -------------------------
+function debounce(func, delay) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(func, delay);
+}
+
+// -------------------------
+// Cargar datos AJAX
+// -------------------------
+function cargarIncidencias(dato = "", page = 1, tipoDato = "") {
+
+    const url = `/gestionIncidencias/buscar-Incidencia/?dato=${encodeURIComponent(dato)}&page=${page}&tipoDato=${encodeURIComponent(tipoDato)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tabla = document.getElementById('tabla-incidencias');
+            const paginacion = document.getElementById('paginacion-incidencias');
+
+            if (tabla) tabla.innerHTML = data.tabla;
+            if (paginacion) paginacion.innerHTML = data.paginacion;
+        })
+        .catch(error => console.error("Error en fetch incidencias:", error));
+}
+
+// ================================
+// Filtro: seleccionar tipo de dato
+// ================================
+const filtroIncidencias = document.getElementById('filtroIncidencia');
+
+if (filtroIncidencias) {
+    filtroIncidencias.addEventListener('change', function () {
+        const filtro = this.value;
+
+        const inputBuscar = document.getElementById('buscarIncidencia');
+        if (inputBuscar) {
+            inputBuscar.focus();
+            const dato = inputBuscar.value.trim();
+            cargarIncidencias(dato, 1, filtro);
+        }
+    });
+}
+
+// ================================
+// Búsqueda con debounce
+// ================================
+const inputBuscarIncidencia = document.getElementById('buscarIncidencia');
+
+if (inputBuscarIncidencia) {
+    inputBuscarIncidencia.addEventListener('keyup', function () {
+        const dato = this.value.trim();
+        const filtro = filtroIncidencias ? filtroIncidencias.value : "";
+
+        debounce(() => {
+            cargarIncidencias(dato, 1, filtro);
+        }, 300);
+    });
+}
+
+// ================================
+// Delegación para paginación
+// ================================
+document.addEventListener('click', function (e) {
+    const filtro = filtroIncidencias ? filtroIncidencias.value : null;
+    if (filtro === null) return;
+
+    const enlace = e.target.closest('.link-pagina');
+
+    if (!enlace) return;
+
+    e.preventDefault();
+
+    const page = enlace.dataset.page;
+    const dato = inputBuscarIncidencia ? inputBuscarIncidencia.value.trim() : "";
+
+    if (!page) return;
+
+    cargarIncidencias(dato, page, filtro);
+});
+
+// ================================
+// Evento general al cargar la página
+// ================================
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("incidencia.js cargado correctamente.");
+
+    // Cargar datos iniciales
+    if (filtroIncidencias) {
+        const filtro = filtroIncidencias.value;
+        cargarIncidencias("", 1, filtro);
+    }
+
+    // Manejo de alertas desaparecidas
+    const alerts = document.querySelectorAll('.alert');
+
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.classList.add('fade-out');
+            setTimeout(() => alert.remove(), 1000);
+        }, 3000);
+    });
+});
+
+/* ================================
+   Sesiones Activas.js
+   Gestión dinámica de Sesiones Activas
+   ================================ */
+
+
+// -------------------------
+// Función debounce
+// -------------------------
+function debounce(func, delay) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(func, delay);
+}
+
+// -------------------------
+// Cargar datos AJAX
+// -------------------------
+function cargarSesionesActivas(dato = "", page = 1, tipoDato = "") {
+    const url = `/sesionesActivas/buscar-sesionesActivas/?dato=${encodeURIComponent(dato)}&page=${page}&tipoDato=${encodeURIComponent(tipoDato)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tabla = document.getElementById('tabla-sesionActiva');
+            const paginacion = document.getElementById('paginacion-sesionActiva');
+
+            if (tabla) tabla.innerHTML = data.tabla;
+            if (paginacion) paginacion.innerHTML = data.paginacion;
+        })
+        .catch(error => console.error("Error en fetch sesiones activas:", error));
+}
+
+// ================================
+// Filtro: seleccionar tipo de dato
+// ================================
+const filtroSesionesActivas = document.getElementById('filtroSesionesActivas');
+
+if (filtroSesionesActivas) {
+    filtroSesionesActivas.addEventListener('change', function () {
+        const filtro = this.value;
+
+        const inputBuscar = document.getElementById('buscarSesionActiva');
+        if (inputBuscar) {
+            inputBuscar.focus();
+            const dato = inputBuscar.value.trim();
+            cargarSesionesActivas(dato, 1, filtro);
+        }
+    });
+}
+
+// ================================
+// Búsqueda con debounce
+// ================================
+const inputBuscarSesionActiva = document.getElementById('buscarSesionActiva');
+
+if (inputBuscarSesionActiva) {
+    inputBuscarSesionActiva.addEventListener('keyup', function () {
+        const dato = this.value.trim();
+        const filtro = filtroSesionesActivas ? filtroSesionesActivas.value : "";
+
+        debounce(() => {
+            cargarSesionesActivas(dato, 1, filtro);
+        }, 300);
+    });
+}
+
+// ================================
+// Delegación para paginación
+// ================================
+document.addEventListener('click', function (e) {
+    const filtro = filtroSesionesActivas ? filtroSesionesActivas.value : null;
+    if (filtro === null) return;
+
+    const enlace = e.target.closest('.link-pagina');
+    if (!enlace) return;
+
+    e.preventDefault();
+
+    const page = enlace.dataset.page;
+    const dato = inputBuscarSesionActiva ? inputBuscarSesionActiva.value.trim() : "";
+
+    cargarSesionesActivas(dato, page, filtro);
+});
+
+// ================================
+// Evento general al cargar la página
+// ================================
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("sesionesActivas.js cargado correctamente.");
+
+    // ----- Cargar datos iniciales -----
+    if (filtroSesionesActivas) {
+        const filtro = filtroSesionesActivas.value;
+        cargarSesionesActivas("", 1, filtro);
+    }
+
+    // ----- Manejo de alertas -----
+    const alerts = document.querySelectorAll('.alert');
+
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.classList.add('fade-out');
+            setTimeout(() => alert.remove(), 1000);
+        }, 3000);
+    });
+});
+
+/* ==========================================
+   bitacoraMaterialesEliminados.js
+   Gestión dinámica de Materiales Eliminados
+   ========================================== */
+
+// -------------------------
+// Función debounce
+// -------------------------
+function debounce(func, delay) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(func, delay);
+}
+
+// -------------------------
+// Cargar datos AJAX
+// -------------------------
+function cargarMaterialesEliminados(dato = "", page = 1, tipoDato = "") {
+
+    const url =
+        `/bitacoraMaterialesEliminados/buscar-materiales/?dato=${encodeURIComponent(dato)}&page=${page}&tipoDato=${encodeURIComponent(tipoDato)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+
+            const tabla = document.getElementById("tabla-resultados");
+            const paginacion = document.getElementById("paginacion");
+
+            if (tabla) {
+                tabla.innerHTML = data.tabla;
+            }
+
+            if (paginacion) {
+                paginacion.innerHTML = data.paginacion;
+            }
+
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+
+}
+
+// =======================================
+// Filtro
+// =======================================
+
+const filtroMaterialEliminado =
+    document.getElementById("filtroMaterialEliminado");
+
+if (filtroMaterialEliminado) {
+
+    filtroMaterialEliminado.addEventListener("change", function () {
+
+        const input =
+            document.getElementById("buscarMaterialEliminado");
+
+        const dato = input ? input.value.trim() : "";
+
+        cargarMaterialesEliminados(
+            dato,
+            1,
+            this.value
+        );
+
+    });
+
+}
+
+// =======================================
+// Búsqueda
+// =======================================
+
+const buscarMaterialEliminado =
+    document.getElementById("buscarMaterialEliminado");
+
+if (buscarMaterialEliminado) {
+
+    buscarMaterialEliminado.addEventListener("keyup", function () {
+
+        const dato = this.value.trim();
+
+        const filtro = filtroMaterialEliminado
+            ? filtroMaterialEliminado.value
+            : "";
+
+        debounce(() => {
+
+            cargarMaterialesEliminados(
+                dato,
+                1,
+                filtro
+            );
+
+        }, 300);
+
+    });
+
+}
+
+// =======================================
+// Paginación
+// =======================================
+
+document.addEventListener("click", function (e) {
+
+    const enlace = e.target.closest(".link-pagina");
+
+    if (!enlace) {
+        return;
+    }
+
+    e.preventDefault();
+
+    const page = enlace.dataset.page;
+
+    if (!page) {
+        return;
+    }
+
+    const dato = buscarMaterialEliminado
+        ? buscarMaterialEliminado.value.trim()
+        : "";
+
+    const filtro = filtroMaterialEliminado
+        ? filtroMaterialEliminado.value
+        : "";
+
+    cargarMaterialesEliminados(
+        dato,
+        page,
+        filtro
+    );
+
+});
+
+// =======================================
+// Al cargar la página
+// =======================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    console.log("bitacoraMaterialesEliminados.js cargado.");
+
+    if (filtroMaterialEliminado) {
+
+        cargarMaterialesEliminados(
+            "",
+            1,
+            filtroMaterialEliminado.value
+        );
+
+    }
+
+    const alerts = document.querySelectorAll(".alert");
+
+    alerts.forEach(alert => {
+
+        setTimeout(() => {
+
+            alert.classList.add("fade-out");
+
+            setTimeout(() => {
+                alert.remove();
+            }, 1000);
+
+        }, 3000);
+
+    });
+
+});
+
+let tiempoInactividada = 0;
+// let timeoutActividad;
+let estaActivo = true;
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let cookie of cookies) {
+            cookie = cookie.trim();
+            if (cookie.startsWith(name + "=")) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+console.log(getCookie("csrftoken"));
+
+['mousemove', 'click', 'scroll', 'touchstart'].forEach(evento => {
+    document.addEventListener(evento, ()=>{
+        estaActivo = true;
+        tiempoInactividada = 0;
+        console.log('Está activo');
+    });
+});
+
+setInterval(()=>{
+    if(getCookie("csrftoken")){
+        if(estaActivo){
+            console.log('mas 15 segundos')
+            fetch("/sesionesActivas/tiempoSesion")
+            .then(respuesta => respuesta.json)
+            .then(dato => {
+                console.log(dato);
+                if (window.location.pathname === "/sesionesActivas/") {
+                    const pag = document.querySelector(".link-pagina.pagina-actual").dataset.page || 1;
+
+                    cargarSesionesActivas(inputBuscarSesionActiva ? inputBuscarSesionActiva.value.trim() : "", pag, filtroSesionesActivas ? filtroSesionesActivas.value : "")
+                }
+            })
+            .catch(error => console.error("Error de fetch en js Sesiones Activas: ", error));
+            estaActivo = false;
+
+        }
+    }
+}, 15000); // 15 segundos

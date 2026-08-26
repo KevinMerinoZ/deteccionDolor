@@ -74,24 +74,12 @@ def index(request, idSesion, accion=None):
         confianza_nariz = Decimal(resultado['confianza_nariz']*100).quantize(Decimal('0.000'), rounding=ROUND_DOWN)
         confianza_cachetes = Decimal(resultado['confianza_cachetes']*100).quantize(Decimal('0.000'), rounding=ROUND_DOWN)
 
-        print("confianza_orejas:", confianza_orejas)
-        print("confianza_ojos:", confianza_ojos)
-        print("confianza_nariz:", confianza_nariz)
-        print("confianza_cachetes:", confianza_cachetes)
-
         # ************* Proceso de guardado o actualización de resultados de medición *************
         resultadoMedExists = ResultadoMedicion.objects.filter(noRaton = noRaton, numero_medicion = numero_medicion, sesion_experimental = sesionExp).first()
 
         promedio_nivel = (resultado['clase_orejas'] + resultado['clase_ojos'] + resultado['clase_nariz'] + resultado['clase_cachetes']) / 4
         promedio_confianza = (confianza_orejas + confianza_ojos + confianza_nariz + confianza_cachetes) / 4
 
-        print("promedio_nivel:", promedio_nivel)
-        print("promedio_confianza:", promedio_confianza)
-
-        print("clase orejas: ", resultado['clase_orejas'])
-        print("clase ojos: ", resultado['clase_ojos'])
-        print("clase nariz: ", resultado['clase_nariz'])
-        print("clase cachetes: ", resultado['clase_cachetes'])
 
         # Si existe un resultado de medición para el ratón y la medición actual, se actualiza; de lo contrario, se crea uno nuevo.
         if resultadoMedExists:

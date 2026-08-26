@@ -44,7 +44,6 @@ class SesionExperimentalForm(forms.ModelForm):
     
     def clean_fecha(self):
         fecha = self.cleaned_data.get('fecha')
-        print("Fecha ingresada:", fecha)
         if fecha is None:
             raise forms.ValidationError("La fecha es obligatoria.")
         # elif fecha 

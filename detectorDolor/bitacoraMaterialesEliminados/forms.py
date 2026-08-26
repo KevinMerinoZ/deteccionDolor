@@ -32,7 +32,6 @@ class BitacoraMaterialesEliminadosForm(forms.ModelForm):
 
     def clean_cantidad(self):
         cantidad = self.cleaned_data.get('cantidad')
-        print("Cantidad ingresada:", cantidad)  # Debugging statement
         if cantidad < 1 or cantidad > 200:
             raise ValidationError("La cantidad debe estar entre 1 y 200.",code='limite_cantidad')
         return cantidad

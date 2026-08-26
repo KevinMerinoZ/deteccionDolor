@@ -94,11 +94,9 @@ def buscarProveedor(request):
     filtro = request.GET.get('tipoDato', '')
     page = request.GET.get('page', 1)
 
-    print("pagina:", page)
     proveedores = Proveedor.objects.filter(is_active=True)
 
     if filtro == 'nombre':
-        print("Buscando por nombre")
         proveedores = proveedores.filter(nombre_proveedor__icontains=dato).order_by('nombre_proveedor')
 
     elif filtro == 'correo':

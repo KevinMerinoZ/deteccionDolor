@@ -104,7 +104,6 @@ def pgUsuariosCrear(request):
                     return redirect('usuario:indexUsuario')
 
             except Exception as e:
-                print(e)
                 messages.error(request, "No se pudo crear el usuario.")
                 return redirect('usuario:crearUsuario')
 
@@ -213,7 +212,6 @@ def pgUsuariosEditar(request, id):
                     return redirect('usuario:indexUsuario')
 
             except Exception as e:
-                print(e)
                 messages.error(request, "No se pudo actualizar el usuario.")
 
         else:

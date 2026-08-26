@@ -93,7 +93,6 @@
 
             });
             setInterval(()=>{
-                console.log("ya pasaron 60 seg...")
                 if(contNotificaciones) {
                     estadoPanelNotificaciones = contNotificaciones.querySelector("#panelNotificaciones").classList.contains("abiertoPanelNotificaciones") ? "abiertoPanelNotificaciones" : "cerradoPanelNotificaciones";
                     estadoContenidoNotificacion = contNotificaciones.querySelectorAll(".contenidoNotificacion").length > 0 && contNotificaciones.querySelector(".contenidoNotificacion").classList.contains("abiertoContenidoNotificacion") ? "abiertoContenidoNotificacion" : "cerradoContenidoNotificacion";

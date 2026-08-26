@@ -65,7 +65,6 @@ def pgLotesCrear(request):
     if request.method == 'POST':
         form = LoteAnimalesForm(request.POST)
 
-        print(form.errors)
         if form.is_valid():
             form.save()
             messages.success(request, "Lote registrado correctamente.")
@@ -195,7 +194,6 @@ def buscar_lotes(request):
 
     paginator = Paginator(lotes, 10)
     page_obj = paginator.get_page(page_number)
-    print(page_obj)
 
     tabla_html = render_to_string('lotesAnimales/tabla_resultados.html', {
         'lotes': page_obj,

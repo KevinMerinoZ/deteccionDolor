@@ -19,7 +19,6 @@ def indexSesion(request):
     paginator = Paginator(actividadUsuarios, 10)
     page = request.GET.get('page', 1)
     page_obj = paginator.get_page(page)
-    print(timezone.now())
 
     context = {
         'actividadUsuarios': page_obj.object_list,

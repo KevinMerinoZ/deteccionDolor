@@ -63,8 +63,6 @@ class CitaForm(forms.ModelForm):
             else:
                 fecha_horiaInicio = timezone.make_aware(datetime.combine(fecha, horaInicio))
                 fecha_horaFin = timezone.make_aware(datetime.combine(fecha, horaFin))
-                print("fecha horaInicio: ", fecha_horiaInicio)
-                print("fecha horaFin: ", fecha_horaFin)
                 if fecha_horaFin < fechaActual:
                     raise forms.ValidationError("La hora de fin no puede ser anterior a la hora actual.")
                 
@@ -108,7 +106,6 @@ class CitaForm(forms.ModelForm):
                 self.initial['horaFin'] = self.instance.horaFin
 
 def diffHora(hora_inicio:time, hora_fin:time):
-    print("date.min", date.min)
     fechaInicio = datetime.combine(date.min, hora_inicio)
     fechaFin = datetime.combine(date.min, hora_fin)
     return (fechaFin - fechaInicio).total_seconds()/60

@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-6+$)l*g-_4+4$q=cde!(4m9(d89b9m+$$83br(e*8l!3s3tyzj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0', '172.23.24.218']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0', 'servidor-farmacologia']
 TIME_ZONE = 'America/Mexico_City'
 USE_TZ = True
 
@@ -149,7 +149,12 @@ DATETIME_FORMAT = 'd/m/Y H:i:s'
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

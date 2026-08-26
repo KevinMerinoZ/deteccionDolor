@@ -80,13 +80,11 @@ def pgbitacoraMaterialesEditar(request, id):
             instance=registro
         )
 
-    print("entro a la función: ", registro.cantidad)
 
     if request.method == "POST":
         form = BitacoraMaterialesEliminadosForm(
             request.POST,
         )
-        print("entro a la función")
 
         if form.is_valid():
             material_original = registro.material
@@ -96,14 +94,11 @@ def pgbitacoraMaterialesEditar(request, id):
 
                 if material_original.pk == nuevo_registro.material.pk:
 
-                    print("id cantidad original: ", cantidad_original)
-                    print("nueva cantidad: ", nuevo_registro.cantidad)
                     Material.objects.filter(
                         pk=material_original.pk
                     ).update(
                         piezas_disponibles=F("piezas_disponibles") + cantidad_original - nuevo_registro.cantidad,
                     )
-                    print("Se actualizó el mismo material, ajustando la cantidad disponible.")
 
                 else:
 
