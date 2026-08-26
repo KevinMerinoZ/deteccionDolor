@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from datetime import date
 
 from .models import Farmaco
 from .forms import FarmacoForm
@@ -103,7 +104,7 @@ def buscarFarmaco(request):
         farmacos = farmacos.filter(presentacion__icontains=dato).order_by('presentacion')
 
     else:
-        farmacos = farmacos.order_by('idfarmacos')
+        farmacos = farmacos.order_by('-pk')
 
     paginator = Paginator(farmacos, 10)
     page_obj = paginator.get_page(page)
@@ -117,3 +118,18 @@ def buscarFarmaco(request):
     })
 
     return JsonResponse({'tabla': tabla, 'paginacion': paginacion})
+
+# ------------------------------------------------------------
+#  AJAX - ABRIR FARMACO
+# ------------------------------------------------------------
+
+def abrirFarmaco(request, idfarmacos):
+    farmaco = get_object_or_404(Farmaco, idfarmacos=idfarmacos)
+
+    farmaco.fecha_abierto = date.today()
+    farmaco.save()
+
+    data = {
+        'resultadoCorrecto': True,
+    }
+    return JsonResponse(data)

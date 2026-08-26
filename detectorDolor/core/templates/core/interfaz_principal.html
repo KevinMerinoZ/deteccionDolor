@@ -14,12 +14,10 @@
 {% block contenido %}
 
 <section class="seccion-interfaz">
+    <h2>Gestiones</h2>
     <div class="contenedor-btnInterfaz">
-        <a class="btnInterfaz" href="{% url 'usuario:indexUsuario' %}"> 
-            Gestión de usuarios 
-        </a>
+        <a class="btnInterfaz" href="{% url 'usuario:indexUsuario' %}"> Gestión de usuarios </a>
         <div class="sombra-btnInterfaz"></div>
-        
     </div>
 
     <div class="contenedor-btnInterfaz">
@@ -37,6 +35,11 @@
 
     <div class="contenedor-btnInterfaz">
         <a class="btnInterfaz" href="{% url 'material:indexMaterial' %}"> Gestión de materiales </a>
+        <div class="sombra-btnInterfaz"></div>
+    </div>
+
+    <div class="contenedor-btnInterfaz">
+        <a class="btnInterfaz" href="{% url 'bitacoraMaterialesEliminados:index_materiales_eliminados' %}"> Bitácora de materiales eliminados </a>
         <div class="sombra-btnInterfaz"></div>
     </div>
 
@@ -61,22 +64,14 @@
     </div>
 
     <div class="contenedor-btnInterfaz">
-        {% comment %}<!-- <a class="btnInterfaz" href="{% url 'detectorDolorApp:indexDetector' %}"> Detector de dolor </a> --> {% endcomment %}
-         <a class="btnInterfaz" href="{% url 'detectorDolorApp:cuestionarioPrincipal' %}"> Detector de dolor </a>
-        <div class="sombra-btnInterfaz"></div>
-    </div>
-
-    <div class="contenedor-btnInterfaz">
         <a class="btnInterfaz" href="{% url 'cita:indexCita' %}"> Gestión de citas </a>
         <div class="sombra-btnInterfaz"></div>
     </div>
+
+    <h2>Módulos especiales</h2>
     <div class="contenedor-btnInterfaz">
-        <a class="btnInterfaz" href="{% url 'backups:backup_panel' %}"> Respaldo y restauración </a>
-        <div class="sombra-btnInterfaz"></div>
-    </div>
-    
-    <div class="contenedor-btnInterfaz">
-        <a class="btnInterfaz" href="{% url 'sesionActiva:indexSesionActiva' %}"> Control de sesiones </a>
+        {% comment %}<!-- <a class="btnInterfaz" href="{% url 'detectorDolorApp:indexDetector' %}"> Detector de dolor </a> --> {% endcomment %}
+         <a class="btnInterfaz" href="{% url 'detectorDolorApp:cuestionarioPrincipal' %}"> Detector de dolor </a>
         <div class="sombra-btnInterfaz"></div>
     </div>
 
@@ -84,15 +79,26 @@
         <a class="btnInterfaz" href="{% url 'checador:checador_panel' %}"> Checador </a>
         <div class="sombra-btnInterfaz"></div>
     </div>
-    <div class="contenedor-btnInterfaz">
-        <a class="btnInterfaz" href="{% url 'checador:asistencia_admin' %}"> Checador (Admin) </a>
-        <div class="sombra-btnInterfaz"></div>
-    </div>
 
-    <div class="contenedor-btnInterfaz">
-        <a class="btnInterfaz" href="{% url 'bitacoraMaterialesEliminados:index_materiales_eliminados' %}"> Bitácora de materiales eliminados </a>
-        <div class="sombra-btnInterfaz"></div>
-    </div>
+    {% if user.groups.first.name == "administrador" %}
+        <div class="contenedor-btnInterfaz">
+            <a class="btnInterfaz" href="{% url 'checador:asistencia_admin' %}"> Checador (Admin) </a>
+            <div class="sombra-btnInterfaz"></div>
+        </div>
+
+        <div class="contenedor-btnInterfaz">
+            <a class="btnInterfaz" href="{% url 'sesionActiva:indexSesionActiva' %}"> Control de sesiones </a>
+            <div class="sombra-btnInterfaz"></div>
+        </div>
+    {% endif %}
+
+    <h2>Respaldo y restauración</h2>
+    {% if user.groups.first.name == "administrador" %}
+        <div class="contenedor-btnInterfaz">
+            <a class="btnInterfaz" href="{% url 'backups:backup_panel' %}"> Respaldo y restauración </a>
+            <div class="sombra-btnInterfaz"></div>
+        </div>
+    {% endif %}
 </section>
 
 {% endblock %}

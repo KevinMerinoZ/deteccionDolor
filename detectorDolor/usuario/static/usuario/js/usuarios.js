@@ -307,6 +307,9 @@ document.addEventListener("DOMContentLoaded", function () {
    farmaco.js
    Gestión dinámica de Fármacos
    ================================ */
+let pgActualFarmaco = 1;
+let tipoDatoActualFarmaco = "";
+let datoActualFarmaco = "";
 
 // -------------------------
 // Función debounce
@@ -331,6 +334,9 @@ function cargarFarmacos(dato = "", page = 1, tipoDato = "") {
 
             if (tabla) tabla.innerHTML = data.tabla;
             if (paginacion) paginacion.innerHTML = data.paginacion;
+            pgActualFarmaco = page; // Actualiza la página actual
+            tipoDatoActualFarmaco = tipoDato; // Actualiza el tipo de dato actual
+            datoActualFarmaco = dato; // Actualiza el dato actual
         })
         .catch(error => console.error("Error en fetch farmacos:", error));
 }
@@ -388,6 +394,36 @@ document.addEventListener('click', function (e) {
     if (!page) return;
 
     cargarFarmacos(dato, page, filtro);
+});
+
+// ================================
+// Función abrir farmaco
+// ================================
+document.addEventListener('click', function (e) {
+    const enlace = e.target.closest('.btn-abrirFarmaco');
+
+    if (!enlace) return;
+
+    e.preventDefault();
+
+    const enlaceUrl = enlace.dataset.href;
+
+    if (!enlaceUrl) return;
+
+    fetch(enlaceUrl, {
+        method: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Respuesta de abrirFarmaco:", data);
+        if (data.resultadoCorrecto) {
+            cargarFarmacos(datoActualFarmaco, pgActualFarmaco, tipoDatoActualFarmaco);
+        }
+    })
+    .catch(error => console.error("Error en fetch abrirFarmaco:", error));
 });
 
 // ================================
@@ -853,17 +889,17 @@ document.addEventListener("DOMContentLoaded", function () {
 // ================================
 // Observador de citas Pendientes
 // ================================
-setInterval(() => {
-    fetch('/citas/buscar-Cita-Pendiente/')
-    .then(respuesta => respuesta.json())
-    .then(datos => {
-        if(datos.existenCitasPendientes == true) {
-            console.log("Todo Ok");
+// setInterval(() => {
+//     fetch('/citas/buscar-Cita-Pendiente/')
+//     .then(respuesta => respuesta.json())
+//     .then(datos => {
+//         if(datos.existenCitasPendientes == true) {
+//             console.log("Todo Ok");
             
-        }
+//         }
 
-    });
-}, 10000);
+//     });
+// }, 10000);
 
 /* =====================================
    sesionExperimental.js

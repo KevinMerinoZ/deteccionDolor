@@ -50,7 +50,7 @@ def pgCitaCrear(request):
             usuario_cita = cita.usuario
 
             cita.save()
-            registrarNotificacion(usuario_cita, 'Nueva Cita Registrada', f'El usuario {usuario_cita} registró una nueva cita para la fecha {cita.fechaInicio}.')
+            registrarNotificacion(usuario_cita, 'Nueva Cita Registrada', f'El usuario {usuario_cita} registró una nueva cita para la fecha {cita.fecha} a las {cita.horaInicio}.')
             messages.success(request, 'Cita creada exitosamente.')
             return redirect('cita:indexCita')
         else:
@@ -69,11 +69,11 @@ def buscarCitaPendiente(request):
 
     flagCitasPendientes = citas.exists()
     flagCitasSigDia = False
-    ahora = timezone.now()
+    hoy = timezone.now().date()
 
     if(flagCitasPendientes):
         for cita in citas:
-            diferencia = cita.fechaInicio - ahora
+            diferencia = cita.fecha - hoy
 
             # Si la cita es mañana (entre 0 y 1 día)
             if timedelta(0) < diferencia <= timedelta(days=1):
@@ -82,7 +82,7 @@ def buscarCitaPendiente(request):
                 registrarNotificacion(
                     cita.usuario,
                     'Cita Pendiente',
-                    f'La cita programada para el día {cita.fechaInicio} empezará mañana.'
+                    f'La cita programada para el día {cita.fecha} empezará mañana.'
                 )
 
     return JsonResponse({
@@ -176,7 +176,7 @@ def reporteGeneralCitas(request):
     # fecha_fin = datetime.strptime(fecha_fin, "%Y-%m-%d")
 
     citas = Cita.objects.filter(
-        fechaInicio__range=(fecha_inicio, fecha_fin),
+        fecha__range=(fecha_inicio, fecha_fin),
         # fechaInicio__date__gte=fecha_inicio,
         # fechaInicio__date__lte=fecha_fin
     )
@@ -239,7 +239,7 @@ def reporteGeneralCitas(request):
 
     for cita in citas:
 
-        duracion = int((cita.fechaFin - cita.fechaInicio).total_seconds() / 60)
+        duracion = int((cita.fecha_horaFin() - cita.fecha_horaInicio()).total_seconds() / 60)
 
         # Mapear estado
         if cita.estado == Cita.ESTADO_FINALIZADA:
@@ -252,7 +252,7 @@ def reporteGeneralCitas(request):
             estado = 'Pendiente'
             pendientes += 1
 
-        fechaInicio_naive = cita.fechaInicio.replace(tzinfo=None)
+        fechaInicio_naive = cita.fecha_horaInicio().replace(tzinfo=None)
         worksheet.write_datetime(row, 0, fechaInicio_naive, fecha_format)
         worksheet.write(row, 1, str(cita.protocolo_experimental), celda)
         worksheet.write(row, 2, duracion, celda)
@@ -329,9 +329,6 @@ def buscarCita(request):
         citas = citas.filter(
             protocolo_experimental__nombre_protocolo__icontains=dato
         ).order_by('protocolo_experimental__nombre_protocolo')
-
-    elif filtro == 'fecha':
-        citas = citas.filter(fechaInicio__icontains=dato).order_by('fechaInicio')
 
     else:
         citas = citas.order_by('idcitas')

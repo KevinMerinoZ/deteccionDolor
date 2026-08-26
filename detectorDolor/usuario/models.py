@@ -10,7 +10,7 @@ class Usuario(models.Model):
     nombre = models.CharField(max_length=55)
     apellido_paterno = models.CharField(max_length=45)
     apellido_materno = models.CharField(max_length=45, null=True, blank=True)
-    correo = models.EmailField(max_length=55)
+    correo = models.EmailField(max_length=55, unique=True)
     fecha_registro = models.DateField()
 
     is_active = models.BooleanField(default=True) 

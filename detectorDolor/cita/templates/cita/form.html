@@ -1,16 +1,22 @@
-<form method="post">
+<form method="post" novalidate>
     {% csrf_token %}
 
     <div class="mb-3">
-        <label for="fechaInicio" class="form-label">Fecha de inicio</label>
-        {{ form.fechaInicio }}
-        {{ form.fechaInicio.errors }}
+        <label for="fecha" class="form-label">Fecha</label>
+        {{ form.fecha }}
+        {{ form.fecha.errors }}
     </div>
 
     <div class="mb-3">
-        <label for="fechaFin" class="form-label">Fecha de fin</label>
-        {{ form.fechaFin }}
-        {{ form.fechaFin.errors }}
+        <label for="horaInicio" class="form-label">Hora de inicio</label>
+        {{ form.horaInicio }}
+        {{ form.horaInicio.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label for="horaFin" class="form-label">Hora de fin</label>
+        {{ form.horaFin }}
+        {{ form.horaFin.errors }}
     </div>
 
     <div class="mb-3">

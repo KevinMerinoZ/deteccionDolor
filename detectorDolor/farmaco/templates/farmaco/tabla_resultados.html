@@ -34,7 +34,7 @@
                     {% if farmaco.fecha_abierto %}
                         <td>{{ farmaco.fecha_abierto }}</td>
                     {% else %}
-                        <td><a class="btnPrimario" href="">Abrir</a></td>
+                        <td><button class="btnPrimario btn-abrirFarmaco" data-href="{% url 'farmaco:abrirFarmaco' farmaco.idfarmacos %}">Abrir</button></td>
                     {% endif %}
                 </tr>
 

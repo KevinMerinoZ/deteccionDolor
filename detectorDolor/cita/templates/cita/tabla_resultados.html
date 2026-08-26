@@ -3,8 +3,9 @@
         <tr>
             <th>Acciones</th>
             <th>ID</th>
-            <th>Fecha inicio</th>
-            <th>Fecha fin</th>
+            <th>Fecha</th>
+            <th>Hora Inicio</th>
+            <th>Hora Fin</th>
             <th>Sala de laboratorio</th>
             {% if es_administrador %}
                 <th>Usuario</th>
@@ -32,8 +33,9 @@
                     </td>
 
                     <td>{{ cita.idcitas }}</td>
-                    <td>{{ cita.fechaInicio|date:"d/m/Y H:i" }}</td>
-                    <td>{{ cita.fechaFin|date:"d/m/Y H:i" }}</td>
+                    <td>{{ cita.fecha|date:"d/m/Y" }}</td>
+                    <td>{{ cita.horaInicio|time:"h:i A" }}</td>
+                    <td>{{ cita.horaFin|time:"h:i A" }}</td>
                     <td>{{ cita.sala_laboratorio }}</td>
                     {% if es_administrador %}
                         <td>{{ cita.usuario }}</td>

@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-import datetime
+from datetime import date, time, datetime
 
 # Create your models here.
 class Cita(models.Model):
@@ -14,8 +14,9 @@ class Cita(models.Model):
         (ESTADO_FINALIZADA, 'Finalizar'),
     ]
     idcitas = models.AutoField(primary_key=True)
-    fechaInicio = models.DateTimeField()
-    fechaFin = models.DateTimeField()
+    fecha = models.DateField(default=lambda: timezone.now())
+    horaInicio = models.TimeField(default=lambda:timezone.now().time())
+    horaFin = models.TimeField(default=lambda: (timezone.now() + timezone.timedelta(hours=1)).time())
     usuario = models.ForeignKey('usuario.Usuario', on_delete=models.CASCADE)
     protocolo_experimental = models.ForeignKey('protocoloExperimental.ProtocoloExperimental', on_delete=models.CASCADE)
     sala_laboratorio = models.ForeignKey('cita.salaLaboratorio', on_delete=models.CASCADE)
@@ -24,7 +25,15 @@ class Cita(models.Model):
     is_active = models.BooleanField(default=True)
 
     def ya_paso(self):
-        return timezone.now() >= self.fechaFin
+        if timezone.now().date() >= self.fecha and timezone.now().time() > self.horaFin:
+            return True
+        return False
+
+    def fecha_horaInicio(self):
+        return timezone.make_aware(datetime.combine(self.fecha, self.horaInicio))
+
+    def fecha_horaFin(self):
+        return timezone.make_aware(datetime.combine(self.fecha, self.horaFin))
 
     def __str__(self):
         return f"Cita {self.idcitas} - {self.usuario}"

@@ -184,22 +184,20 @@ def buscarMaterialesEliminados(request):
         .select_related(
             "material",
             "usuario_responsable"
-        )
+        ).order_by("-pk")
     )
 
     if filtro == "material":
 
         registros = registros.filter(
             material__nombre__icontains=dato
-        )
+        ).order_by('material__nombre')
 
     elif filtro == "usuario_responsable":
 
         registros = registros.filter(
             usuario_responsable__nombre__icontains=dato
-        )
-
-    registros = registros.order_by("-fecha_registro")
+        ).order_by('usuario_responsable__nombre')
 
     paginator = Paginator(registros, 10)
 
