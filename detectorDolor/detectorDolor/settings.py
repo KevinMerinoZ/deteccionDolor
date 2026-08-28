@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-6+$)l*g-_4+4$q=cde!(4m9(d89b9m+$$83br(e*8l!3s3tyzj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0', 'servidor-farmacologia']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0', 'servidor-farmacologia', '192.168.137.1']
 TIME_ZONE = 'America/Mexico_City'
 USE_TZ = True
 
@@ -60,6 +60,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -70,6 +72,12 @@ MIDDLEWARE = [
     'usuario.middleware.RestringirAppMiddleware',
     'sesionActiva.middleware.CerrarSesionMiddleware',
 ]
+
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 ROOT_URLCONF = 'detectorDolor.urls'
 
