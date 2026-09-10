@@ -6,6 +6,7 @@ import string
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
+from django.contrib import messages
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from .models import PassVerificacion
@@ -27,7 +28,8 @@ def login_vista(request):
         user = authenticate(request, username=username, password=password)
 
         if user is None:
-            return render(request, 'login.html', {'error': 'Invalid username or password'})
+            messages.error(request, "Matricula o contraseña incorrectos.", extra_tags='danger')
+            return render(request, 'login.html')
         else:
             login(request, user)
             activarSesion(request)

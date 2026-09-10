@@ -1,5 +1,11 @@
 let debounceTimer = null;
 
+document.addEventListener('wheel', function(event) {
+        if (document.activeElement.type === 'number') {
+            document.activeElement.blur();
+        }
+    });
+
 function debounce(func, delay) {
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(func, delay);

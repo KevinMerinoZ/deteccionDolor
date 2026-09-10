@@ -1,24 +1,21 @@
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
 
     <div class="mb-3">
         <label for="nombre" class="form-label">Nombre del fármaco</label>
-        <input type="text" name="nombre" id="nombre" class="form-control"
-               placeholder="Ej. Ketamina" value="{{ form.nombre.value|default:'' }}" required>
+        {{ form.nombre }}
         {{ form.nombre.errors }}
     </div>
 
     <div class="mb-3">
         <label for="presentacion" class="form-label">Presentación</label>
-        <input type="text" name="presentacion" id="presentacion" class="form-control"
-               placeholder="Ej. Ampolla 10ml" value="{{ form.presentacion.value|default:'' }}" required>
+        {{ form.presentacion }}
         {{ form.presentacion.errors }}
     </div>
 
     <div class="mb-3">
         <label for="tipo_farmaco" class="form-label">Tipo de fármaco</label>
-        <input type="text" name="tipo_farmaco" id="tipo_farmaco" class="form-control"
-               placeholder="Ej. Anestésico" value="{{ form.tipo_farmaco.value|default:'' }}" required>
+        {{ form.tipo_farmaco }}
         {{ form.tipo_farmaco.errors }}
     </div>
 
