@@ -31,8 +31,8 @@ class SesionExperimentalForm(forms.ModelForm):
             
             'observaciones': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
     
-            'noMediciones1': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '10', 'required': True}),
-            'intervaloTemp1': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '5', 'required': True}),
+            'noMediciones1': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '10'}),
+            'intervaloTemp1': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '5'}),
             'noMediciones2': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '12'}),
             'intervaloTemp2': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '10'}),
         }
@@ -48,3 +48,19 @@ class SesionExperimentalForm(forms.ModelForm):
             raise forms.ValidationError("La fecha es obligatoria.")
         # elif fecha 
         return fecha
+
+    def clean_noMediciones1(self):
+        noMediciones1 = self.cleaned_data.get('noMediciones1')
+
+        if not noMediciones1:
+            raise forms.ValidationError("Este es un campo obligatorio")
+
+        return noMediciones1
+
+    def clean_intervaloTemp1(self):
+        intervaloTemp1 = self.cleaned_data.get('intervaloTemp1')
+
+        if not intervaloTemp1:
+            raise forms.ValidationError("Este es campo un obligatorio")
+
+        return intervaloTemp1

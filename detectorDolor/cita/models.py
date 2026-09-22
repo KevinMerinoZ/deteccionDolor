@@ -13,10 +13,16 @@ class Cita(models.Model):
         (ESTADO_CANCELADA, 'Cancelar'),
         (ESTADO_FINALIZADA, 'Finalizar'),
     ]
+    def get_hora_act():
+        return timezone.now().time()
+
+    def get_hora_act():
+        return (timezone.now() + timezone.timedelta(hora=1)).time()
+    
     idcitas = models.AutoField(primary_key=True)
-    fecha = models.DateField(default=lambda: timezone.now())
-    horaInicio = models.TimeField(default=lambda:timezone.now().time())
-    horaFin = models.TimeField(default=lambda: (timezone.now() + timezone.timedelta(hours=1)).time())
+    fecha = models.DateField(default=timezone.now)
+    horaInicio = models.TimeField(default=get_hora_act)
+    horaFin = models.TimeField(default=get_hora_act)
     usuario = models.ForeignKey('usuario.Usuario', on_delete=models.CASCADE)
     protocolo_experimental = models.ForeignKey('protocoloExperimental.ProtocoloExperimental', on_delete=models.CASCADE)
     sala_laboratorio = models.ForeignKey('cita.salaLaboratorio', on_delete=models.CASCADE)

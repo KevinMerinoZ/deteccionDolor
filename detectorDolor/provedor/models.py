@@ -5,7 +5,7 @@ class Proveedor(models.Model):
     idProveedor = models.AutoField(primary_key=True)
     nombre_proveedor = models.CharField(max_length=45)
     contacto = models.CharField(max_length=45)
-    telefono = models.CharField(max_length=15)
+    telefono = models.CharField(max_length=10)
     correo_electronico = models.EmailField(max_length=55)
     direccion = models.CharField(max_length=45)
     tipo_insumo = models.CharField(max_length=15) # fármaco, sustancia experimental o material
